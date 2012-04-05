@@ -18,6 +18,7 @@ webcore_cppflags += \
 	-I$(srcdir)/Source/WebCore/Modules/webaudio \
 	-I$(srcdir)/Source/WebCore/Modules/webdatabase \
 	-I$(srcdir)/Source/WebCore/Modules/websockets \
+	-I$(srcdir)/Source/WebCore/accelerate \
 	-I$(srcdir)/Source/WebCore/accessibility \
 	-I$(srcdir)/Source/WebCore/bindings \
 	-I$(srcdir)/Source/WebCore/bindings/generic \
@@ -787,6 +788,7 @@ IDL_PATH := \
     $(WebCore)/Modules/webdatabase \
     $(WebCore)/Modules/websockets \
     $(WebCore)/bindings/js \
+    $(WebCore)/accelerate \
     $(WebCore)/css \
     $(WebCore)/dom \
     $(WebCore)/fileapi \

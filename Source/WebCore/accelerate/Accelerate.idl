@@ -1,0 +1,134 @@
+/*
+ *  Copyright (C) 2012 Jens Nockert (jens@nockert.se)
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1.  Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 2.  Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY APPLE AND ITS CONTRIBUTORS "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL APPLE OR ITS CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+module accelerate {
+
+    interface Accelerate {
+        void abs(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai);
+        void abs(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai);
+        void abs(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai);
+        
+        void abs(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai);
+        
+        void abs(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai);
+        void abs(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai);
+        void abs(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai);
+        
+        void abs(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai);
+        void abs(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai);
+        
+        void add(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai, in Uint8Array b, in unsigned long bi);
+        void add(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai, in Uint16Array b, in unsigned long bi);
+        void add(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai, in Uint32Array b, in unsigned long bi);
+        
+        void add(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai, in Uint8ClampedArray b, in unsigned long bi);
+        
+        void add(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai, in Int8Array b, in unsigned long bi);
+        void add(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai, in Int16Array b, in unsigned long bi);
+        void add(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai, in Int32Array b, in unsigned long bi);
+        
+        void add(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai, in Float32Array b, in unsigned long bi);
+        void add(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai, in Float64Array b, in unsigned long bi);
+        
+        void div(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai, in Uint8Array b, in unsigned long bi);
+        void div(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai, in Uint16Array b, in unsigned long bi);
+        void div(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai, in Uint32Array b, in unsigned long bi);
+        
+        void div(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai, in Uint8ClampedArray b, in unsigned long bi);
+        
+        void div(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai, in Int8Array b, in unsigned long bi);
+        void div(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai, in Int16Array b, in unsigned long bi);
+        void div(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai, in Int32Array b, in unsigned long bi);
+        
+        void div(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai, in Float32Array b, in unsigned long bi);
+        void div(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai, in Float64Array b, in unsigned long bi);
+        
+        void max(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai, in Uint8Array b, in unsigned long bi);
+        void max(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai, in Uint16Array b, in unsigned long bi);
+        void max(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai, in Uint32Array b, in unsigned long bi);
+        
+        void max(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai, in Uint8ClampedArray b, in unsigned long bi);
+        
+        void max(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai, in Int8Array b, in unsigned long bi);
+        void max(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai, in Int16Array b, in unsigned long bi);
+        void max(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai, in Int32Array b, in unsigned long bi);
+        
+        void max(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai, in Float32Array b, in unsigned long bi);
+        void max(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai, in Float64Array b, in unsigned long bi);
+        
+        void min(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai, in Uint8Array b, in unsigned long bi);
+        void min(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai, in Uint16Array b, in unsigned long bi);
+        void min(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai, in Uint32Array b, in unsigned long bi);
+        
+        void min(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai, in Uint8ClampedArray b, in unsigned long bi);
+        
+        void min(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai, in Int8Array b, in unsigned long bi);
+        void min(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai, in Int16Array b, in unsigned long bi);
+        void min(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai, in Int32Array b, in unsigned long bi);
+        
+        void min(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai, in Float32Array b, in unsigned long bi);
+        void min(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai, in Float64Array b, in unsigned long bi);
+        
+        void mul(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai, in Uint8Array b, in unsigned long bi);
+        void mul(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai, in Uint16Array b, in unsigned long bi);
+        void mul(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai, in Uint32Array b, in unsigned long bi);
+        
+        void mul(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai, in Uint8ClampedArray b, in unsigned long bi);
+        
+        void mul(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai, in Int8Array b, in unsigned long bi);
+        void mul(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai, in Int16Array b, in unsigned long bi);
+        void mul(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai, in Int32Array b, in unsigned long bi);
+        
+        void mul(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai, in Float32Array b, in unsigned long bi);
+        void mul(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai, in Float64Array b, in unsigned long bi);
+        
+        void sqrt(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai);
+        void sqrt(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai);
+        void sqrt(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai);
+        
+        void sqrt(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai);
+        
+        void sqrt(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai);
+        void sqrt(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai);
+        void sqrt(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai);
+        
+        void sqrt(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai);
+        void sqrt(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai);
+        
+        void sub(in unsigned short n, in Uint8Array r, in unsigned long ri, in Uint8Array a, in unsigned long ai, in Uint8Array b, in unsigned long bi);
+        void sub(in unsigned short n, in Uint16Array r, in unsigned long ri, in Uint16Array a, in unsigned long ai, in Uint16Array b, in unsigned long bi);
+        void sub(in unsigned short n, in Uint32Array r, in unsigned long ri, in Uint32Array a, in unsigned long ai, in Uint32Array b, in unsigned long bi);
+        
+        void sub(in unsigned short n, in Uint8ClampedArray r, in unsigned long ri, in Uint8ClampedArray a, in unsigned long ai, in Uint8ClampedArray b, in unsigned long bi);
+        
+        void sub(in unsigned short n, in Int8Array r, in unsigned long ri, in Int8Array a, in unsigned long ai, in Int8Array b, in unsigned long bi);
+        void sub(in unsigned short n, in Int16Array r, in unsigned long ri, in Int16Array a, in unsigned long ai, in Int16Array b, in unsigned long bi);
+        void sub(in unsigned short n, in Int32Array r, in unsigned long ri, in Int32Array a, in unsigned long ai, in Int32Array b, in unsigned long bi);
+        
+        void sub(in unsigned short n, in Float32Array r, in unsigned long ri, in Float32Array a, in unsigned long ai, in Float32Array b, in unsigned long bi);
+        void sub(in unsigned short n, in Float64Array r, in unsigned long ri, in Float64Array a, in unsigned long ai, in Float64Array b, in unsigned long bi);
+    };
+
+}

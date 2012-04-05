@@ -575,6 +575,13 @@ int DOMWindow::orientation() const
 }
 #endif
 
+Accelerate* DOMWindow::accelerate() const
+{
+    if (!m_accelerate)
+        m_accelerate = Accelerate::create();
+    return m_accelerate.get();
+}
+
 Screen* DOMWindow::screen() const
 {
     if (!isCurrentlyDisplayedInFrame())
