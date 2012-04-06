@@ -32,8 +32,6 @@
 #include "KURL.h"
 #include "Supplementable.h"
 
-#include "Accelerate.h"
-
 namespace WebCore {
 
     class BarInfo;
@@ -121,8 +119,6 @@ namespace WebCore {
         static bool allowPopUp(Frame* firstFrame);
         static bool canShowModalDialog(const Frame*);
         static bool canShowModalDialogNow(const Frame*);
-
-        Accelerate* accelerate() const;
 
         // DOM Level 0
 
@@ -421,8 +417,6 @@ namespace WebCore {
         bool m_suspendedForPageCache;
 
         HashSet<DOMWindowProperty*> m_properties;
-
-        mutable RefPtr<Accelerate> m_accelerate;
 
         mutable RefPtr<Screen> m_screen;
         mutable RefPtr<DOMSelection> m_selection;

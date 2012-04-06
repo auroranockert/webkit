@@ -514,9 +514,6 @@ module window {
         attribute Float64ArrayConstructor Float64Array; // Usable with new operator
         attribute DataViewConstructor DataView; // Usable with new operator
 
-        // Accelerate
-        readonly attribute Accelerate Accelerate; // Usable with new operator
-
         // Event Constructors
         attribute EventConstructor Event;
         attribute BeforeLoadEventConstructor BeforeLoadEvent;

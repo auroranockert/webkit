@@ -28,7 +28,6 @@
 #include "HTMLElementFactory.cpp"
 #include "HTMLEntityTable.cpp"
 #include "JSAbstractWorker.cpp"
-#include "JSAccelerate.cpp"
 #include "JSArrayBuffer.cpp"
 #include "JSArrayBufferView.cpp"
 #include "JSAttr.cpp"

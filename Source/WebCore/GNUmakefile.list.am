@@ -29,8 +29,6 @@ webcore_built_sources += \
 	DerivedSources/WebCore/InspectorProtocolVersion.h \
 	DerivedSources/WebCore/JSAbstractWorker.cpp \
 	DerivedSources/WebCore/JSAbstractWorker.h \
-	DerivedSources/WebCore/JSAccelerate.cpp \
-	DerivedSources/WebCore/JSAccelerate.h \
 	DerivedSources/WebCore/JSArrayBuffer.cpp \
 	DerivedSources/WebCore/JSArrayBuffer.h \
 	DerivedSources/WebCore/JSArrayBufferView.cpp \
@@ -696,7 +694,6 @@ dom_binding_idls += \
 	$(WebCore)/Modules/webaudio/DynamicsCompressorNode.idl \
 	$(WebCore)/Modules/webaudio/DOMWindowWebAudio.idl \
 	$(WebCore)/Modules/webaudio/WaveShaperNode.idl \
-	$(WebCore)/accelerate/Accelerate.idl \
 	$(WebCore)/css/CSSCharsetRule.idl \
 	$(WebCore)/css/CSSFontFaceRule.idl \
 	$(WebCore)/css/CSSImportRule.idl \
@@ -1226,8 +1223,6 @@ webcore_sources += \
 	Source/WebCore/Modules/websockets/WebSocketHandshakeResponse.h \
 	Source/WebCore/Modules/websockets/WorkerThreadableWebSocketChannel.cpp \
 	Source/WebCore/Modules/websockets/WorkerThreadableWebSocketChannel.h \
-	Source/WebCore/accelerate/Accelerate.cpp \
-	Source/WebCore/accelerate/Accelerate.h \
 	Source/WebCore/accessibility/AccessibilityARIAGridCell.cpp \
 	Source/WebCore/accessibility/AccessibilityARIAGridCell.h \
 	Source/WebCore/accessibility/AccessibilityARIAGrid.cpp \

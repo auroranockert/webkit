@@ -37,7 +37,6 @@ VPATH = \
     $(WebCore)/bindings/generic \
     $(WebCore)/bindings/js \
     $(WebCore)/bindings/objc \
-    $(WebCore)/accelerate \
     $(WebCore)/css \
     $(WebCore)/dom \
     $(WebCore)/fileapi \
@@ -151,7 +150,6 @@ BINDING_IDLS = \
     $(WebCore)/Modules/websockets/DOMWindowWebSocket.idl \
     $(WebCore)/Modules/websockets/WebSocket.idl \
     $(WebCore)/Modules/websockets/WorkerContextWebSocket.idl \
-    $(WebCore)/accelerate/Accelerate.idl \
     $(WebCore)/css/CSSCharsetRule.idl \
     $(WebCore)/css/CSSFontFaceRule.idl \
     $(WebCore)/css/CSSImportRule.idl \
@@ -925,7 +923,6 @@ preprocess_idls_script = perl $(addprefix -I $(WebCore)/, $(sort $(dir $(1)))) $
 # JS bindings generator
 
 IDL_INCLUDES = \
-    $(WebCore)/accelerate \
     $(WebCore)/dom \
     $(WebCore)/fileapi \
     $(WebCore)/html \
