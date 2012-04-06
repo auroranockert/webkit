@@ -14,6 +14,7 @@ javascriptcore_built_nosources += \
 	DerivedSources/JavaScriptCore/KeywordLookup.h \
 	DerivedSources/JavaScriptCore/Lexer.lut.h \
 	DerivedSources/JavaScriptCore/RegExpJitTables.h \
+	DerivedSources/JavaScriptCore/Accelerate.lut.h \
 	DerivedSources/JavaScriptCore/ArrayConstructor.lut.h \
 	DerivedSources/JavaScriptCore/ArrayPrototype.lut.h \
 	DerivedSources/JavaScriptCore/BooleanPrototype.lut.h \
@@ -371,6 +372,7 @@ javascriptcore_sources += \
 	Source/JavaScriptCore/profiler/ProfileNode.h \
 	Source/JavaScriptCore/profiler/Profiler.cpp \
 	Source/JavaScriptCore/profiler/Profiler.h \
+	Source/JavaScriptCore/runtime/Accelerate.cpp \
 	Source/JavaScriptCore/runtime/ArgList.cpp \
 	Source/JavaScriptCore/runtime/ArgList.h \
 	Source/JavaScriptCore/runtime/Arguments.cpp \

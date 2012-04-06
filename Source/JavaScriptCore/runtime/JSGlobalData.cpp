@@ -70,6 +70,7 @@ using namespace WTF;
 
 namespace JSC {
 
+extern const HashTable accelerateTable;
 extern const HashTable arrayConstructorTable;
 extern const HashTable arrayPrototypeTable;
 extern const HashTable booleanPrototypeTable;
@@ -93,6 +94,7 @@ JSGlobalData::JSGlobalData(GlobalDataType globalDataType, ThreadStackType thread
     : globalDataType(globalDataType)
     , clientData(0)
     , topCallFrame(CallFrame::noCaller())
+    , accelerateTable(fastNew<HashTable>(JSC::accelerateTable))
     , arrayConstructorTable(fastNew<HashTable>(JSC::arrayConstructorTable))
     , arrayPrototypeTable(fastNew<HashTable>(JSC::arrayPrototypeTable))
     , booleanPrototypeTable(fastNew<HashTable>(JSC::booleanPrototypeTable))
@@ -245,6 +247,7 @@ JSGlobalData::~JSGlobalData()
     interpreter = 0;
 #endif
 
+    accelerateTable->deleteTable();
     arrayPrototypeTable->deleteTable();
     arrayConstructorTable->deleteTable();
     booleanPrototypeTable->deleteTable();
@@ -264,6 +267,7 @@ JSGlobalData::~JSGlobalData()
     stringTable->deleteTable();
     stringConstructorTable->deleteTable();
 
+    fastDelete(const_cast<HashTable*>(accelerateTable));
     fastDelete(const_cast<HashTable*>(arrayConstructorTable));
     fastDelete(const_cast<HashTable*>(arrayPrototypeTable));
     fastDelete(const_cast<HashTable*>(booleanPrototypeTable));

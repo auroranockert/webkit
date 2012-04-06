@@ -156,6 +156,7 @@ namespace JSC {
         ClientData* clientData;
         CallFrame* topCallFrame;
 
+        const HashTable* accelerateTable;
         const HashTable* arrayConstructorTable;
         const HashTable* arrayPrototypeTable;
         const HashTable* booleanPrototypeTable;

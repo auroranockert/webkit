@@ -77,6 +77,7 @@ namespace JSC  {
 #ifndef NDEBUG
         void dumpCaller();
 #endif
+        static const HashTable* accelerateTable(CallFrame* callFrame) { return callFrame->globalData().accelerateTable; }
         static const HashTable* arrayConstructorTable(CallFrame* callFrame) { return callFrame->globalData().arrayConstructorTable; }
         static const HashTable* arrayPrototypeTable(CallFrame* callFrame) { return callFrame->globalData().arrayPrototypeTable; }
         static const HashTable* booleanPrototypeTable(CallFrame* callFrame) { return callFrame->globalData().booleanPrototypeTable; }
