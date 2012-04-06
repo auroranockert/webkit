@@ -76,6 +76,10 @@
         return intrinsic<uint32_t, Uint32Array>(exec, n, toUint32Array(rv), ri, toUint32Array(av), ai); \
     } \
 \
+    if (ro->inherits(&JSUint64Array::s_info) && ao->inherits(&JSUint64Array::s_info)) { \
+        return intrinsic<uint64_t, Uint64Array>(exec, n, toUint64Array(rv), ri, toUint64Array(av), ai); \
+    } \
+\
     if (ro->inherits(&JSInt8Array::s_info) && ao->inherits(&JSInt8Array::s_info)) { \
         return intrinsic<int8_t, Int8Array>(exec, n, toInt8Array(rv), ri, toInt8Array(av), ai); \
     } \
@@ -86,6 +90,10 @@
 \
     if (ro->inherits(&JSInt32Array::s_info) && ao->inherits(&JSInt32Array::s_info)) { \
         return intrinsic<int32_t, Int32Array>(exec, n, toInt32Array(rv), ri, toInt32Array(av), ai); \
+    } \
+\
+    if (ro->inherits(&JSInt64Array::s_info) && ao->inherits(&JSInt64Array::s_info)) { \
+        return intrinsic<int64_t, Int64Array>(exec, n, toInt64Array(rv), ri, toInt64Array(av), ai); \
     } \
 \
     if (ro->inherits(&JSFloat32Array::s_info) && ao->inherits(&JSFloat32Array::s_info)) { \
@@ -146,6 +154,10 @@
         return intrinsic<uint32_t, Uint32Array>(exec, n, toUint32Array(rv), ri, toUint32Array(av), ai, toUint32Array(bv), bi); \
     } \
 \
+    if (ro->inherits(&JSUint64Array::s_info) && ao->inherits(&JSUint64Array::s_info) && bo->inherits(&JSUint64Array::s_info)) { \
+        return intrinsic<uint64_t, Uint64Array>(exec, n, toUint64Array(rv), ri, toUint64Array(av), ai, toUint64Array(bv), bi); \
+    } \
+\
     if (ro->inherits(&JSInt8Array::s_info) && ao->inherits(&JSInt8Array::s_info) && bo->inherits(&JSInt8Array::s_info)) { \
         return intrinsic<int8_t, Int8Array>(exec, n, toInt8Array(rv), ri, toInt8Array(av), ai, toInt8Array(bv), bi); \
     } \
@@ -156,6 +168,10 @@
 \
     if (ro->inherits(&JSInt32Array::s_info) && ao->inherits(&JSInt32Array::s_info) && bo->inherits(&JSInt32Array::s_info)) { \
         return intrinsic<int32_t, Int32Array>(exec, n, toInt32Array(rv), ri, toInt32Array(av), ai, toInt32Array(bv), bi); \
+    } \
+\
+    if (ro->inherits(&JSInt64Array::s_info) && ao->inherits(&JSInt64Array::s_info) && bo->inherits(&JSInt64Array::s_info)) { \
+        return intrinsic<int64_t, Int64Array>(exec, n, toInt64Array(rv), ri, toInt64Array(av), ai, toInt64Array(bv), bi); \
     } \
 \
     if (ro->inherits(&JSFloat32Array::s_info) && ao->inherits(&JSFloat32Array::s_info) && bo->inherits(&JSFloat32Array::s_info)) { \
@@ -194,6 +210,11 @@ static inline Uint32Array* toUint32Array(JSC::JSValue value)
     return value.inherits(&JSUint32Array::s_info) ? static_cast<Uint32Array*>(static_cast<JSUint32Array*>(asObject(value))->impl()) : 0;
 }
 
+static inline Uint64Array* toUint64Array(JSC::JSValue value)
+{
+    return value.inherits(&JSUint64Array::s_info) ? static_cast<Uint64Array*>(static_cast<JSUint64Array*>(asObject(value))->impl()) : 0;
+}
+
 static inline Int8Array* toInt8Array(JSC::JSValue value)
 {
     return value.inherits(&JSInt8Array::s_info) ? static_cast<Int8Array*>(static_cast<JSInt8Array*>(asObject(value))->impl()) : 0;
@@ -207,6 +228,11 @@ static inline Int16Array* toInt16Array(JSC::JSValue value)
 static inline Int32Array* toInt32Array(JSC::JSValue value)
 {
     return value.inherits(&JSInt32Array::s_info) ? static_cast<Int32Array*>(static_cast<JSInt32Array*>(asObject(value))->impl()) : 0;
+}
+
+static inline Int64Array* toInt64Array(JSC::JSValue value)
+{
+    return value.inherits(&JSInt64Array::s_info) ? static_cast<Int64Array*>(static_cast<JSInt64Array*>(asObject(value))->impl()) : 0;
 }
 
 static inline Float32Array* toFloat32Array(JSC::JSValue value)

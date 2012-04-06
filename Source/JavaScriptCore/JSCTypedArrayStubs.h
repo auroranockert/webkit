@@ -34,9 +34,11 @@
 #include <wtf/Uint8Array.h>
 #include <wtf/Uint16Array.h>
 #include <wtf/Uint32Array.h>
+#include <wtf/Uint64Array.h>
 #include <wtf/Int8Array.h>
 #include <wtf/Int16Array.h>
 #include <wtf/Int32Array.h>
+#include <wtf/Int64Array.h>
 #include <wtf/Float32Array.h>
 #include <wtf/Float64Array.h>
 
@@ -195,9 +197,11 @@ static EncodedJSValue JSC_HOST_CALL constructJS##name##Array(ExecState* callFram
 TYPED_ARRAY(Uint8, uint8_t);
 TYPED_ARRAY(Uint16, uint16_t);
 TYPED_ARRAY(Uint32, uint32_t);
+TYPED_ARRAY(Uint64, uint64_t);
 TYPED_ARRAY(Int8, int8_t);
 TYPED_ARRAY(Int16, int16_t);
 TYPED_ARRAY(Int32, int32_t);
+TYPED_ARRAY(Int64, int64_t);
 TYPED_ARRAY(Float32, float);
 TYPED_ARRAY(Float64, double);
 // #endif

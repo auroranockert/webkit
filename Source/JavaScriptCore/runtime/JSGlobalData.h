@@ -53,6 +53,9 @@
 #if ENABLE(REGEXP_TRACING)
 #include <wtf/ListHashSet.h>
 #endif
+	 
+#include "wtf/Int64Array.h"
+#include "wtf/Uint64Array.h"
 
 struct OpaqueJSClass;
 struct OpaqueJSClassContextData;
@@ -356,10 +359,12 @@ namespace JSC {
         registerTypedArrayFunction(int8, Int8);
         registerTypedArrayFunction(int16, Int16);
         registerTypedArrayFunction(int32, Int32);
+        registerTypedArrayFunction(int64, Int64);
         registerTypedArrayFunction(uint8, Uint8);
         registerTypedArrayFunction(uint8Clamped, Uint8Clamped);
         registerTypedArrayFunction(uint16, Uint16);
         registerTypedArrayFunction(uint32, Uint32);
+        registerTypedArrayFunction(uint64, Uint64);
         registerTypedArrayFunction(float32, Float32);
         registerTypedArrayFunction(float64, Float64);
 #undef registerTypedArrayFunction
@@ -381,10 +386,12 @@ namespace JSC {
         TypedArrayDescriptor m_int8ArrayDescriptor;
         TypedArrayDescriptor m_int16ArrayDescriptor;
         TypedArrayDescriptor m_int32ArrayDescriptor;
+        TypedArrayDescriptor m_int64ArrayDescriptor;
         TypedArrayDescriptor m_uint8ArrayDescriptor;
         TypedArrayDescriptor m_uint8ClampedArrayDescriptor;
         TypedArrayDescriptor m_uint16ArrayDescriptor;
         TypedArrayDescriptor m_uint32ArrayDescriptor;
+        TypedArrayDescriptor m_uint64ArrayDescriptor;
         TypedArrayDescriptor m_float32ArrayDescriptor;
         TypedArrayDescriptor m_float64ArrayDescriptor;
     };

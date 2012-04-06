@@ -51,10 +51,12 @@ namespace JSC {
         TypedArrayInt8,
         TypedArrayInt16,
         TypedArrayInt32,
+        TypedArrayInt64,
         TypedArrayUint8,
         TypedArrayUint8Clamped,
         TypedArrayUint16,
         TypedArrayUint32,
+        TypedArrayUint64,
         TypedArrayFloat32,
         TypedArrayFloat64
     };

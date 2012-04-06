@@ -199,9 +199,11 @@ protected:
         addConstructableFunction(globalData, "Uint8Array", constructJSUint8Array, 1);
         addConstructableFunction(globalData, "Uint16Array", constructJSUint16Array, 1);
         addConstructableFunction(globalData, "Uint32Array", constructJSUint32Array, 1);
+        addConstructableFunction(globalData, "Uint64Array", constructJSUint64Array, 1);
         addConstructableFunction(globalData, "Int8Array", constructJSInt8Array, 1);
         addConstructableFunction(globalData, "Int16Array", constructJSInt16Array, 1);
         addConstructableFunction(globalData, "Int32Array", constructJSInt32Array, 1);
+        addConstructableFunction(globalData, "Int64Array", constructJSInt64Array, 1);
         addConstructableFunction(globalData, "Float32Array", constructJSFloat32Array, 1);
         addConstructableFunction(globalData, "Float64Array", constructJSFloat64Array, 1);
         // #endif

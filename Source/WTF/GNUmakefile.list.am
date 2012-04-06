@@ -64,6 +64,7 @@ wtf_sources += \
     Source/WTF/wtf/InlineASM.h \
     Source/WTF/wtf/Int16Array.h \
     Source/WTF/wtf/Int32Array.h \
+    Source/WTF/wtf/Int64Array.h \
     Source/WTF/wtf/Int8Array.h \
     Source/WTF/wtf/IntegralTypedArrayBase.h \
     Source/WTF/wtf/ListHashSet.h \
@@ -153,6 +154,7 @@ wtf_sources += \
     Source/WTF/wtf/TypedArrayBase.h \
     Source/WTF/wtf/Uint16Array.h \
     Source/WTF/wtf/Uint32Array.h \
+    Source/WTF/wtf/Uint64Array.h \
     Source/WTF/wtf/Uint8Array.h \
     Source/WTF/wtf/Uint8ClampedArray.h \
     Source/WTF/wtf/UnionFind.h \

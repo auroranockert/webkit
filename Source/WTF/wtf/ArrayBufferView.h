@@ -45,6 +45,8 @@ class WTF_EXPORT_PRIVATE_RTTI ArrayBufferView : public RefCounted<ArrayBufferVie
     virtual bool isUnsignedShortArray() const { return false; }
     virtual bool isIntArray() const { return false; }
     virtual bool isUnsignedIntArray() const { return false; }
+    virtual bool isLongLongArray() const { return false; }
+    virtual bool isUnsignedLongLongArray() const { return false; }
     virtual bool isFloatArray() const { return false; }
     virtual bool isDoubleArray() const { return false; }
     virtual bool isDataView() const { return false; }
