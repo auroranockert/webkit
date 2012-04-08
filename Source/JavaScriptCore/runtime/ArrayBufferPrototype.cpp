@@ -40,7 +40,7 @@ static EncodedJSValue JSC_HOST_CALL arrayBufferProtoFuncSlice(ExecState* exec);
 
 namespace JSC {
 
-const ClassInfo ArrayBufferPrototype::s_info = { "ArrayBuffer", &JSArrayBuffer::s_info, 0, ExecState::arrayBufferPrototypeTable, CREATE_METHOD_TABLE(ArrayBufferPrototype)};
+const ClassInfo ArrayBufferPrototype::s_info = { "ArrayBuffer", &Base::s_info, 0, ExecState::arrayBufferPrototypeTable, CREATE_METHOD_TABLE(ArrayBufferPrototype)};
 
 /* Source for ArrayBufferPrototype.lut.h
 @begin arrayBufferPrototypeTable

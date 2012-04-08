@@ -42,7 +42,7 @@ namespace JSC {
 
 ASSERT_HAS_TRIVIAL_DESTRUCTOR(ArrayBufferConstructor);
 
-const ClassInfo ArrayBufferConstructor::s_info = { "Function", &InternalFunction::s_info, 0, ExecState::arrayBufferConstructorTable, CREATE_METHOD_TABLE(ArrayBufferConstructor) };
+const ClassInfo ArrayBufferConstructor::s_info = { "Function", &Base::s_info, 0, ExecState::arrayBufferConstructorTable, CREATE_METHOD_TABLE(ArrayBufferConstructor) };
 
 /* Source for ArrayBufferConstructor.lut.h
 @begin arrayBufferConstructorTable

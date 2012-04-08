@@ -38,7 +38,7 @@ namespace JSC {
 
 ASSERT_HAS_TRIVIAL_DESTRUCTOR(JSArrayBuffer);
 
-const ClassInfo JSArrayBuffer::s_info = { "ArrayBuffer", &JSArrayBuffer::s_info, 0, ExecState::arrayBufferTable, CREATE_METHOD_TABLE(JSArrayBuffer) };
+const ClassInfo JSArrayBuffer::s_info = { "ArrayBuffer", &Base::s_info, 0, ExecState::arrayBufferTable, CREATE_METHOD_TABLE(JSArrayBuffer) };
 
 /* Source for JSArrayBuffer.lut.h
 @begin arrayBufferTable

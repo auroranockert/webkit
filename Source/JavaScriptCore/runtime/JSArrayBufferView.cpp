@@ -42,7 +42,7 @@ namespace JSC {
 
 ASSERT_HAS_TRIVIAL_DESTRUCTOR(JSArrayBufferView);
 
-const ClassInfo JSArrayBufferView::s_info = { "ArrayBufferView", &JSArrayBufferView::s_info, 0, ExecState::arrayBufferViewTable, CREATE_METHOD_TABLE(JSArrayBufferView) };
+const ClassInfo JSArrayBufferView::s_info = { "ArrayBufferView", &Base::s_info, 0, ExecState::arrayBufferViewTable, CREATE_METHOD_TABLE(JSArrayBufferView) };
 
 /* Source for JSArrayBufferView.lut.h
 @begin arrayBufferViewTable
@@ -73,12 +73,12 @@ void JSArrayBufferView::finishCreation(JSGlobalData& globalData)
 
 bool JSArrayBufferView::getOwnPropertySlot(JSCell* cell, ExecState* exec, const Identifier& propertyName, PropertySlot& slot)
 {
-    return getStaticValueSlot<JSArrayBufferView, Base>(exec, ExecState::arrayBufferTable(exec), jsCast<JSArrayBufferView*>(cell), propertyName, slot);
+    return getStaticValueSlot<JSArrayBufferView, Base>(exec, ExecState::arrayBufferViewTable(exec), jsCast<JSArrayBufferView*>(cell), propertyName, slot);
 }
 
 bool JSArrayBufferView::getOwnPropertyDescriptor(JSObject* object, ExecState* exec, const Identifier& propertyName, PropertyDescriptor& descriptor)
 {
-    return getStaticValueDescriptor<JSArrayBufferView, Base>(exec, ExecState::arrayBufferTable(exec), jsCast<JSArrayBufferView*>(object), propertyName, descriptor);
+    return getStaticValueDescriptor<JSArrayBufferView, Base>(exec, ExecState::arrayBufferViewTable(exec), jsCast<JSArrayBufferView*>(object), propertyName, descriptor);
 }
 
 static JSValue arrayBufferViewByteOffset(ExecState* exec, JSValue slotBase, const Identifier&)
