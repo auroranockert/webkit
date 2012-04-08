@@ -94,6 +94,9 @@ extern const HashTable arrayBufferConstructorTable;
 extern const HashTable arrayBufferPrototypeTable;
 extern const HashTable arrayBufferTable;
 
+extern const HashTable arrayBufferViewPrototypeTable;
+extern const HashTable arrayBufferViewTable;
+
 JSGlobalData::JSGlobalData(GlobalDataType globalDataType, ThreadStackType threadStackType, HeapSize heapSize)
     : globalDataType(globalDataType)
     , clientData(0)
@@ -120,6 +123,8 @@ JSGlobalData::JSGlobalData(GlobalDataType globalDataType, ThreadStackType thread
     , arrayBufferTable(fastNew<HashTable>(JSC::arrayBufferTable))
     , arrayBufferPrototypeTable(fastNew<HashTable>(JSC::arrayBufferPrototypeTable))
     , arrayBufferConstructorTable(fastNew<HashTable>(JSC::arrayBufferConstructorTable))
+    , arrayBufferViewTable(fastNew<HashTable>(JSC::arrayBufferViewTable))
+    , arrayBufferViewPrototypeTable(fastNew<HashTable>(JSC::arrayBufferViewPrototypeTable))
     , identifierTable(globalDataType == Default ? wtfThreadData().currentIdentifierTable() : createIdentifierTable())
     , propertyNames(new CommonIdentifiers(this))
     , emptyList(new MarkedArgumentBuffer)
@@ -277,6 +282,8 @@ JSGlobalData::~JSGlobalData()
     arrayBufferTable->deleteTable();
     arrayBufferPrototypeTable->deleteTable();
     arrayBufferConstructorTable->deleteTable();
+    arrayBufferViewTable->deleteTable();
+    arrayBufferViewPrototypeTable->deleteTable();
 
     fastDelete(const_cast<HashTable*>(accelerateTable));
     fastDelete(const_cast<HashTable*>(arrayConstructorTable));
@@ -301,6 +308,8 @@ JSGlobalData::~JSGlobalData()
     fastDelete(const_cast<HashTable*>(arrayBufferTable));
     fastDelete(const_cast<HashTable*>(arrayBufferPrototypeTable));
     fastDelete(const_cast<HashTable*>(arrayBufferConstructorTable));
+    fastDelete(const_cast<HashTable*>(arrayBufferViewTable));
+    fastDelete(const_cast<HashTable*>(arrayBufferViewPrototypeTable));
 
     opaqueJSClassData.clear();
 

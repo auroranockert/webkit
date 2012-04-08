@@ -182,6 +182,8 @@ namespace JSC {
         const HashTable* arrayBufferTable;
         const HashTable* arrayBufferPrototypeTable;
         const HashTable* arrayBufferConstructorTable;
+        const HashTable* arrayBufferViewTable;
+        const HashTable* arrayBufferViewPrototypeTable;
 
         Strong<Structure> structureStructure;
         Strong<Structure> debuggerActivationStructure;

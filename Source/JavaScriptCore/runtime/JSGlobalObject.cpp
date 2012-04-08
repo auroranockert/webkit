@@ -76,6 +76,7 @@
 
 #include "ArrayBufferPrototype.h"
 #include "ArrayBufferConstructor.h"
+#include "ArrayBufferViewPrototype.h"
 
 #include "JSGlobalObject.lut.h"
 
@@ -252,6 +253,9 @@ void JSGlobalObject::reset(JSValue prototype)
 
     m_arrayBufferPrototype.set(exec->globalData(), this, ArrayBufferPrototype::create(exec, this, ArrayBufferPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get())));
     m_arrayBufferStructure.set(exec->globalData(), this, JSArrayBuffer::createStructure(exec->globalData(), this, m_arrayBufferPrototype.get()));
+
+    m_arrayBufferViewPrototype.set(exec->globalData(), this, ArrayBufferViewPrototype::create(exec, this, ArrayBufferViewPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get())));
+    m_arrayBufferViewStructure.set(exec->globalData(), this, JSArrayBufferView::createStructure(exec->globalData(), this, m_arrayBufferViewPrototype.get()));
 
     // Constructors
 

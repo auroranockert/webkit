@@ -35,8 +35,9 @@ javascriptcore_built_nosources += \
 	DerivedSources/JavaScriptCore/StringPrototype.lut.h \
 	DerivedSources/JavaScriptCore/ArrayBufferConstructor.lut.h \
 	DerivedSources/JavaScriptCore/ArrayBufferPrototype.lut.h \
-	DerivedSources/JavaScriptCore/JSArrayBuffer.lut.h
-	
+	DerivedSources/JavaScriptCore/JSArrayBuffer.lut.h \
+	DerivedSources/JavaScriptCore/ArrayBufferViewPrototype.lut.h \
+	DerivedSources/JavaScriptCore/JSArrayBufferView.lut.h
 
 javascriptcore_sources += \
 	Source/JavaScriptCore/API/APICast.h \
@@ -584,6 +585,10 @@ javascriptcore_sources += \
 	Source/JavaScriptCore/runtime/ArrayBufferPrototype.h \
 	Source/JavaScriptCore/runtime/JSArrayBuffer.cpp \
 	Source/JavaScriptCore/runtime/JSArrayBuffer.h \
+	Source/JavaScriptCore/runtime/ArrayBufferViewPrototype.cpp \
+	Source/JavaScriptCore/runtime/ArrayBufferViewPrototype.h \
+	Source/JavaScriptCore/runtime/JSArrayBufferView.cpp \
+	Source/JavaScriptCore/runtime/JSArrayBufferView.h \
 	Source/JavaScriptCore/tools/CodeProfile.cpp \
 	Source/JavaScriptCore/tools/CodeProfile.h \
 	Source/JavaScriptCore/tools/CodeProfiling.cpp \

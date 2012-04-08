@@ -52,6 +52,7 @@ namespace JSC {
     class RegisterFile;
 
     class ArrayBufferPrototype;
+    class ArrayBufferViewPrototype;
 
     struct ActivationStackNode;
     struct HashTable;
@@ -120,6 +121,7 @@ namespace JSC {
         WriteBarrier<RegExpPrototype> m_regExpPrototype;
 
         WriteBarrier<ArrayBufferPrototype> m_arrayBufferPrototype;
+        WriteBarrier<ArrayBufferViewPrototype> m_arrayBufferViewPrototype;
 
         WriteBarrier<Structure> m_argumentsStructure;
         WriteBarrier<Structure> m_arrayStructure;
@@ -142,6 +144,7 @@ namespace JSC {
         WriteBarrier<Structure> m_internalFunctionStructure;
 
         WriteBarrier<Structure> m_arrayBufferStructure;
+        WriteBarrier<Structure> m_arrayBufferViewStructure;
 
         Debugger* m_debugger;
 
@@ -255,6 +258,7 @@ namespace JSC {
         RegExpPrototype* regExpPrototype() const { return m_regExpPrototype.get(); }
 
         ArrayBufferPrototype* arrayBufferPrototype() const { return m_arrayBufferPrototype.get(); }
+        ArrayBufferViewPrototype* arrayBufferViewPrototype() const { return m_arrayBufferViewPrototype.get(); }
 
         JSObject* methodCallDummy() const { return m_methodCallDummy.get(); }
 
