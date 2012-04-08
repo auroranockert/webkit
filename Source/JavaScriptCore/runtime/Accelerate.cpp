@@ -195,60 +195,6 @@ static inline unsigned cs_check_alignment(unsigned n, unsigned elementsize, unsi
 
 namespace JSC {
 
-static inline Uint8Array* toUint8Array(JSC::JSValue value)
-{
-    return value.inherits(&JSUint8Array::s_info) ? static_cast<Uint8Array*>(static_cast<JSUint8Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Uint16Array* toUint16Array(JSC::JSValue value)
-{
-    return value.inherits(&JSUint16Array::s_info) ? static_cast<Uint16Array*>(static_cast<JSUint16Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Uint32Array* toUint32Array(JSC::JSValue value)
-{
-    return value.inherits(&JSUint32Array::s_info) ? static_cast<Uint32Array*>(static_cast<JSUint32Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Uint64Array* toUint64Array(JSC::JSValue value)
-{
-    return value.inherits(&JSUint64Array::s_info) ? static_cast<Uint64Array*>(static_cast<JSUint64Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Int8Array* toInt8Array(JSC::JSValue value)
-{
-    return value.inherits(&JSInt8Array::s_info) ? static_cast<Int8Array*>(static_cast<JSInt8Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Int16Array* toInt16Array(JSC::JSValue value)
-{
-    return value.inherits(&JSInt16Array::s_info) ? static_cast<Int16Array*>(static_cast<JSInt16Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Int32Array* toInt32Array(JSC::JSValue value)
-{
-    return value.inherits(&JSInt32Array::s_info) ? static_cast<Int32Array*>(static_cast<JSInt32Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Int64Array* toInt64Array(JSC::JSValue value)
-{
-    return value.inherits(&JSInt64Array::s_info) ? static_cast<Int64Array*>(static_cast<JSInt64Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Float32Array* toFloat32Array(JSC::JSValue value)
-{
-    return value.inherits(&JSFloat32Array::s_info) ? static_cast<Float32Array*>(static_cast<JSFloat32Array*>(asObject(value))->impl()) : 0;
-}
-
-static inline Float64Array* toFloat64Array(JSC::JSValue value)
-{
-    return value.inherits(&JSFloat64Array::s_info) ? static_cast<Float64Array*>(static_cast<JSFloat64Array*>(asObject(value))->impl()) : 0;
-}
-
-}
-
-namespace JSC {
-
 ASSERT_CLASS_FITS_IN_CELL(Accelerate);
 
 JSC::EncodedJSValue JSC_HOST_CALL accelerateAbs(JSC::ExecState*);

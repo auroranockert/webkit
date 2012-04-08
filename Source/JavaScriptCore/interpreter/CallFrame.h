@@ -104,6 +104,17 @@ namespace JSC  {
         static const HashTable* arrayBufferViewTable(CallFrame* callFrame) { return callFrame->globalData().arrayBufferViewTable; }
         static const HashTable* arrayBufferViewPrototypeTable(CallFrame* callFrame) { return callFrame->globalData().arrayBufferViewPrototypeTable; }
 
+        static const HashTable* int8ArrayTable(CallFrame* callFrame) { return callFrame->globalData().int8ArrayTable; }
+        static const HashTable* int16ArrayTable(CallFrame* callFrame) { return callFrame->globalData().int16ArrayTable; }
+        static const HashTable* int32ArrayTable(CallFrame* callFrame) { return callFrame->globalData().int32ArrayTable; }
+        static const HashTable* int64ArrayTable(CallFrame* callFrame) { return callFrame->globalData().int64ArrayTable; }
+        static const HashTable* uint8ArrayTable(CallFrame* callFrame) { return callFrame->globalData().uint8ArrayTable; }
+        static const HashTable* uint16ArrayTable(CallFrame* callFrame) { return callFrame->globalData().uint16ArrayTable; }
+        static const HashTable* uint32ArrayTable(CallFrame* callFrame) { return callFrame->globalData().uint32ArrayTable; }
+        static const HashTable* uint64ArrayTable(CallFrame* callFrame) { return callFrame->globalData().uint64ArrayTable; }
+        static const HashTable* float32ArrayTable(CallFrame* callFrame) { return callFrame->globalData().float32ArrayTable; }
+        static const HashTable* float64ArrayTable(CallFrame* callFrame) { return callFrame->globalData().float64ArrayTable; }
+
         static CallFrame* create(Register* callFrameBase) { return static_cast<CallFrame*>(callFrameBase); }
         Register* registers() { return this; }
 

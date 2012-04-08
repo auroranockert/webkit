@@ -37,7 +37,17 @@ javascriptcore_built_nosources += \
 	DerivedSources/JavaScriptCore/ArrayBufferPrototype.lut.h \
 	DerivedSources/JavaScriptCore/JSArrayBuffer.lut.h \
 	DerivedSources/JavaScriptCore/ArrayBufferViewPrototype.lut.h \
-	DerivedSources/JavaScriptCore/JSArrayBufferView.lut.h
+	DerivedSources/JavaScriptCore/JSArrayBufferView.lut.h \
+	DerivedSources/JavaScriptCore/JSInt8Array.lut.h \
+	DerivedSources/JavaScriptCore/JSInt16Array.lut.h \
+	DerivedSources/JavaScriptCore/JSInt32Array.lut.h \
+	DerivedSources/JavaScriptCore/JSInt64Array.lut.h \
+	DerivedSources/JavaScriptCore/JSUint8Array.lut.h \
+	DerivedSources/JavaScriptCore/JSUint16Array.lut.h \
+	DerivedSources/JavaScriptCore/JSUint32Array.lut.h \
+	DerivedSources/JavaScriptCore/JSUint64Array.lut.h \
+	DerivedSources/JavaScriptCore/JSFloat32Array.lut.h \
+	DerivedSources/JavaScriptCore/JSFloat64Array.lut.h
 
 javascriptcore_sources += \
 	Source/JavaScriptCore/API/APICast.h \
@@ -589,6 +599,26 @@ javascriptcore_sources += \
 	Source/JavaScriptCore/runtime/ArrayBufferViewPrototype.h \
 	Source/JavaScriptCore/runtime/JSArrayBufferView.cpp \
 	Source/JavaScriptCore/runtime/JSArrayBufferView.h \
+	Source/JavaScriptCore/runtime/JSInt8Array.cpp \
+	Source/JavaScriptCore/runtime/JSInt8Array.h \
+	Source/JavaScriptCore/runtime/JSInt16Array.cpp \
+	Source/JavaScriptCore/runtime/JSInt16Array.h \
+	Source/JavaScriptCore/runtime/JSInt32Array.cpp \
+	Source/JavaScriptCore/runtime/JSInt32Array.h \
+	Source/JavaScriptCore/runtime/JSInt64Array.cpp \
+	Source/JavaScriptCore/runtime/JSInt64Array.h \
+	Source/JavaScriptCore/runtime/JSUint8Array.cpp \
+	Source/JavaScriptCore/runtime/JSUint8Array.h \
+	Source/JavaScriptCore/runtime/JSUint16Array.cpp \
+	Source/JavaScriptCore/runtime/JSUint16Array.h \
+	Source/JavaScriptCore/runtime/JSUint32Array.cpp \
+	Source/JavaScriptCore/runtime/JSUint32Array.h \
+	Source/JavaScriptCore/runtime/JSUint64Array.cpp \
+	Source/JavaScriptCore/runtime/JSUint64Array.h \
+	Source/JavaScriptCore/runtime/JSFloat32Array.cpp \
+	Source/JavaScriptCore/runtime/JSFloat32Array.h \
+	Source/JavaScriptCore/runtime/JSFloat64Array.cpp \
+	Source/JavaScriptCore/runtime/JSFloat64Array.h \
 	Source/JavaScriptCore/tools/CodeProfile.cpp \
 	Source/JavaScriptCore/tools/CodeProfile.h \
 	Source/JavaScriptCore/tools/CodeProfiling.cpp \

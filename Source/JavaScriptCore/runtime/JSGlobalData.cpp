@@ -97,6 +97,17 @@ extern const HashTable arrayBufferTable;
 extern const HashTable arrayBufferViewPrototypeTable;
 extern const HashTable arrayBufferViewTable;
 
+extern const HashTable int8ArrayTable;
+extern const HashTable int16ArrayTable;
+extern const HashTable int32ArrayTable;
+extern const HashTable int64ArrayTable;
+extern const HashTable uint8ArrayTable;
+extern const HashTable uint16ArrayTable;
+extern const HashTable uint32ArrayTable;
+extern const HashTable uint64ArrayTable;
+extern const HashTable float32ArrayTable;
+extern const HashTable float64ArrayTable;
+
 JSGlobalData::JSGlobalData(GlobalDataType globalDataType, ThreadStackType threadStackType, HeapSize heapSize)
     : globalDataType(globalDataType)
     , clientData(0)
@@ -125,6 +136,16 @@ JSGlobalData::JSGlobalData(GlobalDataType globalDataType, ThreadStackType thread
     , arrayBufferConstructorTable(fastNew<HashTable>(JSC::arrayBufferConstructorTable))
     , arrayBufferViewTable(fastNew<HashTable>(JSC::arrayBufferViewTable))
     , arrayBufferViewPrototypeTable(fastNew<HashTable>(JSC::arrayBufferViewPrototypeTable))
+    , int8ArrayTable(fastNew<HashTable>(JSC::int8ArrayTable))
+    , int16ArrayTable(fastNew<HashTable>(JSC::int16ArrayTable))
+    , int32ArrayTable(fastNew<HashTable>(JSC::int32ArrayTable))
+    , int64ArrayTable(fastNew<HashTable>(JSC::int64ArrayTable))
+    , uint8ArrayTable(fastNew<HashTable>(JSC::uint8ArrayTable))
+    , uint16ArrayTable(fastNew<HashTable>(JSC::uint16ArrayTable))
+    , uint32ArrayTable(fastNew<HashTable>(JSC::uint32ArrayTable))
+    , uint64ArrayTable(fastNew<HashTable>(JSC::uint64ArrayTable))
+    , float32ArrayTable(fastNew<HashTable>(JSC::float32ArrayTable))
+    , float64ArrayTable(fastNew<HashTable>(JSC::float64ArrayTable))
     , identifierTable(globalDataType == Default ? wtfThreadData().currentIdentifierTable() : createIdentifierTable())
     , propertyNames(new CommonIdentifiers(this))
     , emptyList(new MarkedArgumentBuffer)
@@ -285,6 +306,17 @@ JSGlobalData::~JSGlobalData()
     arrayBufferViewTable->deleteTable();
     arrayBufferViewPrototypeTable->deleteTable();
 
+    int8ArrayTable->deleteTable();
+    int16ArrayTable->deleteTable();
+    int32ArrayTable->deleteTable();
+    int64ArrayTable->deleteTable();
+    uint8ArrayTable->deleteTable();
+    uint16ArrayTable->deleteTable();
+    uint32ArrayTable->deleteTable();
+    uint64ArrayTable->deleteTable();
+    float32ArrayTable->deleteTable();
+    float64ArrayTable->deleteTable();
+
     fastDelete(const_cast<HashTable*>(accelerateTable));
     fastDelete(const_cast<HashTable*>(arrayConstructorTable));
     fastDelete(const_cast<HashTable*>(arrayPrototypeTable));
@@ -310,6 +342,17 @@ JSGlobalData::~JSGlobalData()
     fastDelete(const_cast<HashTable*>(arrayBufferConstructorTable));
     fastDelete(const_cast<HashTable*>(arrayBufferViewTable));
     fastDelete(const_cast<HashTable*>(arrayBufferViewPrototypeTable));
+
+    fastDelete(const_cast<HashTable*>(int8ArrayTable));
+    fastDelete(const_cast<HashTable*>(int16ArrayTable));
+    fastDelete(const_cast<HashTable*>(int32ArrayTable));
+    fastDelete(const_cast<HashTable*>(int64ArrayTable));
+    fastDelete(const_cast<HashTable*>(uint8ArrayTable));
+    fastDelete(const_cast<HashTable*>(uint16ArrayTable));
+    fastDelete(const_cast<HashTable*>(uint32ArrayTable));
+    fastDelete(const_cast<HashTable*>(uint64ArrayTable));
+    fastDelete(const_cast<HashTable*>(float32ArrayTable));
+    fastDelete(const_cast<HashTable*>(float64ArrayTable));
 
     opaqueJSClassData.clear();
 
