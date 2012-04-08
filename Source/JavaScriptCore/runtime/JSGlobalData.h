@@ -178,7 +178,11 @@ namespace JSC {
         const HashTable* regExpPrototypeTable;
         const HashTable* stringTable;
         const HashTable* stringConstructorTable;
-        
+
+        const HashTable* arrayBufferTable;
+        const HashTable* arrayBufferPrototypeTable;
+        const HashTable* arrayBufferConstructorTable;
+
         Strong<Structure> structureStructure;
         Strong<Structure> debuggerActivationStructure;
         Strong<Structure> activationStructure;

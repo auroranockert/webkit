@@ -74,6 +74,9 @@
 
 #include "Accelerate.h"
 
+#include "ArrayBufferPrototype.h"
+#include "ArrayBufferConstructor.h"
+
 #include "JSGlobalObject.lut.h"
 
 namespace JSC {
@@ -247,6 +250,9 @@ void JSGlobalObject::reset(JSValue prototype)
     ErrorPrototype* errorPrototype = ErrorPrototype::create(exec, this, ErrorPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get()));
     m_errorStructure.set(exec->globalData(), this, ErrorInstance::createStructure(exec->globalData(), this, errorPrototype));
 
+    m_arrayBufferPrototype.set(exec->globalData(), this, ArrayBufferPrototype::create(exec, this, ArrayBufferPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get())));
+    m_arrayBufferStructure.set(exec->globalData(), this, JSArrayBuffer::createStructure(exec->globalData(), this, m_arrayBufferPrototype.get()));
+
     // Constructors
 
     JSCell* objectConstructor = ObjectConstructor::create(exec, this, ObjectConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_objectPrototype.get());
@@ -256,6 +262,8 @@ void JSGlobalObject::reset(JSValue prototype)
     JSCell* booleanConstructor = BooleanConstructor::create(exec, this, BooleanConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_booleanPrototype.get());
     JSCell* numberConstructor = NumberConstructor::create(exec, this, NumberConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_numberPrototype.get());
     JSCell* dateConstructor = DateConstructor::create(exec, this, DateConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_datePrototype.get());
+
+    JSCell* arrayBufferConstructor = ArrayBufferConstructor::create(exec, this, ArrayBufferConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferPrototype.get());
 
     m_regExpConstructor.set(exec->globalData(), this, RegExpConstructor::create(exec, this, RegExpConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_regExpPrototype.get()));
 
@@ -280,6 +288,8 @@ void JSGlobalObject::reset(JSValue prototype)
     m_regExpPrototype->putDirectWithoutTransition(exec->globalData(), exec->propertyNames().constructor, m_regExpConstructor.get(), DontEnum);
     errorPrototype->putDirectWithoutTransition(exec->globalData(), exec->propertyNames().constructor, m_errorConstructor.get(), DontEnum);
 
+    m_arrayBufferPrototype->putDirectWithoutTransition(exec->globalData(), exec->propertyNames().constructor, arrayBufferConstructor, DontEnum);
+
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Object"), objectConstructor, DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Function"), functionConstructor, DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Array"), arrayConstructor, DontEnum);
@@ -295,6 +305,8 @@ void JSGlobalObject::reset(JSValue prototype)
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "SyntaxError"), m_syntaxErrorConstructor.get(), DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "TypeError"), m_typeErrorConstructor.get(), DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "URIError"), m_URIErrorConstructor.get(), DontEnum);
+
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "ArrayBuffer"), arrayBufferConstructor, DontEnum);
 
     m_evalFunction.set(exec->globalData(), this, JSFunction::create(exec, this, 1, exec->propertyNames().eval, globalFuncEval));
     putDirectWithoutTransition(exec->globalData(), exec->propertyNames().eval, m_evalFunction.get(), DontEnum);

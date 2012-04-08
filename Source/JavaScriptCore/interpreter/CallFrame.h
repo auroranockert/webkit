@@ -97,6 +97,10 @@ namespace JSC  {
         static const HashTable* stringTable(CallFrame* callFrame) { return callFrame->globalData().stringTable; }
         static const HashTable* stringConstructorTable(CallFrame* callFrame) { return callFrame->globalData().stringConstructorTable; }
 
+        static const HashTable* arrayBufferTable(CallFrame* callFrame) { return callFrame->globalData().arrayBufferTable; }
+        static const HashTable* arrayBufferPrototypeTable(CallFrame* callFrame) { return callFrame->globalData().arrayBufferPrototypeTable; }
+        static const HashTable* arrayBufferConstructorTable(CallFrame* callFrame) { return callFrame->globalData().arrayBufferConstructorTable; }
+
         static CallFrame* create(Register* callFrameBase) { return static_cast<CallFrame*>(callFrameBase); }
         Register* registers() { return this; }
 
