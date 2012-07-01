@@ -40,6 +40,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "CSFXP64Register.h"
+
 #if !OS(WINDOWS)
 #include <unistd.h>
 #endif
@@ -213,6 +215,8 @@ protected:
         addConstructableFunction(globalData, "Int32Array", constructJSInt32Array, 1);
         addConstructableFunction(globalData, "Float32Array", constructJSFloat32Array, 1);
         addConstructableFunction(globalData, "Float64Array", constructJSFloat64Array, 1);
+
+        addConstructableFunction(globalData, "FXP64Register", constructFXP64Register, 0);
 
         JSArray* array = constructEmptyArray(globalExec());
         for (size_t i = 0; i < arguments.size(); ++i)

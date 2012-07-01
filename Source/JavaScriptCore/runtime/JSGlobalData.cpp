@@ -95,6 +95,7 @@ extern const HashTable regExpConstructorTable;
 extern const HashTable regExpPrototypeTable;
 extern const HashTable stringTable;
 extern const HashTable stringConstructorTable;
+extern const HashTable fxp64RegisterTable;
 
 #if ENABLE(ASSEMBLER) && (ENABLE(CLASSIC_INTERPRETER) || ENABLE(LLINT))
 static bool enableAssembler(ExecutableAllocator& executableAllocator)
@@ -142,6 +143,7 @@ JSGlobalData::JSGlobalData(GlobalDataType globalDataType, ThreadStackType thread
     , regExpPrototypeTable(fastNew<HashTable>(JSC::regExpPrototypeTable))
     , stringTable(fastNew<HashTable>(JSC::stringTable))
     , stringConstructorTable(fastNew<HashTable>(JSC::stringConstructorTable))
+    , fxp64RegisterTable(fastNew<HashTable>(JSC::fxp64RegisterTable))
     , identifierTable(globalDataType == Default ? wtfThreadData().currentIdentifierTable() : createIdentifierTable())
     , propertyNames(new CommonIdentifiers(this))
     , emptyList(new MarkedArgumentBuffer)
@@ -250,6 +252,7 @@ JSGlobalData::~JSGlobalData()
     regExpPrototypeTable->deleteTable();
     stringTable->deleteTable();
     stringConstructorTable->deleteTable();
+    fxp64RegisterTable->deleteTable();
 
     fastDelete(const_cast<HashTable*>(arrayConstructorTable));
     fastDelete(const_cast<HashTable*>(arrayPrototypeTable));
@@ -270,6 +273,7 @@ JSGlobalData::~JSGlobalData()
     fastDelete(const_cast<HashTable*>(regExpPrototypeTable));
     fastDelete(const_cast<HashTable*>(stringTable));
     fastDelete(const_cast<HashTable*>(stringConstructorTable));
+    fastDelete(const_cast<HashTable*>(fxp64RegisterTable));
 
     opaqueJSClassData.clear();
 
