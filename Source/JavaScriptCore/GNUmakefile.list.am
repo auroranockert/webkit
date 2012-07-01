@@ -629,6 +629,12 @@ javascriptcore_sources += \
 	Source/JavaScriptCore/runtime/WeakGCMap.h \
 	Source/JavaScriptCore/runtime/WeakRandom.h \
 	Source/JavaScriptCore/runtime/WriteBarrier.h \
+	Source/JavaScriptCore/runtime/JSArrayBufferView.cpp \
+	Source/JavaScriptCore/runtime/JSArrayBufferView.h \
+	Source/JavaScriptCore/runtime/JSArrayBufferViewPrototype.cpp \
+	Source/JavaScriptCore/runtime/JSArrayBufferViewPrototype.h \
+	Source/JavaScriptCore/runtime/TypedArray.cpp \
+	Source/JavaScriptCore/runtime/TypedArray.h \
 	Source/JavaScriptCore/runtime/CSFXP64Register.cpp \
 	Source/JavaScriptCore/runtime/CSFXP64Register.h \
 	Source/JavaScriptCore/tools/CodeProfile.cpp \

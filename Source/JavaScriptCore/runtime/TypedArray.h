@@ -28,24 +28,27 @@
 #define TypedArray_h
 
 #include "JSObject.h"
-#include "ObjectPrototype.h"
-#include <wtf/Float32Array.h>
-#include <wtf/Float64Array.h>
+#include "JSGlobalObject.h"
+
+#include "JSArrayBufferView.h"
+
 #include <wtf/Forward.h>
+#include <wtf/Int8Array.h>
 #include <wtf/Int16Array.h>
 #include <wtf/Int32Array.h>
-#include <wtf/Int8Array.h>
-#include <wtf/Uint16Array.h>
-#include <wtf/Uint32Array.h>
 #include <wtf/Uint8Array.h>
 #include <wtf/Uint8ClampedArray.h>
+#include <wtf/Uint16Array.h>
+#include <wtf/Uint32Array.h>
+#include <wtf/Float32Array.h>
+#include <wtf/Float64Array.h>
 
 namespace JSC {
 
 template <typename T, typename I>
-class TypedArray : public JSNonFinalObject {
+class TypedArray : public JSArrayBufferView {
 public:
-    typedef JSNonFinalObject Base;
+    typedef JSArrayBufferView Base;
     typedef TypedArray<T, I> Current;
     typedef I Implementation;
     
@@ -60,7 +63,7 @@ public:
 
     static Structure* createStructure(JSGlobalData& globalData, JSGlobalObject* globalObject, JSValue prototype)
     {
-        return JSC::Structure::create(globalData, globalObject, prototype, TypeInfo(JSC::ObjectType, StructureFlags), &s_info);
+        return Structure::create(globalData, globalObject, prototype, TypeInfo(ObjectType, StructureFlags), &s_info);
     }
 
     // TODO: static const JSC::TypedArrayType TypedArrayStorageType = JSC::TypedArray##name;
@@ -69,7 +72,7 @@ public:
 
     T* m_storage;
 
-    RefPtr<I> m_impl;
+    I* impl() const { return static_cast<I*>(Base::impl()); }
 
 protected:
     void finishCreation(JSC::JSGlobalData& globalData);
@@ -79,7 +82,7 @@ protected:
     JSC::JSValue getByIndex(ExecState*, unsigned index)
     {
         ASSERT_GC_OBJECT_INHERITS(this, &s_info);
-        T result = m_impl->item(index);
+        T result = impl()->item(index);
 
         if (isnan((double)result)) {
             return jsNaN();
@@ -91,7 +94,7 @@ protected:
 
     void indexSetter(ExecState* exec, unsigned index, JSValue value)
     {
-        m_impl->set(index, value.toNumber(exec));
+        impl()->set(index, value.toNumber(exec));
     }
 private:
     TypedArray<T, I>(Structure* structure, JSGlobalObject* globalObject, PassRefPtr<I> impl);
@@ -107,7 +110,7 @@ private:
 };
 
 template<typename T, typename I>
-TypedArray<T, I>::TypedArray(Structure* structure, JSGlobalObject* globalObject, PassRefPtr<I> impl) : Base(globalObject->globalData(), structure), m_impl(impl)
+TypedArray<T, I>::TypedArray(Structure* structure, JSGlobalObject* globalObject, PassRefPtr<I> impl) : Base(structure, globalObject, impl)
 {
 }
 
@@ -116,9 +119,9 @@ void TypedArray<T, I>::finishCreation(JSC::JSGlobalData& globalData)
 {
     Base::finishCreation(globalData);
     TypedArrayDescriptor descriptor(&Current::s_info, OBJECT_OFFSETOF(Current, m_storage), OBJECT_OFFSETOF(Current, m_storageLength));
-    globalData.registerTypedArrayDescriptor(m_impl.get(), descriptor);
-    m_storage = m_impl->data();
-    m_storageLength = m_impl->length();
+    globalData.registerTypedArrayDescriptor(impl(), descriptor);
+    m_storage = impl()->data();
+    m_storageLength = impl()->length();
     putDirect(globalData, globalData.propertyNames->length, jsNumber(m_storageLength), DontDelete | ReadOnly | DontEnum);
     ASSERT(inherits(&s_info));
 }
@@ -216,18 +219,6 @@ typedef TypedArray<int32_t, Int32Array> JSInt32Array;
 
 typedef TypedArray<float, Float32Array> JSFloat32Array;
 typedef TypedArray<double, Float64Array> JSFloat64Array;
-
-template <> const ClassInfo JSUint8Array::s_info = { "Uint8Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint8Array) };
-template <> const ClassInfo JSUint8ClampedArray::s_info = { "Uint8ClampedArray" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint8ClampedArray) };
-template <> const ClassInfo JSUint16Array::s_info = { "Uint16Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint16Array) };
-template <> const ClassInfo JSUint32Array::s_info = { "Uint32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint32Array) };
-
-template <> const ClassInfo JSInt8Array::s_info = { "Int8Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSInt8Array) };
-template <> const ClassInfo JSInt16Array::s_info = { "Int16Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSInt16Array) };
-template <> const ClassInfo JSInt32Array::s_info = { "Int32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSInt32Array) };
-
-template <> const ClassInfo JSFloat32Array::s_info = { "Float32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat32Array) };
-template <> const ClassInfo JSFloat64Array::s_info = { "Float64Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat64Array) };
 
 }
 

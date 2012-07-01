@@ -29,7 +29,6 @@
 #include "InitializeThreading.h"
 #include "Interpreter.h"
 #include "JSArray.h"
-#include "JSCTypedArrayStubs.h"
 #include "JSFunction.h"
 #include "JSLock.h"
 #include "JSString.h"
@@ -39,6 +38,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "JSGlobalObject.h"
+#include "JSCTypedArrayStubs.h"
 
 #include "CSFXP64Register.h"
 

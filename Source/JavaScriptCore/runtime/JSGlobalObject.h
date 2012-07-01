@@ -52,6 +52,8 @@ namespace JSC {
     class RegExpPrototype;
     class RegisterFile;
 
+    class JSArrayBufferViewPrototype;
+
     struct ActivationStackNode;
     struct HashTable;
 
@@ -118,6 +120,8 @@ namespace JSC {
         WriteBarrier<DatePrototype> m_datePrototype;
         WriteBarrier<RegExpPrototype> m_regExpPrototype;
         WriteBarrier<ErrorPrototype> m_errorPrototype;
+
+        WriteBarrier<JSArrayBufferViewPrototype> m_arrayBufferViewPrototype;
 
         WriteBarrier<Structure> m_argumentsStructure;
         WriteBarrier<Structure> m_arrayStructure;
@@ -246,6 +250,8 @@ namespace JSC {
         DatePrototype* datePrototype() const { return m_datePrototype.get(); }
         RegExpPrototype* regExpPrototype() const { return m_regExpPrototype.get(); }
         ErrorPrototype* errorPrototype() const { return m_errorPrototype.get(); }
+
+        JSArrayBufferViewPrototype* arrayBufferViewPrototype() const { return m_arrayBufferViewPrototype.get(); }
 
         JSObject* methodCallDummy() const { return m_methodCallDummy.get(); }
 

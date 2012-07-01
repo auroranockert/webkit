@@ -26,6 +26,9 @@
 #ifndef JSCTypedArrayStubs_h
 #define JSCTypedArrayStubs_h
 
+#include "JSArrayBufferView.h"
+#include "JSArrayBufferViewPrototype.h"
+
 #include "TypedArray.h"
 
 namespace JSC {
@@ -42,7 +45,9 @@ static EncodedJSValue JSC_HOST_CALL constructTypedArray(ExecState* callFrame) {
         return JSValue::encode(jsUndefined());
     }
 
-    Structure* structure = T::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), callFrame->lexicalGlobalObject()->objectPrototype());
+    JSCell* prototype = static_cast<JSCell*>(callFrame->lexicalGlobalObject()->arrayBufferViewPrototype());
+
+    Structure* structure = T::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), JSValue(prototype));
 
     return JSValue::encode(T::create(structure, callFrame->lexicalGlobalObject(), T::Implementation::create(length)));
 }
