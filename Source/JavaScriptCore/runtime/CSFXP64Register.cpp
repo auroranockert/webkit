@@ -25,7 +25,7 @@
 
 #include "config.h"
 #include "CSFXP64Register.h"
-#include "JSCTypedArrayStubs.h"
+#include "TypedArray.h"
 
 #include "Error.h"
 #include "Lookup.h"
