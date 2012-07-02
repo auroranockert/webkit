@@ -262,6 +262,7 @@ template <typename T, typename I>
 void TypedArrayConstructor<T, I>::finishCreation(ExecState* exec, JSArrayBufferViewPrototype* objectPrototype)
 {
     Base::finishCreation(exec->globalData(), Identifier(exec, "Typed Array").ustring());
+    putDirectWithoutTransition(exec->globalData(), exec->propertyNames().prototype, objectPrototype, DontEnum | DontDelete | ReadOnly);
 }
 
 template <typename T, typename I>
