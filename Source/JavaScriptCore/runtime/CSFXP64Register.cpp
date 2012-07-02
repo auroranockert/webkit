@@ -86,6 +86,8 @@ void FXP64Register::finishCreation(JSGlobalData& globalData, JSGlobalObject*)
 
 bool FXP64Register::getOwnPropertySlotByIndex(JSCell* cell, ExecState* exec, unsigned propertyName, PropertySlot& slot)
 {
+	UNUSED_PARAM(cell); UNUSED_PARAM(exec); UNUSED_PARAM(propertyName); UNUSED_PARAM(slot);
+
     return false;
 }
 
@@ -132,6 +134,7 @@ static inline FXP64Register::Union cs_load_argument(ExecState* exec, size_t argu
 }
 
 static inline FXP64Register::Union cs_load_argument_imm(ExecState* exec, size_t argument, EncodedJSValue* error) {
+    UNUSED_PARAM(error);
     FXP64Register::Union value;
     
     value.s = exec->argument(argument).asInt32();
