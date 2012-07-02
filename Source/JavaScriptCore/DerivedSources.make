@@ -58,6 +58,8 @@ all : \
     RegExpObject.lut.h \
     StringConstructor.lut.h \
     StringPrototype.lut.h \
+    CSFXP32Register.lut.h \
+    CSFXP64Register.lut.h \
     docs/bytecode.html \
     udis86_itab.h \
 #

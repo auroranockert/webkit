@@ -550,6 +550,16 @@
 		A7FB60A4103F7DC20017A286 /* PropertyDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7FB60A3103F7DC20017A286 /* PropertyDescriptor.cpp */; };
 		A7FB61001040C38B0017A286 /* PropertyDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = A7FB604B103F5EAB0017A286 /* PropertyDescriptor.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A8A4748E151A8306004123FF /* libWTF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8A4748D151A8306004123FF /* libWTF.a */; };
+		B4DA0B3915A1F0BF00E5C2BB /* CSFXP32Register.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DA0B3515A1F0BF00E5C2BB /* CSFXP32Register.cpp */; };
+		B4DA0B3A15A1F0BF00E5C2BB /* CSFXP32Register.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B3615A1F0BF00E5C2BB /* CSFXP32Register.h */; };
+		B4DA0B3B15A1F0BF00E5C2BB /* CSFXP64Register.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DA0B3715A1F0BF00E5C2BB /* CSFXP64Register.cpp */; };
+		B4DA0B3C15A1F0BF00E5C2BB /* CSFXP64Register.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B3815A1F0BF00E5C2BB /* CSFXP64Register.h */; };
+		B4DA0B4215A1F0F500E5C2BB /* JSArrayBufferView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DA0B3E15A1F0F400E5C2BB /* JSArrayBufferView.cpp */; };
+		B4DA0B4315A1F0F500E5C2BB /* JSArrayBufferView.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B3F15A1F0F400E5C2BB /* JSArrayBufferView.h */; };
+		B4DA0B4415A1F0F500E5C2BB /* JSArrayBufferViewPrototype.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DA0B4015A1F0F400E5C2BB /* JSArrayBufferViewPrototype.cpp */; };
+		B4DA0B4515A1F0F500E5C2BB /* JSArrayBufferViewPrototype.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4115A1F0F400E5C2BB /* JSArrayBufferViewPrototype.h */; };
+		B4DA0B4715A1F2B000E5C2BB /* CSFXP32Register.lut.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4615A1F2B000E5C2BB /* CSFXP32Register.lut.h */; };
+		B4DA0B4915A1F31F00E5C2BB /* CSFXP64Register.lut.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4815A1F31F00E5C2BB /* CSFXP64Register.lut.h */; };
 		BC02E90D0E1839DB000F9297 /* ErrorConstructor.h in Headers */ = {isa = PBXBuildFile; fileRef = BC02E9050E1839DB000F9297 /* ErrorConstructor.h */; };
 		BC02E90F0E1839DB000F9297 /* ErrorPrototype.h in Headers */ = {isa = PBXBuildFile; fileRef = BC02E9070E1839DB000F9297 /* ErrorPrototype.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC02E9110E1839DB000F9297 /* NativeErrorConstructor.h in Headers */ = {isa = PBXBuildFile; fileRef = BC02E9090E1839DB000F9297 /* NativeErrorConstructor.h */; };
@@ -1297,6 +1307,16 @@
 		A8A4748D151A8306004123FF /* libWTF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWTF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8E894310CD0602400367179 /* JSCallbackObjectFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSCallbackObjectFunctions.h; sourceTree = "<group>"; };
 		A8E894330CD0603F00367179 /* JSGlobalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSGlobalObject.h; sourceTree = "<group>"; };
+		B4DA0B3515A1F0BF00E5C2BB /* CSFXP32Register.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSFXP32Register.cpp; sourceTree = "<group>"; };
+		B4DA0B3615A1F0BF00E5C2BB /* CSFXP32Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFXP32Register.h; sourceTree = "<group>"; };
+		B4DA0B3715A1F0BF00E5C2BB /* CSFXP64Register.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSFXP64Register.cpp; sourceTree = "<group>"; };
+		B4DA0B3815A1F0BF00E5C2BB /* CSFXP64Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFXP64Register.h; sourceTree = "<group>"; };
+		B4DA0B3E15A1F0F400E5C2BB /* JSArrayBufferView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSArrayBufferView.cpp; sourceTree = "<group>"; };
+		B4DA0B3F15A1F0F400E5C2BB /* JSArrayBufferView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSArrayBufferView.h; sourceTree = "<group>"; };
+		B4DA0B4015A1F0F400E5C2BB /* JSArrayBufferViewPrototype.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSArrayBufferViewPrototype.cpp; sourceTree = "<group>"; };
+		B4DA0B4115A1F0F400E5C2BB /* JSArrayBufferViewPrototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSArrayBufferViewPrototype.h; sourceTree = "<group>"; };
+		B4DA0B4615A1F2B000E5C2BB /* CSFXP32Register.lut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFXP32Register.lut.h; sourceTree = "<group>"; };
+		B4DA0B4815A1F31F00E5C2BB /* CSFXP64Register.lut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFXP64Register.lut.h; sourceTree = "<group>"; };
 		BC021BF1136900C300FC5467 /* CompilerVersion.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CompilerVersion.xcconfig; sourceTree = "<group>"; };
 		BC021BF2136900C300FC5467 /* ToolExecutable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ToolExecutable.xcconfig; sourceTree = "<group>"; };
 		BC02E9040E1839DB000F9297 /* ErrorConstructor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ErrorConstructor.cpp; sourceTree = "<group>"; };
@@ -1880,6 +1900,8 @@
 				BC18C52B0E16FCD200B34460 /* RegExpObject.lut.h */,
 				BC18C5250E16FCA700B34460 /* StringPrototype.lut.h */,
 				5D53727D0E1C55EC0021E549 /* TracingDtrace.h */,
+				B4DA0B4615A1F2B000E5C2BB /* CSFXP32Register.lut.h */,
+				B4DA0B4815A1F31F00E5C2BB /* CSFXP64Register.lut.h */,
 			);
 			name = "Derived Sources";
 			path = DerivedSources/JavaScriptCore;
@@ -1930,6 +1952,14 @@
 		7EF6E0BB0EB7A1EC0079AFAF /* runtime */ = {
 			isa = PBXGroup;
 			children = (
+				B4DA0B3E15A1F0F400E5C2BB /* JSArrayBufferView.cpp */,
+				B4DA0B3F15A1F0F400E5C2BB /* JSArrayBufferView.h */,
+				B4DA0B4015A1F0F400E5C2BB /* JSArrayBufferViewPrototype.cpp */,
+				B4DA0B4115A1F0F400E5C2BB /* JSArrayBufferViewPrototype.h */,
+				B4DA0B3515A1F0BF00E5C2BB /* CSFXP32Register.cpp */,
+				B4DA0B3615A1F0BF00E5C2BB /* CSFXP32Register.h */,
+				B4DA0B3715A1F0BF00E5C2BB /* CSFXP64Register.cpp */,
+				B4DA0B3815A1F0BF00E5C2BB /* CSFXP64Register.h */,
 				C2D58C3315912FEE0021A844 /* GCActivityCallback.cpp */,
 				BCF605110E203EF800B9A64D /* ArgList.cpp */,
 				BCF605120E203EF800B9A64D /* ArgList.h */,
@@ -2775,6 +2805,12 @@
 				0FF4274B158EBE91004CB9FF /* udis86.h in Headers */,
 				0FF427651591A1CE004CB9FF /* DFGDisassembler.h in Headers */,
 				0FF42772159275D8004CB9FF /* ResolveGlobalStatus.h in Headers */,
+				B4DA0B3A15A1F0BF00E5C2BB /* CSFXP32Register.h in Headers */,
+				B4DA0B3C15A1F0BF00E5C2BB /* CSFXP64Register.h in Headers */,
+				B4DA0B4315A1F0F500E5C2BB /* JSArrayBufferView.h in Headers */,
+				B4DA0B4515A1F0F500E5C2BB /* JSArrayBufferViewPrototype.h in Headers */,
+				B4DA0B4715A1F2B000E5C2BB /* CSFXP32Register.lut.h in Headers */,
+				B4DA0B4915A1F31F00E5C2BB /* CSFXP64Register.lut.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3363,6 +3399,10 @@
 				C2D58C3415912FEE0021A844 /* GCActivityCallback.cpp in Sources */,
 				0FF427641591A1CC004CB9FF /* DFGDisassembler.cpp in Sources */,
 				0FF42771159275D5004CB9FF /* ResolveGlobalStatus.cpp in Sources */,
+				B4DA0B3915A1F0BF00E5C2BB /* CSFXP32Register.cpp in Sources */,
+				B4DA0B3B15A1F0BF00E5C2BB /* CSFXP64Register.cpp in Sources */,
+				B4DA0B4215A1F0F500E5C2BB /* JSArrayBufferView.cpp in Sources */,
+				B4DA0B4415A1F0F500E5C2BB /* JSArrayBufferViewPrototype.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
