@@ -42,6 +42,7 @@
 #include "JSGlobalObject.h"
 #include "JSCTypedArrayStubs.h"
 
+#include "CSFXP32Register.h"
 #include "CSFXP64Register.h"
 
 #if !OS(WINDOWS)
@@ -218,6 +219,7 @@ protected:
         addConstructableFunction(globalData, "Float32Array", constructJSFloat32Array, 1);
         addConstructableFunction(globalData, "Float64Array", constructJSFloat64Array, 1);
 
+        addConstructableFunction(globalData, "FXP32Register", constructFXP32Register, 0);
         addConstructableFunction(globalData, "FXP64Register", constructFXP64Register, 0);
 
         JSArray* array = constructEmptyArray(globalExec());
