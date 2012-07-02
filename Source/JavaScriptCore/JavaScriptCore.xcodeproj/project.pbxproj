@@ -560,6 +560,8 @@
 		B4DA0B4515A1F0F500E5C2BB /* JSArrayBufferViewPrototype.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4115A1F0F400E5C2BB /* JSArrayBufferViewPrototype.h */; };
 		B4DA0B4715A1F2B000E5C2BB /* CSFXP32Register.lut.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4615A1F2B000E5C2BB /* CSFXP32Register.lut.h */; };
 		B4DA0B4915A1F31F00E5C2BB /* CSFXP64Register.lut.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4815A1F31F00E5C2BB /* CSFXP64Register.lut.h */; };
+		B4DA0B4C15A2068A00E5C2BB /* TypedArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DA0B4A15A2068900E5C2BB /* TypedArray.cpp */; };
+		B4DA0B4D15A2068A00E5C2BB /* TypedArray.h in Headers */ = {isa = PBXBuildFile; fileRef = B4DA0B4B15A2068900E5C2BB /* TypedArray.h */; };
 		BC02E90D0E1839DB000F9297 /* ErrorConstructor.h in Headers */ = {isa = PBXBuildFile; fileRef = BC02E9050E1839DB000F9297 /* ErrorConstructor.h */; };
 		BC02E90F0E1839DB000F9297 /* ErrorPrototype.h in Headers */ = {isa = PBXBuildFile; fileRef = BC02E9070E1839DB000F9297 /* ErrorPrototype.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC02E9110E1839DB000F9297 /* NativeErrorConstructor.h in Headers */ = {isa = PBXBuildFile; fileRef = BC02E9090E1839DB000F9297 /* NativeErrorConstructor.h */; };
@@ -1317,6 +1319,8 @@
 		B4DA0B4115A1F0F400E5C2BB /* JSArrayBufferViewPrototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSArrayBufferViewPrototype.h; sourceTree = "<group>"; };
 		B4DA0B4615A1F2B000E5C2BB /* CSFXP32Register.lut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFXP32Register.lut.h; sourceTree = "<group>"; };
 		B4DA0B4815A1F31F00E5C2BB /* CSFXP64Register.lut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFXP64Register.lut.h; sourceTree = "<group>"; };
+		B4DA0B4A15A2068900E5C2BB /* TypedArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypedArray.cpp; sourceTree = "<group>"; };
+		B4DA0B4B15A2068900E5C2BB /* TypedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypedArray.h; sourceTree = "<group>"; };
 		BC021BF1136900C300FC5467 /* CompilerVersion.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CompilerVersion.xcconfig; sourceTree = "<group>"; };
 		BC021BF2136900C300FC5467 /* ToolExecutable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ToolExecutable.xcconfig; sourceTree = "<group>"; };
 		BC02E9040E1839DB000F9297 /* ErrorConstructor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ErrorConstructor.cpp; sourceTree = "<group>"; };
@@ -1952,6 +1956,8 @@
 		7EF6E0BB0EB7A1EC0079AFAF /* runtime */ = {
 			isa = PBXGroup;
 			children = (
+				B4DA0B4A15A2068900E5C2BB /* TypedArray.cpp */,
+				B4DA0B4B15A2068900E5C2BB /* TypedArray.h */,
 				B4DA0B3E15A1F0F400E5C2BB /* JSArrayBufferView.cpp */,
 				B4DA0B3F15A1F0F400E5C2BB /* JSArrayBufferView.h */,
 				B4DA0B4015A1F0F400E5C2BB /* JSArrayBufferViewPrototype.cpp */,
@@ -2811,6 +2817,7 @@
 				B4DA0B4515A1F0F500E5C2BB /* JSArrayBufferViewPrototype.h in Headers */,
 				B4DA0B4715A1F2B000E5C2BB /* CSFXP32Register.lut.h in Headers */,
 				B4DA0B4915A1F31F00E5C2BB /* CSFXP64Register.lut.h in Headers */,
+				B4DA0B4D15A2068A00E5C2BB /* TypedArray.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3403,6 +3410,7 @@
 				B4DA0B3B15A1F0BF00E5C2BB /* CSFXP64Register.cpp in Sources */,
 				B4DA0B4215A1F0F500E5C2BB /* JSArrayBufferView.cpp in Sources */,
 				B4DA0B4415A1F0F500E5C2BB /* JSArrayBufferViewPrototype.cpp in Sources */,
+				B4DA0B4C15A2068A00E5C2BB /* TypedArray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

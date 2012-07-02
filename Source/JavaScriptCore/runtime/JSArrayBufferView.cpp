@@ -49,6 +49,7 @@ static const HashTable JSArrayBufferViewTable = { 8, 7, JSArrayBufferViewTableVa
 
 static const HashTable* getJSArrayBufferViewTable(ExecState* exec)
 {
+    UNUSED_PARAM(exec);
     return &JSArrayBufferViewTable;
 }
 
@@ -97,8 +98,9 @@ bool JSArrayBufferView::getOwnPropertyDescriptor(JSObject* object, ExecState* ex
     return getStaticValueDescriptor<JSArrayBufferView, Base>(exec, getJSArrayBufferViewTable(exec), thisObject, propertyName, descriptor);
 }
 
-JSValue jsArrayBufferViewBuffer(ExecState* exec, JSValue slotBase, PropertyName)
+JSValue jsArrayBufferViewBuffer(ExecState* exec, JSValue slotBase, PropertyName propertyName)
 {
+    UNUSED_PARAM(exec); UNUSED_PARAM(slotBase); UNUSED_PARAM(propertyName);
     // JSArrayBufferView* castedThis = jsCast<JSArrayBufferView*>(asObject(slotBase));
 
     return jsUndefined(); // toJS(exec, castedThis->globalObject(), WTF::getPtr(castedThis->m_impl->buffer()));
@@ -118,11 +120,6 @@ JSValue jsArrayBufferViewByteLength(ExecState* exec, JSValue slotBase, PropertyN
     UNUSED_PARAM(exec);
 
     return jsNumber(jsCast<JSArrayBufferView*>(asObject(slotBase))->m_impl->byteLength());;
-}
-
-ArrayBufferView* toArrayBufferView(JSValue value)
-{
-    return value.inherits(&JSArrayBufferView::s_info) ? jsCast<JSArrayBufferView*>(asObject(value))->m_impl : 0;
 }
 
 }
