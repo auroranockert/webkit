@@ -252,7 +252,7 @@ void JSGlobalObject::reset(JSValue prototype)
     m_errorPrototype.set(exec->globalData(), this, ErrorPrototype::create(exec, this, ErrorPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get())));
     m_errorStructure.set(exec->globalData(), this, ErrorInstance::createStructure(exec->globalData(), this, m_errorPrototype.get()));
 
-    m_arrayBufferViewPrototype.set(exec->globalData(), this, JSArrayBufferViewPrototype::create(exec, this, JSArrayBufferViewPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get())));
+    m_arrayBufferViewPrototype.set(exec->globalData(), this, JSArrayBufferViewPrototype::create(exec, JSArrayBufferViewPrototype::createStructure(exec->globalData(), this, m_objectPrototype.get())));
 
     // Constructors
 

@@ -35,7 +35,7 @@ class JSArrayBufferViewPrototype : public JSNonFinalObject {
 public:
     typedef JSNonFinalObject Base;
 
-    static JSArrayBufferViewPrototype* create(ExecState* exec, JSGlobalObject* globalObject, Structure* structure)
+    static JSArrayBufferViewPrototype* create(ExecState* exec, Structure* structure)
     {
         JSArrayBufferViewPrototype* prototype = new (NotNull, allocateCell<JSArrayBufferViewPrototype>(*exec->heap())) JSArrayBufferViewPrototype(exec, structure);
         prototype->finishCreation(exec->globalData());
