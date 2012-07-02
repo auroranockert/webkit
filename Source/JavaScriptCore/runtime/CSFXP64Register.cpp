@@ -26,6 +26,7 @@
 #include "config.h"
 #include "CSFXP64Register.h"
 #include "TypedArray.h"
+#include "JSArrayBufferViewPrototype.h"
 
 #include "Error.h"
 #include "Lookup.h"
@@ -36,10 +37,17 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState*);
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState*);
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_sadd(ExecState*);
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_saddi(ExecState*);
+
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_uadd(ExecState*);
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_uaddi(ExecState*);
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssub(ExecState*);
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssubi(ExecState*);
+
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_usub(ExecState*);
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_usubi(ExecState*);
+
 }
 
 #include "CSFXP64Register.lut.h"
@@ -52,12 +60,16 @@ const ClassInfo FXP64Register::s_info = { "FXP64Register", &Base::s_info, 0, Exe
 
 /* Source for CSFXP64Register.lut.h
 @begin fxp64RegisterTable
-  ld            cs_fxp64_ld             Function 1
-  st            cs_fxp64_st             Function 1
+  ld            cs_fxp64_ld             Function 2
+  st            cs_fxp64_st             Function 2
   sadd          cs_fxp64_sadd           Function 1
+  saddi         cs_fxp64_saddi          Function 1
   uadd          cs_fxp64_uadd           Function 1
+  uaddi         cs_fxp64_uaddi          Function 1
   ssub          cs_fxp64_ssub           Function 1
+  ssubi         cs_fxp64_ssubi          Function 1
   usub          cs_fxp64_usub           Function 1
+  usubi         cs_fxp64_usubi          Function 1
 @end
 */
 
@@ -119,6 +131,14 @@ static inline FXP64Register::Union cs_load_argument(ExecState* exec, size_t argu
     return value;
 }
 
+static inline FXP64Register::Union cs_load_argument_imm(ExecState* exec, size_t argument, EncodedJSValue* error) {
+    FXP64Register::Union value;
+    
+    value.s = exec->argument(argument).asInt32();
+    
+    return value;
+}
+
 static inline FXP64Register::Op2 cs_load_2_operand(ExecState* exec, EncodedJSValue* error) {
     size_t arguments = exec->argumentCount(); FXP64Register::Op2 result;
 
@@ -130,6 +150,22 @@ static inline FXP64Register::Op2 cs_load_2_operand(ExecState* exec, EncodedJSVal
     } else {
         result.a = cs_load_argument(exec, 0, error);
         result.b = cs_load_argument(exec, 1, error);
+    }
+
+    return result;
+}
+
+static inline FXP64Register::Op2 cs_load_2_operand_imm(ExecState* exec, EncodedJSValue* error) {
+    size_t arguments = exec->argumentCount(); FXP64Register::Op2 result;
+
+    if (arguments == 0) {
+        *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
+    } else if (arguments == 1) {
+        result.a = cs_load_receiver(exec, error);
+        result.b = cs_load_argument_imm(exec, 0, error);
+    } else {
+        result.a = cs_load_argument(exec, 0, error);
+        result.b = cs_load_argument_imm(exec, 1, error);
     }
 
     return result;
@@ -151,27 +187,60 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState* exec)
 {
     FXP64Register::Union value;
 
-    JSValue array = exec->argument(0);
+    JSValue array, base;
+    
+    int64_t offs; size_t arguments = exec->argumentCount();
+    
+    if (arguments > 2) {
+        array = exec->argument(0), base = exec->argument(1), offs = exec->argument(2).toInt32(exec);
+    } else if (arguments == 2) {
+        array = exec->argument(0), base = exec->argument(1), offs = 0;
+    } else {
+        return throwVMError(exec, createTypeError(exec, "You need to provide at least a typed array, and a base register."));
+    }
+
     JSObject* obj = asObject(array);
 
+    if (!base.inherits(&FXP64Register::s_info)) {
+        return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 64-bit Fixed Point Register."));
+    }
+
+    uint32_t offset = (uint32_t)((int64_t)asFXP64Register(base)->m_storage + offs);
+
     if (array.inherits(&JSUint8Array::s_info) || array.inherits(&JSUint8ClampedArray::s_info) ) {
-        value.u = jsCast<JSUint8Array*>(obj)->m_storage[0];
+        JSUint8Array* view = jsCast<JSUint8Array*>(obj);
+
+        value.u = offset < view->m_storageLength ? view->m_storage[offset] : 0;
     } else if (array.inherits(&JSUint16Array::s_info)) {
-        value.u = jsCast<JSUint16Array*>(obj)->m_storage[0];
+        JSUint16Array* view = jsCast<JSUint16Array*>(obj);
+
+        value.u = offset < view->m_storageLength ? view->m_storage[offset] : 0;
     } else if (array.inherits(&JSUint32Array::s_info)) {
-        value.u = jsCast<JSUint32Array*>(obj)->m_storage[0];
+        JSUint32Array* view = jsCast<JSUint32Array*>(obj);
+
+        value.u = offset < view->m_storageLength ? view->m_storage[offset] : 0;
     } else if (array.inherits(&JSInt8Array::s_info)) {
-        value.s = jsCast<JSInt8Array*>(obj)->m_storage[0];
+        JSInt8Array* view = jsCast<JSInt8Array*>(obj);
+
+        value.s = offset < view->m_storageLength ? view->m_storage[offset] : 0;
     } else if (array.inherits(&JSInt16Array::s_info)) {
-        value.s = jsCast<JSInt16Array*>(obj)->m_storage[0];
+        JSInt16Array* view = jsCast<JSInt16Array*>(obj);
+
+        value.s = offset < view->m_storageLength ? view->m_storage[offset] : 0;
     } else if (array.inherits(&JSInt32Array::s_info)) {
-        value.s = jsCast<JSInt32Array*>(obj)->m_storage[0];
+        JSInt32Array* view = jsCast<JSInt32Array*>(obj);
+
+        value.s = offset < view->m_storageLength ? view->m_storage[offset] : 0;
     } else if (array.inherits(&JSFloat32Array::s_info)) {
-        value.sp = jsCast<JSFloat32Array*>(obj)->m_storage[0];
+        JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
+
+        value.sp = offset < view->m_storageLength ? view->m_storage[offset] : (0.0f / 0.0f);
     } else if (array.inherits(&JSFloat64Array::s_info)) {
-        value.dp = jsCast<JSFloat64Array*>(obj)->m_storage[0];
+        JSFloat64Array* view = jsCast<JSFloat64Array*>(obj);
+
+        value.dp = offset < view->m_storageLength ? view->m_storage[offset] : (0.0 / 0.0);
     } else {
-        return throwVMError(exec, createTypeError(exec, "First argument was not a typed array, it should be."));
+        return throwVMError(exec, createTypeError(exec, "First argument was an unknown typed array view, weird."));
     }
 
     EncodedJSValue error = NULL;
@@ -182,32 +251,65 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState* exec)
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState* exec)
 {
+    JSValue array, base;
+    
+    int64_t offs; size_t arguments = exec->argumentCount();
+    
+    if (arguments > 2) {
+        array = exec->argument(0), base = exec->argument(1), offs = exec->argument(2).toInt32(exec);
+    } else if (arguments == 2) {
+        array = exec->argument(0), base = exec->argument(1), offs = 0;
+    } else {
+        return throwVMError(exec, createTypeError(exec, "You need to provide at least a typed array, and a base register."));
+    }
+
+    JSObject* obj = asObject(array);
+
+    if (!base.inherits(&FXP64Register::s_info)) {
+        return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 64-bit Fixed Point Register."));
+    }
+
+    uint32_t offset = (uint32_t)((int64_t)asFXP64Register(base)->m_storage + offs);
+    
     EncodedJSValue error = NULL;
     FXP64Register::Union value = cs_load_receiver(exec, &error);
 
     if (error) { return error; }
 
-    JSValue array = exec->argument(0);
-    JSObject* obj = asObject(array);
-
     if (array.inherits(&JSUint8Array::s_info) || array.inherits(&JSUint8ClampedArray::s_info) ) {
-        jsCast<JSUint8Array*>(obj)->m_storage[0] = (uint8_t)value.u;
+        JSUint8Array* view = jsCast<JSUint8Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.u; }
     } else if (array.inherits(&JSUint16Array::s_info)) {
-        jsCast<JSUint16Array*>(obj)->m_storage[0] = (uint16_t)value.u;
+        JSUint16Array* view = jsCast<JSUint16Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.u; }
     } else if (array.inherits(&JSUint32Array::s_info)) {
-        jsCast<JSUint32Array*>(obj)->m_storage[0] = (uint32_t)value.u;
+        JSUint32Array* view = jsCast<JSUint32Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.u; }
     } else if (array.inherits(&JSInt8Array::s_info)) {
-        jsCast<JSInt8Array*>(obj)->m_storage[0] = (int8_t)value.s;
+        JSInt8Array* view = jsCast<JSInt8Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.s; }
     } else if (array.inherits(&JSInt16Array::s_info)) {
-        jsCast<JSInt16Array*>(obj)->m_storage[0] = (uint16_t)value.s;
+        JSInt16Array* view = jsCast<JSInt16Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.s; }
     } else if (array.inherits(&JSInt32Array::s_info)) {
-        jsCast<JSInt32Array*>(obj)->m_storage[0] = (uint32_t)value.s;
+        JSInt32Array* view = jsCast<JSInt32Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.s; }
     } else if (array.inherits(&JSFloat32Array::s_info)) {
-        jsCast<JSFloat32Array*>(obj)->m_storage[0] = (uint8_t)value.sp;
+        JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.sp; }
     } else if (array.inherits(&JSFloat64Array::s_info)) {
-        jsCast<JSFloat64Array*>(obj)->m_storage[0] = (uint8_t)value.dp;
+        JSFloat64Array* view = jsCast<JSFloat64Array*>(obj);
+
+        if (offset < view->m_storageLength) { view->m_storage[offset] = value.dp; }
     } else {
-        return throwVMError(exec, createTypeError(exec, "First argument was not a typed array, it should be."));
+        return throwVMError(exec, createTypeError(exec, "First argument was an unknown typed array view, weird."));
     }
 
     return JSValue::encode(exec->thisValue());
@@ -215,6 +317,11 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState* exec)
 
 #define CS_2_OP(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
 FXP64Register::Op2 __ops = cs_load_2_operand(exec, &error); \
+if (error) { return error; } \
+FXP64Register::Union op_r, op_a = __ops.a, op_b = __ops.b
+
+#define CS_2_OP_IMM(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
+FXP64Register::Op2 __ops = cs_load_2_operand_imm(exec, &error); \
 if (error) { return error; } \
 FXP64Register::Union op_r, op_a = __ops.a, op_b = __ops.b
 
@@ -230,9 +337,27 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_sadd(ExecState* exec)
     CS_2_ED(exec, r);
 }
 
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_saddi(ExecState* exec)
+{
+    CS_2_OP_IMM(exec, r, a, b);
+
+    r.s = a.s + b.s;
+
+    CS_2_ED(exec, r);
+}
+
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_uadd(ExecState* exec)
 {
     CS_2_OP(exec, r, a, b);
+
+    r.u = a.u + b.u;
+
+    CS_2_ED(exec, r);
+}
+
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_uaddi(ExecState* exec)
+{
+    CS_2_OP_IMM(exec, r, a, b);
 
     r.u = a.u + b.u;
 
@@ -248,9 +373,27 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssub(ExecState* exec)
     CS_2_ED(exec, r);
 }
 
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssubi(ExecState* exec)
+{
+    CS_2_OP_IMM(exec, r, a, b);
+
+    r.s = a.s - b.s;
+
+    CS_2_ED(exec, r);
+}
+
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_usub(ExecState* exec)
 {
     CS_2_OP(exec, r, a, b);
+
+    r.u = a.u - b.u;
+
+    CS_2_ED(exec, r);
+}
+
+static EncodedJSValue JSC_HOST_CALL cs_fxp64_usubi(ExecState* exec)
+{
+    CS_2_OP_IMM(exec, r, a, b);
 
     r.u = a.u - b.u;
 
