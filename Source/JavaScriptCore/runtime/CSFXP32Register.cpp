@@ -425,11 +425,7 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_popcnt(ExecState* exec)
 {
     CS_1_OP(exec, r, a);
 
-    if (a.u == 0) {
-        r.u = 32;
-    } else {
-        r.u = __builtin_popcount(a.u);
-    }
+    r.u = __builtin_popcount(a.u);
 
     CS_ED(exec, r);
 }
