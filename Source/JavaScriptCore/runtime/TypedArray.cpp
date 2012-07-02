@@ -27,6 +27,7 @@
 #include "config.h"
 
 #include "TypedArray.h"
+#include "JSArrayBufferViewPrototype.h"
 
 namespace JSC {
 
@@ -41,5 +42,36 @@ template <> const ClassInfo JSInt32Array::s_info = { "Int32Array" , &Base::s_inf
 
 template <> const ClassInfo JSFloat32Array::s_info = { "Float32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat32Array) };
 template <> const ClassInfo JSFloat64Array::s_info = { "Float64Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat64Array) };
+
+template <typename T>
+static inline EncodedJSValue constructTypedArray(ExecState* callFrame) {
+    if (callFrame->argumentCount() < 1) {
+        return JSValue::encode(jsUndefined());
+    }
+
+    int32_t length = callFrame->argument(0).toInt32(callFrame);
+
+    if (length < 0) {
+        return JSValue::encode(jsUndefined());
+    }
+
+    JSCell* prototype = static_cast<JSCell*>(callFrame->lexicalGlobalObject()->arrayBufferViewPrototype());
+
+    Structure* structure = T::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), JSValue(prototype));
+
+    return JSValue::encode(T::create(structure, callFrame->lexicalGlobalObject(), T::Implementation::create(length)));
+}
+
+EncodedJSValue constructJSUint8Array(ExecState* callFrame) { return constructTypedArray<JSUint8Array>(callFrame); }
+EncodedJSValue constructJSUint8ClampedArray(ExecState* callFrame) { return constructTypedArray<JSUint8ClampedArray>(callFrame); }
+EncodedJSValue constructJSUint16Array(ExecState* callFrame) { return constructTypedArray<JSUint16Array>(callFrame); }
+EncodedJSValue constructJSUint32Array(ExecState* callFrame) { return constructTypedArray<JSUint32Array>(callFrame); }
+
+EncodedJSValue constructJSInt8Array(ExecState* callFrame) { return constructTypedArray<JSInt8Array>(callFrame); }
+EncodedJSValue constructJSInt16Array(ExecState* callFrame) { return constructTypedArray<JSInt16Array>(callFrame); }
+EncodedJSValue constructJSInt32Array(ExecState* callFrame) { return constructTypedArray<JSInt32Array>(callFrame); }
+
+EncodedJSValue constructJSFloat32Array(ExecState* callFrame) { return constructTypedArray<JSFloat32Array>(callFrame); }
+EncodedJSValue constructJSFloat64Array(ExecState* callFrame) { return constructTypedArray<JSFloat64Array>(callFrame); }
 
 }

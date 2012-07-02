@@ -26,44 +26,4 @@
 #ifndef JSCTypedArrayStubs_h
 #define JSCTypedArrayStubs_h
 
-#include "JSArrayBufferView.h"
-#include "JSArrayBufferViewPrototype.h"
-
-#include "TypedArray.h"
-
-namespace JSC {
-
-template <typename T>
-static EncodedJSValue JSC_HOST_CALL constructTypedArray(ExecState* callFrame) {
-    if (callFrame->argumentCount() < 1) {
-        return JSValue::encode(jsUndefined());
-    }
-
-    int32_t length = callFrame->argument(0).toInt32(callFrame);
-
-    if (length < 0) {
-        return JSValue::encode(jsUndefined());
-    }
-
-    JSCell* prototype = static_cast<JSCell*>(callFrame->lexicalGlobalObject()->arrayBufferViewPrototype());
-
-    Structure* structure = T::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), JSValue(prototype));
-
-    return JSValue::encode(T::create(structure, callFrame->lexicalGlobalObject(), T::Implementation::create(length)));
-}
-
-static EncodedJSValue JSC_HOST_CALL constructJSUint8Array(ExecState* callFrame) { return constructTypedArray<JSUint8Array>(callFrame); }
-static EncodedJSValue JSC_HOST_CALL constructJSUint8ClampedArray(ExecState* callFrame) { return constructTypedArray<JSUint8ClampedArray>(callFrame); }
-static EncodedJSValue JSC_HOST_CALL constructJSUint16Array(ExecState* callFrame) { return constructTypedArray<JSUint16Array>(callFrame); }
-static EncodedJSValue JSC_HOST_CALL constructJSUint32Array(ExecState* callFrame) { return constructTypedArray<JSUint32Array>(callFrame); }
-
-static EncodedJSValue JSC_HOST_CALL constructJSInt8Array(ExecState* callFrame) { return constructTypedArray<JSInt8Array>(callFrame); }
-static EncodedJSValue JSC_HOST_CALL constructJSInt16Array(ExecState* callFrame) { return constructTypedArray<JSInt16Array>(callFrame); }
-static EncodedJSValue JSC_HOST_CALL constructJSInt32Array(ExecState* callFrame) { return constructTypedArray<JSInt32Array>(callFrame); }
-
-static EncodedJSValue JSC_HOST_CALL constructJSFloat32Array(ExecState* callFrame) { return constructTypedArray<JSFloat32Array>(callFrame); }
-static EncodedJSValue JSC_HOST_CALL constructJSFloat64Array(ExecState* callFrame) { return constructTypedArray<JSFloat64Array>(callFrame); }
-
-}
-
 #endif

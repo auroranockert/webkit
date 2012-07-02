@@ -220,6 +220,18 @@ typedef TypedArray<int32_t, Int32Array> JSInt32Array;
 typedef TypedArray<float, Float32Array> JSFloat32Array;
 typedef TypedArray<double, Float64Array> JSFloat64Array;
 
+EncodedJSValue constructJSUint8Array(ExecState* callFrame);
+EncodedJSValue constructJSUint8ClampedArray(ExecState* callFrame);
+EncodedJSValue constructJSUint16Array(ExecState* callFrame);
+EncodedJSValue constructJSUint32Array(ExecState* callFrame);
+
+EncodedJSValue constructJSInt8Array(ExecState* callFrame);
+EncodedJSValue constructJSInt16Array(ExecState* callFrame);
+EncodedJSValue constructJSInt32Array(ExecState* callFrame);
+
+EncodedJSValue constructJSFloat32Array(ExecState* callFrame);
+EncodedJSValue constructJSFloat64Array(ExecState* callFrame);
+
 }
 
 #endif // TypedArray_h

@@ -40,8 +40,8 @@
 #include <string.h>
 
 #include "JSGlobalObject.h"
-#include "JSCTypedArrayStubs.h"
 
+#include "TypedArray.h"
 #include "CSFXP32Register.h"
 #include "CSFXP64Register.h"
 
