@@ -29,8 +29,10 @@
 
 #include "JSObject.h"
 #include "JSGlobalObject.h"
+#include "InternalFunction.h"
 
 #include "JSArrayBufferView.h"
+#include "JSArrayBufferViewPrototype.h"
 
 #include <wtf/Forward.h>
 #include <wtf/Int8Array.h>
@@ -75,11 +77,11 @@ public:
     I* impl() const { return static_cast<I*>(Base::impl()); }
 
 protected:
-    void finishCreation(JSC::JSGlobalData& globalData);
+    void finishCreation(JSGlobalData& globalData);
 
-    static const unsigned StructureFlags = JSC::OverridesGetPropertyNames | JSC::OverridesGetOwnPropertySlot | Base::StructureFlags;
+    static const unsigned StructureFlags = OverridesGetPropertyNames | OverridesGetOwnPropertySlot | Base::StructureFlags;
 
-    JSC::JSValue getByIndex(ExecState*, unsigned index)
+    JSValue getByIndex(ExecState*, unsigned index)
     {
         ASSERT_GC_OBJECT_INHERITS(this, &s_info);
         T result = impl()->item(index);
@@ -115,7 +117,7 @@ TypedArray<T, I>::TypedArray(Structure* structure, JSGlobalObject* globalObject,
 }
 
 template<typename T, typename I>
-void TypedArray<T, I>::finishCreation(JSC::JSGlobalData& globalData)
+void TypedArray<T, I>::finishCreation(JSGlobalData& globalData)
 {
     Base::finishCreation(globalData);
     TypedArrayDescriptor descriptor(&Current::s_info, OBJECT_OFFSETOF(Current, m_storage), OBJECT_OFFSETOF(Current, m_storageLength));
@@ -220,17 +222,93 @@ typedef TypedArray<int32_t, Int32Array> JSInt32Array;
 typedef TypedArray<float, Float32Array> JSFloat32Array;
 typedef TypedArray<double, Float64Array> JSFloat64Array;
 
-EncodedJSValue constructJSUint8Array(ExecState* callFrame);
-EncodedJSValue constructJSUint8ClampedArray(ExecState* callFrame);
-EncodedJSValue constructJSUint16Array(ExecState* callFrame);
-EncodedJSValue constructJSUint32Array(ExecState* callFrame);
+template <typename T, typename I>
+class TypedArrayConstructor : public InternalFunction {
+public:
+    typedef InternalFunction Base;
+    typedef TypedArrayConstructor<T, I> Current;
 
-EncodedJSValue constructJSInt8Array(ExecState* callFrame);
-EncodedJSValue constructJSInt16Array(ExecState* callFrame);
-EncodedJSValue constructJSInt32Array(ExecState* callFrame);
+    static Current* create(ExecState* exec, JSGlobalObject* globalObject, Structure* structure, JSArrayBufferViewPrototype* prototype)
+    {
+        Current* ptr = new (NotNull, allocateCell<Current>(*exec->heap())) Current(globalObject, structure);
+        ptr->finishCreation(exec, prototype);
+        return ptr;
+    }
 
-EncodedJSValue constructJSFloat32Array(ExecState* callFrame);
-EncodedJSValue constructJSFloat64Array(ExecState* callFrame);
+    static const ClassInfo s_info;
+
+    static Structure* createStructure(JSGlobalData& globalData, JSGlobalObject* globalObject, JSValue prototype)
+    {
+        return Structure::create(globalData, globalObject, prototype, TypeInfo(ObjectType, StructureFlags), &s_info);
+    }
+
+protected:
+    static const unsigned StructureFlags = Base::StructureFlags;
+    static ConstructType getConstructData(JSCell*, ConstructData&);
+    static CallType getCallData(JSCell*, CallData&);
+
+private:
+    TypedArrayConstructor(JSGlobalObject*, Structure*);
+    void finishCreation(ExecState*, JSArrayBufferViewPrototype*);
+};
+
+template <typename T, typename I>
+TypedArrayConstructor<T, I>::TypedArrayConstructor(JSGlobalObject* globalObject, Structure* structure)
+    : InternalFunction(globalObject, structure)
+{
+}
+
+template <typename T, typename I>
+void TypedArrayConstructor<T, I>::finishCreation(ExecState* exec, JSArrayBufferViewPrototype* objectPrototype)
+{
+    Base::finishCreation(exec->globalData(), Identifier(exec, "Typed Array").ustring());
+}
+
+template <typename T, typename I>
+static EncodedJSValue JSC_HOST_CALL constructWithTypedArrayConstructor(ExecState* callFrame)
+{
+    if (callFrame->argumentCount() < 1) {
+        return JSValue::encode(jsUndefined());
+    }
+
+    int32_t length = callFrame->argument(0).toInt32(callFrame);
+
+    if (length < 0) {
+        return JSValue::encode(jsUndefined());
+    }
+
+    JSCell* prototype = static_cast<JSCell*>(callFrame->lexicalGlobalObject()->arrayBufferViewPrototype());
+
+    Structure* structure = TypedArray<T, I>::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), JSValue(prototype));
+
+    return JSValue::encode(TypedArray<T, I>::create(structure, callFrame->lexicalGlobalObject(), TypedArray<T, I>::Implementation::create(length)));
+}
+
+template <typename T, typename I>
+ConstructType TypedArrayConstructor<T, I>::getConstructData(JSCell*, ConstructData& constructData)
+{
+    constructData.native.function = constructWithTypedArrayConstructor<T, I>;
+    return ConstructTypeHost;
+}
+
+template <typename T, typename I>
+CallType TypedArrayConstructor<T, I>::getCallData(JSCell*, CallData& callData)
+{
+    callData.native.function = constructWithTypedArrayConstructor<T, I>;
+    return CallTypeHost;
+}
+
+typedef TypedArrayConstructor<uint8_t, Uint8Array> JSUint8ArrayConstructor;
+typedef TypedArrayConstructor<uint8_t, Uint8ClampedArray> JSUint8ClampedArrayConstructor;
+typedef TypedArrayConstructor<uint16_t, Uint16Array> JSUint16ArrayConstructor;
+typedef TypedArrayConstructor<uint32_t, Uint32Array> JSUint32ArrayConstructor;
+
+typedef TypedArrayConstructor<int8_t, Int8Array> JSInt8ArrayConstructor;
+typedef TypedArrayConstructor<int16_t, Int16Array> JSInt16ArrayConstructor;
+typedef TypedArrayConstructor<int32_t, Int32Array> JSInt32ArrayConstructor;
+
+typedef TypedArrayConstructor<float, Float32Array> JSFloat32ArrayConstructor;
+typedef TypedArrayConstructor<double, Float64Array> JSFloat64ArrayConstructor;
 
 }
 

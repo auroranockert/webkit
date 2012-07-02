@@ -41,10 +41,6 @@
 
 #include "JSGlobalObject.h"
 
-#include "TypedArray.h"
-#include "CSFXP32Register.h"
-#include "CSFXP64Register.h"
-
 #if !OS(WINDOWS)
 #include <unistd.h>
 #endif
@@ -208,19 +204,6 @@ protected:
         addFunction(globalData, "setSamplingFlags", functionSetSamplingFlags, 1);
         addFunction(globalData, "clearSamplingFlags", functionClearSamplingFlags, 1);
 #endif
-        
-        addConstructableFunction(globalData, "Uint8Array", constructJSUint8Array, 1);
-        addConstructableFunction(globalData, "Uint8ClampedArray", constructJSUint8ClampedArray, 1);
-        addConstructableFunction(globalData, "Uint16Array", constructJSUint16Array, 1);
-        addConstructableFunction(globalData, "Uint32Array", constructJSUint32Array, 1);
-        addConstructableFunction(globalData, "Int8Array", constructJSInt8Array, 1);
-        addConstructableFunction(globalData, "Int16Array", constructJSInt16Array, 1);
-        addConstructableFunction(globalData, "Int32Array", constructJSInt32Array, 1);
-        addConstructableFunction(globalData, "Float32Array", constructJSFloat32Array, 1);
-        addConstructableFunction(globalData, "Float64Array", constructJSFloat64Array, 1);
-
-        addConstructableFunction(globalData, "FXP32Register", constructFXP32Register, 0);
-        addConstructableFunction(globalData, "FXP64Register", constructFXP64Register, 0);
 
         JSArray* array = constructEmptyArray(globalExec());
         for (size_t i = 0; i < arguments.size(); ++i)

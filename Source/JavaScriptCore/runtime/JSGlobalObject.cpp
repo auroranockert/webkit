@@ -76,6 +76,7 @@
 #include "Debugger.h"
 
 #include "JSArrayBufferViewPrototype.h"
+#include "TypedArray.h"
 
 #include "JSGlobalObject.lut.h"
 
@@ -264,6 +265,18 @@ void JSGlobalObject::reset(JSValue prototype)
     JSCell* numberConstructor = NumberConstructor::create(exec, this, NumberConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_numberPrototype.get());
     JSCell* dateConstructor = DateConstructor::create(exec, this, DateConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_datePrototype.get());
 
+    JSCell* uint8ArrayConstructor = JSUint8ArrayConstructor::create(exec, this, JSUint8ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+    JSCell* uint8ClampedArrayConstructor = JSUint8ClampedArrayConstructor::create(exec, this, JSUint8ClampedArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+    JSCell* uint16ArrayConstructor = JSUint16ArrayConstructor::create(exec, this, JSUint16ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+    JSCell* uint32ArrayConstructor = JSUint32ArrayConstructor::create(exec, this, JSUint32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+
+    JSCell* int8ArrayConstructor = JSInt8ArrayConstructor::create(exec, this, JSInt8ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+    JSCell* int16ArrayConstructor = JSInt16ArrayConstructor::create(exec, this, JSInt16ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+    JSCell* int32ArrayConstructor = JSInt32ArrayConstructor::create(exec, this, JSInt32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+
+    JSCell* float32ArrayConstructor = JSFloat32ArrayConstructor::create(exec, this, JSFloat32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+    JSCell* float64ArrayConstructor = JSFloat64ArrayConstructor::create(exec, this, JSFloat32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
+
     m_regExpConstructor.set(exec->globalData(), this, RegExpConstructor::create(exec, this, RegExpConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_regExpPrototype.get()));
 
     m_errorConstructor.set(exec->globalData(), this, ErrorConstructor::create(exec, this, ErrorConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_errorPrototype.get()));
@@ -302,6 +315,18 @@ void JSGlobalObject::reset(JSValue prototype)
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "SyntaxError"), m_syntaxErrorConstructor.get(), DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "TypeError"), m_typeErrorConstructor.get(), DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "URIError"), m_URIErrorConstructor.get(), DontEnum);
+
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Uint8Array"), uint8ArrayConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Uint8ClampedArray"), uint8ClampedArrayConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Uint16Array"), uint16ArrayConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Uint32Array"), uint32ArrayConstructor, DontEnum);
+
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Int8Array"), int8ArrayConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Int16Array"), int16ArrayConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Int32Array"), int32ArrayConstructor, DontEnum);
+
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Float32Array"), float32ArrayConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Float64Array"), float64ArrayConstructor, DontEnum);
 
     m_evalFunction.set(exec->globalData(), this, JSFunction::create(exec, this, 1, exec->propertyNames().eval.ustring(), globalFuncEval));
     putDirectWithoutTransition(exec->globalData(), exec->propertyNames().eval, m_evalFunction.get(), DontEnum);

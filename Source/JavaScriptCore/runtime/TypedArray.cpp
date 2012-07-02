@@ -43,35 +43,16 @@ template <> const ClassInfo JSInt32Array::s_info = { "Int32Array" , &Base::s_inf
 template <> const ClassInfo JSFloat32Array::s_info = { "Float32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat32Array) };
 template <> const ClassInfo JSFloat64Array::s_info = { "Float64Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat64Array) };
 
-template <typename T>
-static inline EncodedJSValue constructTypedArray(ExecState* callFrame) {
-    if (callFrame->argumentCount() < 1) {
-        return JSValue::encode(jsUndefined());
-    }
+template <> const ClassInfo JSUint8ArrayConstructor::s_info = { "Uint8Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint8ArrayConstructor) };
+template <> const ClassInfo JSUint8ClampedArrayConstructor::s_info = { "Uint8ClampedArray" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint8ClampedArrayConstructor) };
+template <> const ClassInfo JSUint16ArrayConstructor::s_info = { "Uint16Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint16ArrayConstructor) };
+template <> const ClassInfo JSUint32ArrayConstructor::s_info = { "Uint32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSUint32ArrayConstructor) };
 
-    int32_t length = callFrame->argument(0).toInt32(callFrame);
+template <> const ClassInfo JSInt8ArrayConstructor::s_info = { "Int8Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSInt8ArrayConstructor) };
+template <> const ClassInfo JSInt16ArrayConstructor::s_info = { "Int16Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSInt16ArrayConstructor) };
+template <> const ClassInfo JSInt32ArrayConstructor::s_info = { "Int32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSInt32ArrayConstructor) };
 
-    if (length < 0) {
-        return JSValue::encode(jsUndefined());
-    }
-
-    JSCell* prototype = static_cast<JSCell*>(callFrame->lexicalGlobalObject()->arrayBufferViewPrototype());
-
-    Structure* structure = T::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), JSValue(prototype));
-
-    return JSValue::encode(T::create(structure, callFrame->lexicalGlobalObject(), T::Implementation::create(length)));
-}
-
-EncodedJSValue constructJSUint8Array(ExecState* callFrame) { return constructTypedArray<JSUint8Array>(callFrame); }
-EncodedJSValue constructJSUint8ClampedArray(ExecState* callFrame) { return constructTypedArray<JSUint8ClampedArray>(callFrame); }
-EncodedJSValue constructJSUint16Array(ExecState* callFrame) { return constructTypedArray<JSUint16Array>(callFrame); }
-EncodedJSValue constructJSUint32Array(ExecState* callFrame) { return constructTypedArray<JSUint32Array>(callFrame); }
-
-EncodedJSValue constructJSInt8Array(ExecState* callFrame) { return constructTypedArray<JSInt8Array>(callFrame); }
-EncodedJSValue constructJSInt16Array(ExecState* callFrame) { return constructTypedArray<JSInt16Array>(callFrame); }
-EncodedJSValue constructJSInt32Array(ExecState* callFrame) { return constructTypedArray<JSInt32Array>(callFrame); }
-
-EncodedJSValue constructJSFloat32Array(ExecState* callFrame) { return constructTypedArray<JSFloat32Array>(callFrame); }
-EncodedJSValue constructJSFloat64Array(ExecState* callFrame) { return constructTypedArray<JSFloat64Array>(callFrame); }
+template <> const ClassInfo JSFloat32ArrayConstructor::s_info = { "Float32Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat32ArrayConstructor) };
+template <> const ClassInfo JSFloat64ArrayConstructor::s_info = { "Float64Array" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(JSFloat64ArrayConstructor) };
 
 }
