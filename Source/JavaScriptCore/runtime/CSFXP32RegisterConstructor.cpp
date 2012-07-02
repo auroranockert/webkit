@@ -36,6 +36,7 @@ FXP32RegisterConstructor::FXP32RegisterConstructor(JSGlobalObject* globalObject,
 void FXP32RegisterConstructor::finishCreation(ExecState* exec, ObjectPrototype* objectPrototype)
 {
     Base::finishCreation(exec->globalData(), Identifier(exec, "FXP32Register").ustring());
+    putDirectWithoutTransition(exec->globalData(), exec->propertyNames().prototype, objectPrototype, DontEnum | DontDelete | ReadOnly);
 }
 
 const ClassInfo FXP32RegisterConstructor::s_info = { "FXP32Register" , &Base::s_info, 0, 0, CREATE_METHOD_TABLE(FXP32RegisterConstructor) };
