@@ -108,12 +108,6 @@ bool FXP32Register::getOwnPropertyDescriptor(JSObject* object, ExecState* exec, 
     return getStaticFunctionDescriptor<JSNonFinalObject>(exec, ExecState::fxp32RegisterTable(exec), jsCast<FXP32Register*>(object), propertyName, descriptor);
 }
 
-EncodedJSValue JSC_HOST_CALL constructFXP32Register(ExecState* callFrame) {
-    Structure* structure = FXP32Register::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), callFrame->lexicalGlobalObject()->objectPrototype());
-
-    return JSValue::encode(FXP32Register::create(callFrame, callFrame->lexicalGlobalObject(), structure));
-}
-
 static inline FXP32Register::Union cs_load_receiver(ExecState* exec, EncodedJSValue* error) {
     JSValue reg = exec->thisValue(); FXP32Register::Union value;
 

@@ -636,6 +636,8 @@ javascriptcore_sources += \
 	Source/JavaScriptCore/runtime/JSArrayBufferViewPrototype.h \
 	Source/JavaScriptCore/runtime/TypedArray.cpp \
 	Source/JavaScriptCore/runtime/TypedArray.h \
+	Source/JavaScriptCore/runtime/CSFXP32RegisterConstructor.cpp \
+	Source/JavaScriptCore/runtime/CSFXP32RegisterConstructor.h \
 	Source/JavaScriptCore/runtime/CSFXP32Register.cpp \
 	Source/JavaScriptCore/runtime/CSFXP32Register.h \
 	Source/JavaScriptCore/runtime/CSFXP64Register.cpp \

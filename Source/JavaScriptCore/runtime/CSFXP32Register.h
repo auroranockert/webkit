@@ -71,8 +71,6 @@ namespace JSC {
         static bool getOwnPropertyDescriptor(JSObject*, ExecState*, PropertyName, PropertyDescriptor&);
     };
 
-    EncodedJSValue JSC_HOST_CALL constructFXP32Register(ExecState* callFrame);
-
     static inline FXP32Register* asFXP32Register(JSCell* cell)
     {
         ASSERT(cell->inherits(&FXP32Register::s_info));

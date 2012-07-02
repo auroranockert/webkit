@@ -76,7 +76,9 @@
 #include "Debugger.h"
 
 #include "JSArrayBufferViewPrototype.h"
+
 #include "TypedArray.h"
+#include "CSFXP32RegisterConstructor.h"
 
 #include "JSGlobalObject.lut.h"
 
@@ -277,6 +279,8 @@ void JSGlobalObject::reset(JSValue prototype)
     JSCell* float32ArrayConstructor = JSFloat32ArrayConstructor::create(exec, this, JSFloat32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
     JSCell* float64ArrayConstructor = JSFloat64ArrayConstructor::create(exec, this, JSFloat32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
 
+    JSCell* fxp32RegisterConstructor = FXP32RegisterConstructor::create(exec, this, FXP32RegisterConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_objectPrototype.get());
+
     m_regExpConstructor.set(exec->globalData(), this, RegExpConstructor::create(exec, this, RegExpConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_regExpPrototype.get()));
 
     m_errorConstructor.set(exec->globalData(), this, ErrorConstructor::create(exec, this, ErrorConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_errorPrototype.get()));
@@ -327,6 +331,8 @@ void JSGlobalObject::reset(JSValue prototype)
 
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Float32Array"), float32ArrayConstructor, DontEnum);
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Float64Array"), float64ArrayConstructor, DontEnum);
+
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "FXP32Register"), fxp32RegisterConstructor, DontEnum);
 
     m_evalFunction.set(exec->globalData(), this, JSFunction::create(exec, this, 1, exec->propertyNames().eval.ustring(), globalFuncEval));
     putDirectWithoutTransition(exec->globalData(), exec->propertyNames().eval, m_evalFunction.get(), DontEnum);
