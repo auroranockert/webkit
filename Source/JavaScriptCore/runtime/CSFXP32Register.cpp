@@ -25,6 +25,9 @@
 
 #include "config.h"
 #include "CSFXP32Register.h"
+
+#include "CSInstructions.h"
+
 #include "TypedArray.h"
 #include "JSArrayBufferViewPrototype.h"
 
@@ -35,23 +38,6 @@ namespace JSC {
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_ld(ExecState*);
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_sadd(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_saddi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_uadd(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_uaddi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_ssub(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_ssubi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_usub(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_usubi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_popcnt(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_insert(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_extract(ExecState*);
 
 }
 
@@ -65,19 +51,19 @@ const ClassInfo FXP32Register::s_info = { "FXP32Register", &JSNonFinalObject::s_
 
 /* Source for CSFXP32Register.lut.h
 @begin fxp32RegisterTable
-  ld            cs_fxp32_ld             Function 2
-  st            cs_fxp32_st             Function 2
-  sadd          cs_fxp32_sadd           Function 1
-  saddi         cs_fxp32_saddi          Function 1
-  uadd          cs_fxp32_uadd           Function 1
-  uaddi         cs_fxp32_uaddi          Function 1
-  ssub          cs_fxp32_ssub           Function 1
-  ssubi         cs_fxp32_ssubi          Function 1
-  usub          cs_fxp32_usub           Function 1
-  usubi         cs_fxp32_usubi          Function 1
-  popcnt        cs_fxp32_popcnt         Function 0
-  insert        cs_fxp32_insert         Function 1
-  extract       cs_fxp32_extract        Function 0
+  ld            cs_fxp32_ld                                     Function 2
+  st            cs_fxp32_st                                     Function 2
+  sadd          Hydrazine::cs_fxp_sadd<FXP32Register>           Function 1
+  saddi         Hydrazine::cs_fxp_saddi<FXP32Register>          Function 1
+  uadd          Hydrazine::cs_fxp_uadd<FXP32Register>           Function 1
+  uaddi         Hydrazine::cs_fxp_uaddi<FXP32Register>          Function 1
+  ssub          Hydrazine::cs_fxp_ssub<FXP32Register>           Function 1
+  ssubi         Hydrazine::cs_fxp_ssubi<FXP32Register>          Function 1
+  usub          Hydrazine::cs_fxp_usub<FXP32Register>           Function 1
+  usubi         Hydrazine::cs_fxp_usubi<FXP32Register>          Function 1
+  popcnt        Hydrazine::cs_fxp_popcnt<FXP32Register>         Function 0
+  insert        Hydrazine::cs_fxp_insert<FXP32Register>         Function 1
+  extract       Hydrazine::cs_fxp_extract<FXP32Register>        Function 0
 @end
 */
 
@@ -218,91 +204,6 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState* exec)
     }
 
     return JSValue::encode(exec->thisValue());
-}
-
-#define CS_1_OP(exec, op_r, op_a) EncodedJSValue error = NULL; \
-FXP32Register::Op1 __ops = Hydrazine::loadOneOperand<FXP32Register>(exec, &error); \
-if (error) { return error; } \
-Hydrazine::R32 op_r, op_a = __ops.a
-
-#define CS_2_OP(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP32Register::Op2 __ops = Hydrazine::loadTwoOperand<FXP32Register>(exec, &error); \
-if (error) { return error; } \
-Hydrazine::R32 op_r, op_a = __ops.a, op_b = __ops.b
-
-#define CS_2_OP_IMM(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP32Register::Op2 __ops = Hydrazine::loadTwoOperandWithSignedImmediate<FXP32Register>(exec, &error); \
-if (error) { return error; } \
-Hydrazine::R32 op_r, op_a = __ops.a, op_b = __ops.b
-
-#define CS_ED(exec, op_r) JSValue result = Hydrazine::storeReceiver<FXP32Register>(exec, op_r, &error); \
-return error ? error : JSValue::encode(result)
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_sadd(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_saddi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_uadd(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_uaddi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_ssub(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_ssubi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_usub(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_usubi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_popcnt(ExecState* exec)
-{
-    CS_1_OP(exec, r, a); r = Hydrazine::popcnt(a); CS_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_insert(ExecState* exec)
-{
-    EncodedJSValue error = NULL;
-
-    Hydrazine::R32 value = Hydrazine::loadSignedImmediate<FXP32Register>(exec, 0, &error);
-
-    if (error) { return error; }
-
-    JSValue result = Hydrazine::storeReceiver<FXP32Register>(exec, value, &error);
-
-    return error ? error : result;
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp32_extract(ExecState* exec)
-{
-    EncodedJSValue error = NULL;
-
-    Hydrazine::R32 value = Hydrazine::loadSignedImmediate<FXP32Register>(exec, 0, &error);
-
-    return error ? error : JSValue::encode(JSValue(value.s));
 }
 
 }
