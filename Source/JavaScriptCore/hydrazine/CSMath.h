@@ -32,6 +32,7 @@ namespace JSC {
             int8_t s; uint8_t u;
 
             r8() : s(0) {}
+            r8(int value) : s(value) {}
             r8(int8_t value) : s(value) {}
             r8(uint8_t value) : u(value) {}
         } R8;
@@ -40,6 +41,7 @@ namespace JSC {
             int16_t s; uint16_t u;
 
             r16() : s(0) {}
+            r16(int value) : s(value) {}
             r16(int16_t value) : s(value) {}
             r16(uint16_t value) : u(value) {}
         } R16;
@@ -58,6 +60,7 @@ namespace JSC {
             uint64_t u; int64_t s; double dp;
 
             r64() : s(0) {}
+            r64(int value) : s(value) {}
             r64(int64_t value) : s(value) {}
             r64(uint64_t value) : u(value) {}
 

@@ -32,7 +32,7 @@ javascriptcore_built_nosources += \
 	DerivedSources/JavaScriptCore/StringPrototype.lut.h \
 	DerivedSources/JavaScriptCore/LLIntDesiredOffsets.h \
 	DerivedSources/JavaScriptCore/LLIntAssembly.h \
-	DerivedSources/JavaScriptCore/CSFXP32Register.lut.h
+	DerivedSources/JavaScriptCore/CSFXP32Register.lut.h \
 	DerivedSources/JavaScriptCore/CSFXP64Register.lut.h
 
 javascriptcore_sources += \
@@ -638,6 +638,8 @@ javascriptcore_sources += \
 	Source/JavaScriptCore/runtime/TypedArray.h \
 	Source/JavaScriptCore/runtime/CSFXP32RegisterConstructor.cpp \
 	Source/JavaScriptCore/runtime/CSFXP32RegisterConstructor.h \
+	Source/JavaScriptCore/runtime/CSFXP64RegisterConstructor.cpp \
+	Source/JavaScriptCore/runtime/CSFXP64RegisterConstructor.h \
 	Source/JavaScriptCore/runtime/CSFXP32Register.cpp \
 	Source/JavaScriptCore/runtime/CSFXP32Register.h \
 	Source/JavaScriptCore/runtime/CSFXP64Register.cpp \

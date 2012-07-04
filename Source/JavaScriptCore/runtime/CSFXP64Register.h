@@ -30,9 +30,9 @@
 #include "CSFXPRegister.h"
 
 namespace JSC {
-    class FXP64Register : public Hydrazine::FXPRegister<Hydrazine::R32> {
+    class FXP64Register : public Hydrazine::FXPRegister<Hydrazine::R64> {
     public:
-        typedef Hydrazine::FXPRegister<Hydrazine::R32> Base;
+        typedef Hydrazine::FXPRegister<Hydrazine::R64> Base;
 
         typedef Hydrazine::R64 Type;
 

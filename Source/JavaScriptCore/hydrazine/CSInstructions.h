@@ -112,7 +112,7 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp_insert(ExecState* exec)
 
     if (error) { return error; }
 
-    JSValue result = Hydrazine::storeReceiver<FXP32Register>(exec, value, &error);
+    JSValue result = Hydrazine::storeReceiver<T>(exec, value, &error);
 
     return error ? error : JSValue::encode(result);
 }

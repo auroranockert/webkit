@@ -24,7 +24,7 @@
  */
 
 #include "config.h"
-#include "CSFXP32Register.h"
+#include "CSFXP64Register.h"
 
 #include "CSInstructions.h"
 
@@ -69,7 +69,7 @@ const ClassInfo FXP64Register::s_info = { "FXP64Register", &JSNonFinalObject::s_
 
 bool FXP64Register::getOwnPropertySlot(JSCell* cell, ExecState* exec, PropertyName propertyName, PropertySlot &slot)
 {
-    return getStaticFunctionSlot<Base>(exec, ExecState::FXP64RegisterTable(exec), jsCast<FXP64Register*>(cell), propertyName, slot);
+    return getStaticFunctionSlot<Base>(exec, ExecState::fxp64RegisterTable(exec), jsCast<FXP64Register*>(cell), propertyName, slot);
 }
 
 bool FXP64Register::getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned, PropertySlot&)
@@ -79,7 +79,7 @@ bool FXP64Register::getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned, Pro
 
 bool FXP64Register::getOwnPropertyDescriptor(JSObject* object, ExecState* exec, PropertyName propertyName, PropertyDescriptor& descriptor)
 {
-    return getStaticFunctionDescriptor<Base>(exec, ExecState::FXP64RegisterTable(exec), jsCast<FXP64Register*>(object), propertyName, descriptor);
+    return getStaticFunctionDescriptor<Base>(exec, ExecState::fxp64RegisterTable(exec), jsCast<FXP64Register*>(object), propertyName, descriptor);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState* exec)

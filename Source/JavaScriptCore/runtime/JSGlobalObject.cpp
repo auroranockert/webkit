@@ -79,6 +79,7 @@
 
 #include "TypedArray.h"
 #include "CSFXP32RegisterConstructor.h"
+#include "CSFXP64RegisterConstructor.h"
 
 #include "JSGlobalObject.lut.h"
 
@@ -280,6 +281,7 @@ void JSGlobalObject::reset(JSValue prototype)
     JSCell* float64ArrayConstructor = JSFloat64ArrayConstructor::create(exec, this, JSFloat32ArrayConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_arrayBufferViewPrototype.get());
 
     JSCell* fxp32RegisterConstructor = FXP32RegisterConstructor::create(exec, this, FXP32RegisterConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_objectPrototype.get());
+    JSCell* fxp64RegisterConstructor = FXP64RegisterConstructor::create(exec, this, FXP64RegisterConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_objectPrototype.get());
 
     m_regExpConstructor.set(exec->globalData(), this, RegExpConstructor::create(exec, this, RegExpConstructor::createStructure(exec->globalData(), this, m_functionPrototype.get()), m_regExpPrototype.get()));
 
