@@ -199,7 +199,7 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState* exec)
         JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
 
         if (offset < view->m_storageLength) { view->m_storage[offset] = value.sp; }
-    } else if (array.inherits(&JSFloat64Array::s_info)) {
+    } else {
         return throwVMError(exec, createTypeError(exec, "First argument was of an unsupported type."));
     }
 
