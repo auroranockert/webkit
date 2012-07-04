@@ -285,26 +285,24 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_popcnt(ExecState* exec)
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_insert(ExecState* exec)
 {
-    JSValue reg = exec->thisValue();
+    EncodedJSValue error = NULL;
 
-    if (!reg.inherits(&FXP32Register::s_info)) {
-        return throwVMError(exec, createTypeError(exec, "Receiever is not a Hydrazine 32-bit Fixed Point Register."));
-    } else {
-        asFXP32Register(reg)->m_storage = (Hydrazine::R32)(exec->argument(0).asInt32());
-    }
+    Hydrazine::R32 value = Hydrazine::loadSignedImmediate<FXP32Register>(exec, 0, &error);
 
-    return JSValue::encode(reg);
+    if (error) { return error; }
+
+    JSValue result = Hydrazine::storeReceiver<FXP32Register>(exec, value, &error);
+
+    return error ? error : result;
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_extract(ExecState* exec)
 {
-    JSValue reg = exec->thisValue();
+    EncodedJSValue error = NULL;
 
-    if (!reg.inherits(&FXP32Register::s_info)) {
-        return throwVMError(exec, createTypeError(exec, "Receiever is not a Hydrazine 32-bit Fixed Point Register."));
-    } else {
-        return JSValue::encode(JSValue(asFXP32Register(reg)->m_storage.s));
-    }
+    Hydrazine::R32 value = Hydrazine::loadSignedImmediate<FXP32Register>(exec, 0, &error);
+
+    return error ? error : JSValue::encode(JSValue(value.s));
 }
 
 }
