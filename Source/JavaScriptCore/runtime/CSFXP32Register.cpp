@@ -61,7 +61,7 @@ namespace JSC {
 
 ASSERT_HAS_TRIVIAL_DESTRUCTOR(FXP32Register);
 
-const ClassInfo FXP32Register::s_info = { "FXP32Register", &Base::s_info, 0, ExecState::fxp32RegisterTable, CREATE_METHOD_TABLE(FXP32Register) };
+const ClassInfo FXP32Register::s_info = { "FXP32Register", &JSNonFinalObject::s_info, 0, ExecState::fxp32RegisterTable, CREATE_METHOD_TABLE(FXP32Register) };
 
 /* Source for CSFXP32Register.lut.h
 @begin fxp32RegisterTable
@@ -81,128 +81,23 @@ const ClassInfo FXP32Register::s_info = { "FXP32Register", &Base::s_info, 0, Exe
 @end
 */
 
-FXP32Register::FXP32Register(ExecState* exec, Structure* structure) : Base(exec->globalData(), structure), m_storage(0)
-{
-}
-
-void FXP32Register::finishCreation(JSGlobalData& globalData, JSGlobalObject*)
-{
-    Base::finishCreation(globalData);
-
-    ASSERT(inherits(&s_info));
-}
-
-bool FXP32Register::getOwnPropertySlotByIndex(JSCell* cell, ExecState* exec, unsigned propertyName, PropertySlot& slot)
-{
-    UNUSED_PARAM(cell); UNUSED_PARAM(exec); UNUSED_PARAM(propertyName); UNUSED_PARAM(slot);
-    return false;
-}
-
 bool FXP32Register::getOwnPropertySlot(JSCell* cell, ExecState* exec, PropertyName propertyName, PropertySlot &slot)
 {
-    return getStaticFunctionSlot<JSNonFinalObject>(exec, ExecState::fxp32RegisterTable(exec), jsCast<FXP32Register*>(cell), propertyName, slot);
+    return getStaticFunctionSlot<Base>(exec, ExecState::fxp32RegisterTable(exec), jsCast<FXP32Register*>(cell), propertyName, slot);
+}
+
+bool FXP32Register::getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned, PropertySlot&)
+{
+    return false;
 }
 
 bool FXP32Register::getOwnPropertyDescriptor(JSObject* object, ExecState* exec, PropertyName propertyName, PropertyDescriptor& descriptor)
 {
-    return getStaticFunctionDescriptor<JSNonFinalObject>(exec, ExecState::fxp32RegisterTable(exec), jsCast<FXP32Register*>(object), propertyName, descriptor);
-}
-
-static inline FXP32Register::Union cs_load_receiver(ExecState* exec, EncodedJSValue* error) {
-    JSValue reg = exec->thisValue(); FXP32Register::Union value;
-
-    if (!reg.inherits(&FXP32Register::s_info)) {
-        value.u = 0;
-        *error = throwVMError(exec, createTypeError(exec, "Reciever is not a Hydrazine 32-bit Fixed Point Register."));
-    } else {
-        value.u = asFXP32Register(reg)->m_storage;
-    }
-
-    return value;
-}
-
-static inline FXP32Register::Union cs_load_argument(ExecState* exec, size_t argument, EncodedJSValue* error) {
-    JSValue reg = exec->argument(argument); FXP32Register::Union value;
-
-    if (!reg.inherits(&FXP32Register::s_info)) {
-        value.u = 0;
-        *error = throwVMError(exec, createTypeError(exec, "Argument is not a Hydrazine 32-bit Fixed Point Register."));
-    } else {
-        value.u = asFXP32Register(reg)->m_storage;
-    }
-
-    return value;
-}
-
-static inline FXP32Register::Union cs_load_argument_imm(ExecState* exec, size_t argument, EncodedJSValue* error) {
-    UNUSED_PARAM(error);
-    FXP32Register::Union value;
-    
-    value.s = exec->argument(argument).asInt32();
-    
-    return value;
-}
-
-static inline FXP32Register::Op1 cs_load_1_operand(ExecState* exec, EncodedJSValue* error) {
-    size_t arguments = exec->argumentCount(); FXP32Register::Op1 result;
-
-    if (arguments == 0) {
-        result.a = cs_load_receiver(exec, error);
-    } else {
-        result.a = cs_load_argument(exec, 0, error);
-    }
-
-    return result;
-}
-
-static inline FXP32Register::Op2 cs_load_2_operand(ExecState* exec, EncodedJSValue* error) {
-    size_t arguments = exec->argumentCount(); FXP32Register::Op2 result;
-
-    if (arguments == 0) {
-        *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
-    } else if (arguments == 1) {
-        result.a = cs_load_receiver(exec, error);
-        result.b = cs_load_argument(exec, 0, error);
-    } else {
-        result.a = cs_load_argument(exec, 0, error);
-        result.b = cs_load_argument(exec, 1, error);
-    }
-
-    return result;
-}
-
-static inline FXP32Register::Op2 cs_load_2_operand_imm(ExecState* exec, EncodedJSValue* error) {
-    size_t arguments = exec->argumentCount(); FXP32Register::Op2 result;
-
-    if (arguments == 0) {
-        *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
-    } else if (arguments == 1) {
-        result.a = cs_load_receiver(exec, error);
-        result.b = cs_load_argument_imm(exec, 0, error);
-    } else {
-        result.a = cs_load_argument(exec, 0, error);
-        result.b = cs_load_argument_imm(exec, 1, error);
-    }
-
-    return result;
-}
-
-static inline JSValue cs_store_receiver(ExecState* exec, FXP32Register::Union value, EncodedJSValue* error) {
-    JSValue reg = exec->thisValue();
-
-    if (!reg.inherits(&FXP32Register::s_info)) {
-        *error = throwVMError(exec, createTypeError(exec, "Receiever is not a Hydrazine 32-bit Fixed Point Register."));
-    } else {
-        asFXP32Register(reg)->m_storage = value.u;
-    }
-
-    return reg;
+    return getStaticFunctionDescriptor<Base>(exec, ExecState::fxp32RegisterTable(exec), jsCast<FXP32Register*>(object), propertyName, descriptor);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_ld(ExecState* exec)
 {
-    FXP32Register::Union value;
-
     JSValue array, base;
     
     int32_t offs; size_t arguments = exec->argumentCount();
@@ -221,7 +116,9 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_ld(ExecState* exec)
         return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 32-bit Fixed Point Register."));
     }
 
-    uint32_t offset = (uint32_t)((int32_t)asFXP32Register(base)->m_storage + offs);
+    uint32_t offset = (uint32_t)(asFXP32Register(base)->m_storage.s + offs);
+
+    Hydrazine::R32 value;
 
     if (array.inherits(&JSUint8Array::s_info) || array.inherits(&JSUint8ClampedArray::s_info) ) {
         JSUint8Array* view = jsCast<JSUint8Array*>(obj);
@@ -251,14 +148,12 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_ld(ExecState* exec)
         JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
 
         value.sp = offset < view->m_storageLength ? view->m_storage[offset] : (0.0f / 0.0f);
-    } else if (array.inherits(&JSFloat64Array::s_info)) {
-        return throwVMError(exec, createTypeError(exec, "First argument was a too wide typed array view."));
     } else {
-        return throwVMError(exec, createTypeError(exec, "First argument was an unknown typed array view, weird."));
+        return throwVMError(exec, createTypeError(exec, "First argument was of an unsupported type."));
     }
 
     EncodedJSValue error = NULL;
-    JSValue result = cs_store_receiver(exec, value, &error);
+    JSValue result = Hydrazine::storeReceiver(exec, value, &error);
 
     return error ? error : JSValue::encode(result);
 }
@@ -283,10 +178,10 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState* exec)
         return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 32-bit Fixed Point Register."));
     }
 
-    uint32_t offset = (uint32_t)((int32_t)asFXP32Register(base)->m_storage + offs);
+    uint32_t offset = (uint32_t)(asFXP32Register(base)->m_storage.s + offs);
     
     EncodedJSValue error = NULL;
-    FXP32Register::Union value = cs_load_receiver(exec, &error);
+    Hydrazine::R32 value = Hydrazine::loadReceiver<Hydrazine::R32>(exec, &error);
 
     if (error) { return error; }
 
@@ -319,124 +214,83 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState* exec)
 
         if (offset < view->m_storageLength) { view->m_storage[offset] = value.sp; }
     } else if (array.inherits(&JSFloat64Array::s_info)) {
-        return throwVMError(exec, createTypeError(exec, "First argument was a too wide typed array view."));
-    } else {
-        return throwVMError(exec, createTypeError(exec, "First argument was an unknown typed array view, weird."));
+        return throwVMError(exec, createTypeError(exec, "First argument was of an unsupported type."));
     }
 
     return JSValue::encode(exec->thisValue());
 }
 
 #define CS_1_OP(exec, op_r, op_a) EncodedJSValue error = NULL; \
-FXP32Register::Op1 __ops = cs_load_1_operand(exec, &error); \
+FXP32Register::Op1 __ops = Hydrazine::loadOneOperand<Hydrazine::R32>(exec, &error); \
 if (error) { return error; } \
-FXP32Register::Union op_r, op_a = __ops.a
+Hydrazine::R32 op_r, op_a = __ops.a
 
 #define CS_2_OP(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP32Register::Op2 __ops = cs_load_2_operand(exec, &error); \
+FXP32Register::Op2 __ops = Hydrazine::loadTwoOperand<Hydrazine::R32>(exec, &error); \
 if (error) { return error; } \
-FXP32Register::Union op_r, op_a = __ops.a, op_b = __ops.b
+Hydrazine::R32 op_r, op_a = __ops.a, op_b = __ops.b
 
 #define CS_2_OP_IMM(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP32Register::Op2 __ops = cs_load_2_operand_imm(exec, &error); \
+FXP32Register::Op2 __ops = Hydrazine::loadTwoOperandWithSignedImmediate<Hydrazine::R32>(exec, &error); \
 if (error) { return error; } \
-FXP32Register::Union op_r, op_a = __ops.a, op_b = __ops.b
+Hydrazine::R32 op_r, op_a = __ops.a, op_b = __ops.b
 
-#define CS_ED(exec, op_r) JSValue result = cs_store_receiver(exec, op_r, &error); \
+#define CS_ED(exec, op_r) JSValue result = Hydrazine::storeReceiver<Hydrazine::R32>(exec, op_r, &error); \
 return error ? error : JSValue::encode(result)
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_sadd(ExecState* exec)
 {
-    CS_2_OP(exec, r, a, b);
-
-    r.s = a.s + b.s;
-
-    CS_ED(exec, r);
+    CS_2_OP(exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_saddi(ExecState* exec)
 {
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.s = a.s + b.s;
-
-    CS_ED(exec, r);
+    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_uadd(ExecState* exec)
 {
-    CS_2_OP(exec, r, a, b);
-
-    r.u = a.u + b.u;
-
-    CS_ED(exec, r);
+    CS_2_OP(exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_uaddi(ExecState* exec)
 {
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.u = a.u + b.u;
-
-    CS_ED(exec, r);
+    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_ssub(ExecState* exec)
 {
-    CS_2_OP(exec, r, a, b);
-
-    r.s = a.s - b.s;
-
-    CS_ED(exec, r);
+    CS_2_OP(exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_ssubi(ExecState* exec)
 {
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.s = a.s - b.s;
-
-    CS_ED(exec, r);
+    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_usub(ExecState* exec)
 {
-    CS_2_OP(exec, r, a, b);
-
-    r.u = a.u - b.u;
-
-    CS_ED(exec, r);
+    CS_2_OP(exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_usubi(ExecState* exec)
 {
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.u = a.u - b.u;
-
-    CS_ED(exec, r);
+    CS_2_OP_IMM(exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_popcnt(ExecState* exec)
 {
-    CS_1_OP(exec, r, a);
-
-    r.u = __builtin_popcount(a.u);
-
-    CS_ED(exec, r);
+    CS_1_OP(exec, r, a); r = Hydrazine::popcnt(a); CS_ED(exec, r);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_insert(ExecState* exec)
 {
     JSValue reg = exec->thisValue();
-    FXP32Register::Union value;
-
-    value.s = exec->argument(0).asInt32();
 
     if (!reg.inherits(&FXP32Register::s_info)) {
         return throwVMError(exec, createTypeError(exec, "Receiever is not a Hydrazine 32-bit Fixed Point Register."));
     } else {
-        asFXP32Register(reg)->m_storage = value.u;
+        asFXP32Register(reg)->m_storage = (Hydrazine::R32)(exec->argument(0).asInt32());
     }
 
     return JSValue::encode(reg);
@@ -445,15 +299,12 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_insert(ExecState* exec)
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_extract(ExecState* exec)
 {
     JSValue reg = exec->thisValue();
-    FXP32Register::Union value;
 
     if (!reg.inherits(&FXP32Register::s_info)) {
         return throwVMError(exec, createTypeError(exec, "Receiever is not a Hydrazine 32-bit Fixed Point Register."));
     } else {
-        value.u = asFXP32Register(reg)->m_storage;
+        return JSValue::encode(JSValue(asFXP32Register(reg)->m_storage.s));
     }
-
-    return JSValue::encode(JSValue(value.s));
 }
 
 }

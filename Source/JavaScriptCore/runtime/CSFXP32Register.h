@@ -26,21 +26,17 @@
 #ifndef CSFXP32Register_h
 #define CSFXP32Register_h
 
-#include "JSObject.h"
-#include "ObjectPrototype.h"
-
-#include "JSGlobalObject.h"
+#include "CSMath.h"
+#include "CSFXPRegister.h"
 
 namespace JSC {
-    class FXP32Register : public JSNonFinalObject {
+    class FXP32Register : public Hydrazine::FXPRegister<Hydrazine::R32> {
     public:
-        typedef JSNonFinalObject Base;
-        typedef union { uint32_t u; int32_t s; float sp; } Union;
+        typedef Hydrazine::FXPRegister<Hydrazine::R32> Base;
 
-        typedef struct { Union a; } Op1;
-        typedef struct { Union a; Union b; } Op2;
+        typedef Hydrazine::R32 Type;
 
-        static FXP32Register* create(ExecState* exec, JSGlobalObject* globalObject, Structure* structure)
+        static inline FXP32Register* create(ExecState* exec, JSGlobalObject* globalObject, Structure* structure)
         {
             FXP32Register* reg = new (NotNull, allocateCell<FXP32Register>(*exec->heap())) FXP32Register(exec, structure);
 
@@ -51,23 +47,18 @@ namespace JSC {
 
         static const ClassInfo s_info;
 
-        static Structure* createStructure(JSGlobalData& globalData, JSGlobalObject* globalObject, JSValue prototype)
+        static inline Structure* createStructure(JSGlobalData& globalData, JSGlobalObject* globalObject, JSValue prototype)
         {
             return Structure::create(globalData, globalObject, prototype, TypeInfo(ObjectType, StructureFlags), &s_info);
         }
 
-        uint32_t m_storage;
-
-    protected:
-        void finishCreation(JSGlobalData& globalData, JSGlobalObject*);
+    private:
+        FXP32Register(ExecState* exec, Structure* structure) : Base(exec, structure) { }
 
         static const unsigned StructureFlags = OverridesGetOwnPropertySlot | Base::StructureFlags;
 
-    private:
-        FXP32Register(ExecState* exec, Structure* structure);
-
         static bool getOwnPropertySlot(JSCell*, ExecState*, PropertyName, PropertySlot&);
-        static bool getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned propertyName, PropertySlot&);
+        static bool getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned, PropertySlot&);
         static bool getOwnPropertyDescriptor(JSObject*, ExecState*, PropertyName, PropertyDescriptor&);
     };
 
