@@ -69,35 +69,35 @@ namespace JSC {
         COMPILE_ASSERT(sizeof(R32) == 4, R32_value_packs_into_4_byte);
         COMPILE_ASSERT(sizeof(R64) == 8, R64_value_packs_into_8_byte);
 
-        template <typename T> static inline T sadd(T a, T b) { return (T)(a.s + b.s); }
-        template <typename T> static inline T uadd(T a, T b) { return (T)(a.u + b.u); }
-        template <typename T> static inline T ssub(T a, T b) { return (T)(a.s - b.s); }
-        template <typename T> static inline T usub(T a, T b) { return (T)(a.u - b.u); }
+        template <typename T> static ALWAYS_INLINE T sadd(T a, T b) { return (T)(a.s + b.s); }
+        template <typename T> static ALWAYS_INLINE T uadd(T a, T b) { return (T)(a.u + b.u); }
+        template <typename T> static ALWAYS_INLINE T ssub(T a, T b) { return (T)(a.s - b.s); }
+        template <typename T> static ALWAYS_INLINE T usub(T a, T b) { return (T)(a.u - b.u); }
         /* TODO: Multiplication: n x n -> 2n */
-        template <typename T> static inline T sdiv(T a, T b) { return (T)(a.s - b.s); }
-        template <typename T> static inline T udiv(T a, T b) { return (T)(a.u - b.u); }
-        template <typename T> static inline T smod(T a, T b) { return (T)(a.s % b.s); }
-        template <typename T> static inline T umod(T a, T b) { return (T)(a.u % b.u); }
+        template <typename T> static ALWAYS_INLINE T sdiv(T a, T b) { return (T)(a.s - b.s); }
+        template <typename T> static ALWAYS_INLINE T udiv(T a, T b) { return (T)(a.u - b.u); }
+        template <typename T> static ALWAYS_INLINE T smod(T a, T b) { return (T)(a.s % b.s); }
+        template <typename T> static ALWAYS_INLINE T umod(T a, T b) { return (T)(a.u % b.u); }
 
-        template <typename T> static inline T smullo(T a, T b) { return (T)(a.s * b.s); }
-        template <typename T> static inline T umullo(T a, T b) { return (T)(a.u * b.u); }
+        template <typename T> static ALWAYS_INLINE T smullo(T a, T b) { return (T)(a.s * b.s); }
+        template <typename T> static ALWAYS_INLINE T umullo(T a, T b) { return (T)(a.u * b.u); }
         /* TODO: Multiply High: n x n -> n */
 
         /* TODO: Troll-portable, probably… */
-        static inline R8  popcnt(R8  a) { R8  r; r.s =  (int8_t)__builtin_popcount(a.u);   return r; }
-        static inline R16 popcnt(R16 a) { R16 r; r.s = (int16_t)__builtin_popcount(a.u);   return r; }
-        static inline R32 popcnt(R32 a) { R32 r; r.s = (int32_t)__builtin_popcount(a.u);   return r; }
-        static inline R64 popcnt(R64 a) { R64 r; r.s = (int64_t)__builtin_popcountll(a.u); return r; }
+        static ALWAYS_INLINE R8  popcnt(R8  a) { R8  r; r.s =  (int8_t)__builtin_popcount(a.u);   return r; }
+        static ALWAYS_INLINE R16 popcnt(R16 a) { R16 r; r.s = (int16_t)__builtin_popcount(a.u);   return r; }
+        static ALWAYS_INLINE R32 popcnt(R32 a) { R32 r; r.s = (int32_t)__builtin_popcount(a.u);   return r; }
+        static ALWAYS_INLINE R64 popcnt(R64 a) { R64 r; r.s = (int64_t)__builtin_popcountll(a.u); return r; }
 
-        static inline R8  clz(R8  a) { R8  r; r.s = a.u == 0 ? 8  :  (int8_t)__builtin_clz(a.u);   return r; }
-        static inline R16 clz(R16 a) { R16 r; r.s = a.u == 0 ? 16 : (int16_t)__builtin_clz(a.u);   return r; }
-        static inline R32 clz(R32 a) { R32 r; r.s = a.u == 0 ? 32 : (int32_t)__builtin_clz(a.u);   return r; }
-        static inline R64 clz(R64 a) { R64 r; r.s = a.u == 0 ? 64 : (int64_t)__builtin_clzll(a.u); return r; }
+        static ALWAYS_INLINE R8  clz(R8  a) { R8  r; r.s = a.u == 0 ? 8  :  (int8_t)__builtin_clz(a.u);   return r; }
+        static ALWAYS_INLINE R16 clz(R16 a) { R16 r; r.s = a.u == 0 ? 16 : (int16_t)__builtin_clz(a.u);   return r; }
+        static ALWAYS_INLINE R32 clz(R32 a) { R32 r; r.s = a.u == 0 ? 32 : (int32_t)__builtin_clz(a.u);   return r; }
+        static ALWAYS_INLINE R64 clz(R64 a) { R64 r; r.s = a.u == 0 ? 64 : (int64_t)__builtin_clzll(a.u); return r; }
 
-        static inline R8  ctz(R8  a) { R8  r; r.s = a.u == 0 ? 8  :  (int8_t)__builtin_ctz(a.u);   return r; }
-        static inline R16 ctz(R16 a) { R16 r; r.s = a.u == 0 ? 16 : (int16_t)__builtin_ctz(a.u);   return r; }
-        static inline R32 ctz(R32 a) { R32 r; r.s = a.u == 0 ? 32 : (int32_t)__builtin_ctz(a.u);   return r; }
-        static inline R64 ctz(R64 a) { R64 r; r.s = a.u == 0 ? 64 : (int64_t)__builtin_ctzll(a.u); return r; }
+        static ALWAYS_INLINE R8  ctz(R8  a) { R8  r; r.s = a.u == 0 ? 8  :  (int8_t)__builtin_ctz(a.u);   return r; }
+        static ALWAYS_INLINE R16 ctz(R16 a) { R16 r; r.s = a.u == 0 ? 16 : (int16_t)__builtin_ctz(a.u);   return r; }
+        static ALWAYS_INLINE R32 ctz(R32 a) { R32 r; r.s = a.u == 0 ? 32 : (int32_t)__builtin_ctz(a.u);   return r; }
+        static ALWAYS_INLINE R64 ctz(R64 a) { R64 r; r.s = a.u == 0 ? 64 : (int64_t)__builtin_ctzll(a.u); return r; }
     }
 }
 

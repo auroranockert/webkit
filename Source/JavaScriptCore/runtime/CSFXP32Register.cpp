@@ -153,7 +153,7 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_ld(ExecState* exec)
     }
 
     EncodedJSValue error = NULL;
-    JSValue result = Hydrazine::storeReceiver(exec, value, &error);
+    JSValue result = Hydrazine::storeReceiver<FXP32Register>(exec, value, &error);
 
     return error ? error : JSValue::encode(result);
 }
@@ -181,7 +181,7 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState* exec)
     uint32_t offset = (uint32_t)(asFXP32Register(base)->m_storage.s + offs);
     
     EncodedJSValue error = NULL;
-    Hydrazine::R32 value = Hydrazine::loadReceiver<Hydrazine::R32>(exec, &error);
+    Hydrazine::R32 value = Hydrazine::loadReceiver<FXP32Register>(exec, &error);
 
     if (error) { return error; }
 
@@ -221,21 +221,21 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp32_st(ExecState* exec)
 }
 
 #define CS_1_OP(exec, op_r, op_a) EncodedJSValue error = NULL; \
-FXP32Register::Op1 __ops = Hydrazine::loadOneOperand<Hydrazine::R32>(exec, &error); \
+FXP32Register::Op1 __ops = Hydrazine::loadOneOperand<FXP32Register>(exec, &error); \
 if (error) { return error; } \
 Hydrazine::R32 op_r, op_a = __ops.a
 
 #define CS_2_OP(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP32Register::Op2 __ops = Hydrazine::loadTwoOperand<Hydrazine::R32>(exec, &error); \
+FXP32Register::Op2 __ops = Hydrazine::loadTwoOperand<FXP32Register>(exec, &error); \
 if (error) { return error; } \
 Hydrazine::R32 op_r, op_a = __ops.a, op_b = __ops.b
 
 #define CS_2_OP_IMM(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP32Register::Op2 __ops = Hydrazine::loadTwoOperandWithSignedImmediate<Hydrazine::R32>(exec, &error); \
+FXP32Register::Op2 __ops = Hydrazine::loadTwoOperandWithSignedImmediate<FXP32Register>(exec, &error); \
 if (error) { return error; } \
 Hydrazine::R32 op_r, op_a = __ops.a, op_b = __ops.b
 
-#define CS_ED(exec, op_r) JSValue result = Hydrazine::storeReceiver<Hydrazine::R32>(exec, op_r, &error); \
+#define CS_ED(exec, op_r) JSValue result = Hydrazine::storeReceiver<FXP32Register>(exec, op_r, &error); \
 return error ? error : JSValue::encode(result)
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp32_sadd(ExecState* exec)

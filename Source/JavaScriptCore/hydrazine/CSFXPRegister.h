@@ -62,51 +62,51 @@ namespace JSC {
         };
 
         template <typename T>
-        static inline FXPRegister<T>* asFXPRegister(JSCell* cell)
+        static ALWAYS_INLINE T* asFXPRegister(JSCell* cell)
         {
-            ASSERT(cell->inherits(&FXPRegister<T>::s_info));
+            ASSERT(cell->inherits(&T::s_info));
 
-            return jsCast<FXPRegister<T>*>(cell);
+            return jsCast<T*>(cell);
         }
 
         template <typename T>
-        static inline FXPRegister<T>* asFXPRegister(JSValue value)
+        static ALWAYS_INLINE T* asFXPRegister(JSValue value)
         {
             return asFXPRegister<T>(value.asCell());
         }
 
         template <typename T>
-        static inline T loadReceiver(ExecState* exec, EncodedJSValue* error) {
+        static ALWAYS_INLINE typename T::Type loadReceiver(ExecState* exec, EncodedJSValue* error) {
             JSValue reg = exec->thisValue();
 
-            if (!reg.inherits(&FXPRegister<T>::s_info)) {
+            if (!reg.inherits(&T::s_info)) {
                 *error = throwVMError(exec, createTypeError(exec, "Reciever is not a correctly typed Hydrazine Fixed-Point Register."));
-                return (T)(0);
+                return (typename T::Type)(0);
             } else {
                 return asFXPRegister<T>(reg)->m_storage;
             }
         }
 
         template <typename T>
-        static inline T loadArgument(ExecState* exec, size_t argument, EncodedJSValue* error) {
+        static ALWAYS_INLINE typename T::Type loadArgument(ExecState* exec, size_t argument, EncodedJSValue* error) {
             JSValue reg = exec->argument(argument);
 
-            if (!reg.inherits(&FXPRegister<T>::s_info)) {
+            if (!reg.inherits(&T::s_info)) {
                 *error = throwVMError(exec, createTypeError(exec, "Argument is not a correctly typed Hydrazine Fixed-Point Register."));
-                return (T)(0);
+                return (typename T::Type)(0);
             } else {
                 return asFXPRegister<T>(reg)->m_storage;
             }
         }
 
         template <typename T>
-        static inline T loadSignedImmediate(ExecState* exec, size_t argument, EncodedJSValue*) {
-            return (T)(exec->argument(argument).asInt32());
+        static ALWAYS_INLINE typename T::Type loadSignedImmediate(ExecState* exec, size_t argument, EncodedJSValue*) {
+            return (typename T::Type)(exec->argument(argument).asInt32());
         }
 
         template <typename T>
-        static inline typename FXPRegister<T>::Op1 loadOneOperand(ExecState* exec, EncodedJSValue* error) {
-            size_t arguments = exec->argumentCount(); typename FXPRegister<T>::Op1 result;
+        static ALWAYS_INLINE typename T::Op1 loadOneOperand(ExecState* exec, EncodedJSValue* error) {
+            size_t arguments = exec->argumentCount(); typename T::Op1 result;
 
             if (arguments == 0) {
                 result.a = loadReceiver<T>(exec, error);
@@ -118,8 +118,8 @@ namespace JSC {
         }
 
         template <typename T>
-        static inline typename FXPRegister<T>::Op2 loadTwoOperand(ExecState* exec, EncodedJSValue* error) {
-            size_t arguments = exec->argumentCount(); typename FXPRegister<T>::Op2 result;
+        static ALWAYS_INLINE typename T::Op2 loadTwoOperand(ExecState* exec, EncodedJSValue* error) {
+            size_t arguments = exec->argumentCount(); typename T::Op2 result;
 
             if (arguments == 0) {
                 *error = throwVMError(exec, JSC::createTypeError(exec, "Not enough arguments, needs at least one."));
@@ -135,8 +135,8 @@ namespace JSC {
         }
 
         template <typename T>
-        static inline typename FXPRegister<T>::Op2 loadTwoOperandWithSignedImmediate(ExecState* exec, EncodedJSValue* error) {
-            size_t arguments = exec->argumentCount(); typename FXPRegister<T>::Op2 result;
+        static ALWAYS_INLINE typename T::Op2 loadTwoOperandWithSignedImmediate(ExecState* exec, EncodedJSValue* error) {
+            size_t arguments = exec->argumentCount(); typename T::Op2 result;
 
             if (arguments == 0) {
                 *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
@@ -152,10 +152,10 @@ namespace JSC {
         }
 
         template <typename T>
-        static inline JSValue storeReceiver(ExecState* exec, T value, EncodedJSValue* error) {
+        static ALWAYS_INLINE JSValue storeReceiver(ExecState* exec, typename T::Type value, EncodedJSValue* error) {
             JSValue reg = exec->thisValue();
 
-            if (!reg.inherits(&FXPRegister<T>::s_info)) {
+            if (!reg.inherits(&T::s_info)) {
                 *error = throwVMError(exec, createTypeError(exec, "Receiver is not a Hydrazine correctly typed Fixed-Point Register."));
             } else {
                 asFXPRegister<T>(reg)->m_storage = value;
