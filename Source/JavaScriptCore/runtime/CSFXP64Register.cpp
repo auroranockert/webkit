@@ -24,7 +24,10 @@
  */
 
 #include "config.h"
-#include "CSFXP64Register.h"
+#include "CSFXP32Register.h"
+
+#include "CSInstructions.h"
+
 #include "TypedArray.h"
 #include "JSArrayBufferViewPrototype.h"
 
@@ -36,18 +39,6 @@ namespace JSC {
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState*);
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState*);
 
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_sadd(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_saddi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_uadd(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_uaddi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssub(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssubi(ExecState*);
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_usub(ExecState*);
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_usubi(ExecState*);
-
 }
 
 #include "CSFXP64Register.lut.h"
@@ -56,143 +47,46 @@ namespace JSC {
 
 ASSERT_HAS_TRIVIAL_DESTRUCTOR(FXP64Register);
 
-const ClassInfo FXP64Register::s_info = { "FXP64Register", &Base::s_info, 0, ExecState::fxp64RegisterTable, CREATE_METHOD_TABLE(FXP64Register) };
+const ClassInfo FXP64Register::s_info = { "FXP64Register", &JSNonFinalObject::s_info, 0, ExecState::fxp64RegisterTable, CREATE_METHOD_TABLE(FXP64Register) };
 
 /* Source for CSFXP64Register.lut.h
 @begin fxp64RegisterTable
-  ld            cs_fxp64_ld             Function 2
-  st            cs_fxp64_st             Function 2
-  sadd          cs_fxp64_sadd           Function 1
-  saddi         cs_fxp64_saddi          Function 1
-  uadd          cs_fxp64_uadd           Function 1
-  uaddi         cs_fxp64_uaddi          Function 1
-  ssub          cs_fxp64_ssub           Function 1
-  ssubi         cs_fxp64_ssubi          Function 1
-  usub          cs_fxp64_usub           Function 1
-  usubi         cs_fxp64_usubi          Function 1
+  ld            cs_fxp64_ld                                     Function 2
+  st            cs_fxp64_st                                     Function 2
+  sadd          Hydrazine::cs_fxp_sadd<FXP64Register>           Function 1
+  saddi         Hydrazine::cs_fxp_saddi<FXP64Register>          Function 1
+  uadd          Hydrazine::cs_fxp_uadd<FXP64Register>           Function 1
+  uaddi         Hydrazine::cs_fxp_uaddi<FXP64Register>          Function 1
+  ssub          Hydrazine::cs_fxp_ssub<FXP64Register>           Function 1
+  ssubi         Hydrazine::cs_fxp_ssubi<FXP64Register>          Function 1
+  usub          Hydrazine::cs_fxp_usub<FXP64Register>           Function 1
+  usubi         Hydrazine::cs_fxp_usubi<FXP64Register>          Function 1
+  popcnt        Hydrazine::cs_fxp_popcnt<FXP64Register>         Function 0
+  insert        Hydrazine::cs_fxp_insert<FXP64Register>         Function 1
+  extract       Hydrazine::cs_fxp_extract<FXP64Register>        Function 0
 @end
 */
 
-FXP64Register::FXP64Register(ExecState* exec, Structure* structure) : Base(exec->globalData(), structure), m_storage(0)
-{
-}
-
-void FXP64Register::finishCreation(JSGlobalData& globalData, JSGlobalObject*)
-{
-    Base::finishCreation(globalData);
-
-    ASSERT(inherits(&s_info));
-}
-
-bool FXP64Register::getOwnPropertySlotByIndex(JSCell* cell, ExecState* exec, unsigned propertyName, PropertySlot& slot)
-{
-	UNUSED_PARAM(cell); UNUSED_PARAM(exec); UNUSED_PARAM(propertyName); UNUSED_PARAM(slot);
-
-    return false;
-}
-
 bool FXP64Register::getOwnPropertySlot(JSCell* cell, ExecState* exec, PropertyName propertyName, PropertySlot &slot)
 {
-    return getStaticFunctionSlot<JSNonFinalObject>(exec, ExecState::fxp64RegisterTable(exec), jsCast<FXP64Register*>(cell), propertyName, slot);
+    return getStaticFunctionSlot<Base>(exec, ExecState::FXP64RegisterTable(exec), jsCast<FXP64Register*>(cell), propertyName, slot);
+}
+
+bool FXP64Register::getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned, PropertySlot&)
+{
+    return false;
 }
 
 bool FXP64Register::getOwnPropertyDescriptor(JSObject* object, ExecState* exec, PropertyName propertyName, PropertyDescriptor& descriptor)
 {
-    return getStaticFunctionDescriptor<JSNonFinalObject>(exec, ExecState::fxp64RegisterTable(exec), jsCast<FXP64Register*>(object), propertyName, descriptor);
-}
-
-EncodedJSValue JSC_HOST_CALL constructFXP64Register(ExecState* callFrame) {
-    Structure* structure = FXP64Register::createStructure(callFrame->globalData(), callFrame->lexicalGlobalObject(), callFrame->lexicalGlobalObject()->objectPrototype());
-
-    return JSValue::encode(FXP64Register::create(callFrame, callFrame->lexicalGlobalObject(), structure));
-}
-
-static inline FXP64Register::Union cs_load_receiver(ExecState* exec, EncodedJSValue* error) {
-    JSValue reg = exec->thisValue(); FXP64Register::Union value;
-
-    if (!reg.inherits(&FXP64Register::s_info)) {
-        value.u = 0;
-        *error = throwVMError(exec, createTypeError(exec, "Reciever is not a Hydrazine 64-bit Fixed Point Register."));
-    } else {
-        value.u = asFXP64Register(reg)->m_storage;
-    }
-
-    return value;
-}
-
-static inline FXP64Register::Union cs_load_argument(ExecState* exec, size_t argument, EncodedJSValue* error) {
-    JSValue reg = exec->argument(argument); FXP64Register::Union value;
-
-    if (!reg.inherits(&FXP64Register::s_info)) {
-        value.u = 0;
-        *error = throwVMError(exec, createTypeError(exec, "Argument is not a Hydrazine 64-bit Fixed Point Register."));
-    } else {
-        value.u = asFXP64Register(reg)->m_storage;
-    }
-
-    return value;
-}
-
-static inline FXP64Register::Union cs_load_argument_imm(ExecState* exec, size_t argument, EncodedJSValue* error) {
-    UNUSED_PARAM(error);
-    FXP64Register::Union value;
-    
-    value.s = exec->argument(argument).asInt32();
-    
-    return value;
-}
-
-static inline FXP64Register::Op2 cs_load_2_operand(ExecState* exec, EncodedJSValue* error) {
-    size_t arguments = exec->argumentCount(); FXP64Register::Op2 result;
-
-    if (arguments == 0) {
-        *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
-    } else if (arguments == 1) {
-        result.a = cs_load_receiver(exec, error);
-        result.b = cs_load_argument(exec, 0, error);
-    } else {
-        result.a = cs_load_argument(exec, 0, error);
-        result.b = cs_load_argument(exec, 1, error);
-    }
-
-    return result;
-}
-
-static inline FXP64Register::Op2 cs_load_2_operand_imm(ExecState* exec, EncodedJSValue* error) {
-    size_t arguments = exec->argumentCount(); FXP64Register::Op2 result;
-
-    if (arguments == 0) {
-        *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
-    } else if (arguments == 1) {
-        result.a = cs_load_receiver(exec, error);
-        result.b = cs_load_argument_imm(exec, 0, error);
-    } else {
-        result.a = cs_load_argument(exec, 0, error);
-        result.b = cs_load_argument_imm(exec, 1, error);
-    }
-
-    return result;
-}
-
-static inline JSValue cs_store_receiver(ExecState* exec, FXP64Register::Union value, EncodedJSValue* error) {
-    JSValue reg = exec->thisValue();
-
-    if (!reg.inherits(&FXP64Register::s_info)) {
-        *error = throwVMError(exec, createTypeError(exec, "Receiever is not a Hydrazine 64-bit Fixed Point Register."));
-    } else {
-        asFXP64Register(reg)->m_storage = value.u;
-    }
-
-    return reg;
+    return getStaticFunctionDescriptor<Base>(exec, ExecState::FXP64RegisterTable(exec), jsCast<FXP64Register*>(object), propertyName, descriptor);
 }
 
 static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState* exec)
 {
-    FXP64Register::Union value;
-
     JSValue array, base;
     
-    int64_t offs; size_t arguments = exec->argumentCount();
+    int32_t offs; size_t arguments = exec->argumentCount();
     
     if (arguments > 2) {
         array = exec->argument(0), base = exec->argument(1), offs = exec->argument(2).toInt32(exec);
@@ -205,10 +99,12 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState* exec)
     JSObject* obj = asObject(array);
 
     if (!base.inherits(&FXP64Register::s_info)) {
-        return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 64-bit Fixed Point Register."));
+        return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 32-bit Fixed Point Register."));
     }
 
-    uint32_t offset = (uint32_t)((int64_t)asFXP64Register(base)->m_storage + offs);
+    uint32_t offset = (uint32_t)(asFXP64Register(base)->m_storage.s + offs);
+
+    Hydrazine::R64 value;
 
     if (array.inherits(&JSUint8Array::s_info) || array.inherits(&JSUint8ClampedArray::s_info) ) {
         JSUint8Array* view = jsCast<JSUint8Array*>(obj);
@@ -234,20 +130,16 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_ld(ExecState* exec)
         JSInt32Array* view = jsCast<JSInt32Array*>(obj);
 
         value.s = offset < view->m_storageLength ? view->m_storage[offset] : 0;
-    } else if (array.inherits(&JSFloat32Array::s_info)) {
-        JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
-
-        value.sp = offset < view->m_storageLength ? view->m_storage[offset] : (0.0f / 0.0f);
     } else if (array.inherits(&JSFloat64Array::s_info)) {
         JSFloat64Array* view = jsCast<JSFloat64Array*>(obj);
 
         value.dp = offset < view->m_storageLength ? view->m_storage[offset] : (0.0 / 0.0);
     } else {
-        return throwVMError(exec, createTypeError(exec, "First argument was an unknown typed array view, weird."));
+        return throwVMError(exec, createTypeError(exec, "First argument was of an unsupported type."));
     }
 
     EncodedJSValue error = NULL;
-    JSValue result = cs_store_receiver(exec, value, &error);
+    JSValue result = Hydrazine::storeReceiver<FXP64Register>(exec, value, &error);
 
     return error ? error : JSValue::encode(result);
 }
@@ -256,7 +148,7 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState* exec)
 {
     JSValue array, base;
     
-    int64_t offs; size_t arguments = exec->argumentCount();
+    int32_t offs; size_t arguments = exec->argumentCount();
     
     if (arguments > 2) {
         array = exec->argument(0), base = exec->argument(1), offs = exec->argument(2).toInt32(exec);
@@ -269,13 +161,13 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState* exec)
     JSObject* obj = asObject(array);
 
     if (!base.inherits(&FXP64Register::s_info)) {
-        return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 64-bit Fixed Point Register."));
+        return throwVMError(exec, createTypeError(exec, "Second argument is not a Hydrazine 32-bit Fixed Point Register."));
     }
 
-    uint32_t offset = (uint32_t)((int64_t)asFXP64Register(base)->m_storage + offs);
+    uint32_t offset = (uint32_t)(asFXP64Register(base)->m_storage.s + offs);
     
     EncodedJSValue error = NULL;
-    FXP64Register::Union value = cs_load_receiver(exec, &error);
+    Hydrazine::R64 value = Hydrazine::loadReceiver<FXP64Register>(exec, &error);
 
     if (error) { return error; }
 
@@ -303,104 +195,15 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp64_st(ExecState* exec)
         JSInt32Array* view = jsCast<JSInt32Array*>(obj);
 
         if (offset < view->m_storageLength) { view->m_storage[offset] = value.s; }
-    } else if (array.inherits(&JSFloat32Array::s_info)) {
-        JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
-
-        if (offset < view->m_storageLength) { view->m_storage[offset] = value.sp; }
     } else if (array.inherits(&JSFloat64Array::s_info)) {
-        JSFloat64Array* view = jsCast<JSFloat64Array*>(obj);
+          JSFloat32Array* view = jsCast<JSFloat32Array*>(obj);
 
-        if (offset < view->m_storageLength) { view->m_storage[offset] = value.dp; }
+          if (offset < view->m_storageLength) { view->m_storage[offset] = value.dp; }
     } else {
-        return throwVMError(exec, createTypeError(exec, "First argument was an unknown typed array view, weird."));
+        return throwVMError(exec, createTypeError(exec, "First argument was of an unsupported type."));
     }
 
     return JSValue::encode(exec->thisValue());
-}
-
-#define CS_2_OP(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP64Register::Op2 __ops = cs_load_2_operand(exec, &error); \
-if (error) { return error; } \
-FXP64Register::Union op_r, op_a = __ops.a, op_b = __ops.b
-
-#define CS_2_OP_IMM(exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-FXP64Register::Op2 __ops = cs_load_2_operand_imm(exec, &error); \
-if (error) { return error; } \
-FXP64Register::Union op_r, op_a = __ops.a, op_b = __ops.b
-
-#define CS_2_ED(exec, op_r) JSValue result = cs_store_receiver(exec, op_r, &error); \
-return error ? error : JSValue::encode(result)
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_sadd(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b);
-
-    r.s = a.s + b.s;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_saddi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.s = a.s + b.s;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_uadd(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b);
-
-    r.u = a.u + b.u;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_uaddi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.u = a.u + b.u;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssub(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b);
-
-    r.s = a.s - b.s;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_ssubi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.s = a.s - b.s;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_usub(ExecState* exec)
-{
-    CS_2_OP(exec, r, a, b);
-
-    r.u = a.u - b.u;
-
-    CS_2_ED(exec, r);
-}
-
-static EncodedJSValue JSC_HOST_CALL cs_fxp64_usubi(ExecState* exec)
-{
-    CS_2_OP_IMM(exec, r, a, b);
-
-    r.u = a.u - b.u;
-
-    CS_2_ED(exec, r);
 }
 
 }

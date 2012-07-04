@@ -26,19 +26,17 @@
 #ifndef CSFXP64Register_h
 #define CSFXP64Register_h
 
-#include "JSObject.h"
-#include "ObjectPrototype.h"
-
-#include "JSGlobalObject.h"
+#include "CSMath.h"
+#include "CSFXPRegister.h"
 
 namespace JSC {
-    class FXP64Register : public JSNonFinalObject {
+    class FXP64Register : public Hydrazine::FXPRegister<Hydrazine::R32> {
     public:
-        typedef JSNonFinalObject Base;
-        typedef union { uint64_t u; int64_t s; float sp; double dp; } Union;
-        typedef struct { Union a; Union b; } Op2;
+        typedef Hydrazine::FXPRegister<Hydrazine::R32> Base;
 
-        static FXP64Register* create(ExecState* exec, JSGlobalObject* globalObject, Structure* structure)
+        typedef Hydrazine::R64 Type;
+
+        static inline FXP64Register* create(ExecState* exec, JSGlobalObject* globalObject, Structure* structure)
         {
             FXP64Register* reg = new (NotNull, allocateCell<FXP64Register>(*exec->heap())) FXP64Register(exec, structure);
 
@@ -49,27 +47,20 @@ namespace JSC {
 
         static const ClassInfo s_info;
 
-        static Structure* createStructure(JSGlobalData& globalData, JSGlobalObject* globalObject, JSValue prototype)
+        static inline Structure* createStructure(JSGlobalData& globalData, JSGlobalObject* globalObject, JSValue prototype)
         {
             return Structure::create(globalData, globalObject, prototype, TypeInfo(ObjectType, StructureFlags), &s_info);
         }
 
-        uint64_t m_storage;
-
-    protected:
-        void finishCreation(JSGlobalData& globalData, JSGlobalObject*);
+    private:
+        FXP64Register(ExecState* exec, Structure* structure) : Base(exec, structure) { }
 
         static const unsigned StructureFlags = OverridesGetOwnPropertySlot | Base::StructureFlags;
 
-    private:
-        FXP64Register(ExecState* exec, Structure* structure);
-
         static bool getOwnPropertySlot(JSCell*, ExecState*, PropertyName, PropertySlot&);
-        static bool getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned propertyName, PropertySlot&);
+        static bool getOwnPropertySlotByIndex(JSCell*, ExecState*, unsigned, PropertySlot&);
         static bool getOwnPropertyDescriptor(JSObject*, ExecState*, PropertyName, PropertyDescriptor&);
     };
-
-    EncodedJSValue JSC_HOST_CALL constructFXP64Register(ExecState* callFrame);
 
     static inline FXP64Register* asFXP64Register(JSCell* cell)
     {
