@@ -335,6 +335,7 @@ void JSGlobalObject::reset(JSValue prototype)
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "Float64Array"), float64ArrayConstructor, DontEnum);
 
     putDirectWithoutTransition(exec->globalData(), Identifier(exec, "FXP32Register"), fxp32RegisterConstructor, DontEnum);
+    putDirectWithoutTransition(exec->globalData(), Identifier(exec, "FXP64Register"), fxp64RegisterConstructor, DontEnum);
 
     m_evalFunction.set(exec->globalData(), this, JSFunction::create(exec, this, 1, exec->propertyNames().eval.ustring(), globalFuncEval));
     putDirectWithoutTransition(exec->globalData(), exec->propertyNames().eval, m_evalFunction.get(), DontEnum);
