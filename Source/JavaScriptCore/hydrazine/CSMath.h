@@ -32,26 +32,40 @@ namespace JSC {
             int8_t s; uint8_t u;
 
             r8() : s(0) {}
-            r8(int value) : s(value) {}
+
             r8(int8_t value) : s(value) {}
+            r8(int32_t value) : s(value) {}
+            r8(int64_t value) : s(value) {}
+
             r8(uint8_t value) : u(value) {}
+            r8(uint32_t value) : u(value) {}
+            r8(uint64_t value) : u(value) {}
         } R8;
 
         typedef union r16 {
             int16_t s; uint16_t u;
 
             r16() : s(0) {}
-            r16(int value) : s(value) {}
+
             r16(int16_t value) : s(value) {}
+            r16(int32_t value) : s(value) {}
+            r16(int64_t value) : s(value) {}
+
             r16(uint16_t value) : u(value) {}
+            r16(uint32_t value) : u(value) {}
+            r16(uint64_t value) : u(value) {}
         } R16;
 
         typedef union r32 {
             uint32_t u; int32_t s; float sp;
 
             r32() : s(0) {}
+
             r32(int32_t value) : s(value) {}
+            r32(int64_t value) : s(value) {}
+
             r32(uint32_t value) : u(value) {}
+            r32(uint64_t value) : u(value) {}
 
             r32(float value) : sp(value) {}
         } R32;
@@ -60,8 +74,11 @@ namespace JSC {
             uint64_t u; int64_t s; double dp;
 
             r64() : s(0) {}
-            r64(int value) : s(value) {}
+
+            r64(int32_t value) : s(value) {}
             r64(int64_t value) : s(value) {}
+
+            r64(uint32_t value) : u(value) {}
             r64(uint64_t value) : u(value) {}
 
             r64(double value) : dp(value) {}
@@ -84,22 +101,34 @@ namespace JSC {
 
         template <typename T> static ALWAYS_INLINE T smullo(T a, T b) { return (T)(a.s * b.s); }
         template <typename T> static ALWAYS_INLINE T umullo(T a, T b) { return (T)(a.u * b.u); }
+        template <typename T> static ALWAYS_INLINE T smulhi(T a, T b) { return (T)(((int64_t)a.s * (int64_t)b.s) >> (8 * sizeof(a))); }
+        template <typename T> static ALWAYS_INLINE T umulhi(T a, T b) { return (T)(((uint64_t)a.s * (uint64_t)b.s) >> (8 * sizeof(a))); }
 
-        /* TODO: Multiply High: n x n -> n */
+        /* TODO: I promise this type is portable… really… it even works on x86 with Clang! */
+        template <> static ALWAYS_INLINE R64 smulhi(R64 a, R64 b) { return (R64)((int64_t)((__int128_t)a.s * (__int128_t)b.s >> 64)); }
+        template <> static ALWAYS_INLINE R64 umulhi(R64 a, R64 b) { return (R64)((uint64_t)((__uint128_t)a.u * (__uint128_t)b.u >> 64)); }
 
-        /* TODO: Bitwise not */
+        template <typename T> static ALWAYS_INLINE T inot(T a) { return (T)(~a.u); }
 
         template <typename T> static ALWAYS_INLINE T iand(T a, T b) { return (T)(a.u & b.u); }
         template <typename T> static ALWAYS_INLINE T ior(T a, T b)  { return (T)(a.u | b.u); }
         template <typename T> static ALWAYS_INLINE T ixor(T a, T b) { return (T)(a.u ^ b.u); }
 
+        template <typename T> static ALWAYS_INLINE T inand(T a, T b) { return (T)(~(a.u & b.u)); }
+        template <typename T> static ALWAYS_INLINE T inor(T a, T b) { return (T)(~(a.u | b.u)); }
+
         template <typename T> static ALWAYS_INLINE T iandnot(T a, T b) { return (T)(~a.u & b.u); }
+        template <typename T> static ALWAYS_INLINE T iornot(T a, T b) { return (T)(~a.u | b.u); }
 
-        /* TODO: Arithmetic and Logical Shifts */
+        /* TODO: Troll-portable, probably… */
+        template <typename T> static ALWAYS_INLINE T sll(T a, T b) { return b.u < (8 * sizeof(a)) ? (T)(a.u << b.u) : 0; }
+        template <typename T> static ALWAYS_INLINE T slr(T a, T b) { return (T)(a.u >> b.u); }
 
-        /* TODO: Troll-defined, probably… */
-        template <typename T> static ALWAYS_INLINE T rol(T a, T b) { return (T)((a.u << b.u) | (a.u >> (8 * sizeof(b) - b.u))); }
-        template <typename T> static ALWAYS_INLINE T ror(T a, T b) { return (T)((a.u >> b.u) | (a.u << (8 * sizeof(b) - b.u))); }
+        template <typename T> static ALWAYS_INLINE T sal(T a, T b) { return sll(a, b); }
+        template <typename T> static ALWAYS_INLINE T sar(T a, T b) { return b.u < (8 * sizeof(a)) ? a.s >> b.u : a.s >> (8 * sizeof(a) - 1); }
+
+        template <typename T> static ALWAYS_INLINE T rol(T a, T b) { return (T)(sll(a, b).u | slr(a, (T)((uint32_t)(8 * sizeof(a)) - b.u)).u); }
+        template <typename T> static ALWAYS_INLINE T ror(T a, T b) { return (T)(slr(a, b).u | sll(a, (T)((uint32_t)(8 * sizeof(a)) - b.u)).u); }
 
         /* TODO: Troll-portable, probably… */
         static ALWAYS_INLINE R8  popcnt(R8  a) { R8  r; r.s =  (int8_t)__builtin_popcount(a.u);   return r; }

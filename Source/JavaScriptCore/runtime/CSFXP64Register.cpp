@@ -53,6 +53,7 @@ const ClassInfo FXP64Register::s_info = { "FXP64Register", &JSNonFinalObject::s_
 @begin fxp64RegisterTable
   ld            cs_fxp64_ld                                     Function 2
   st            cs_fxp64_st                                     Function 2
+  mov           Hydrazine::cs_fxp_mov<FXP64Register>            Function 1
   sadd          Hydrazine::cs_fxp_sadd<FXP64Register>           Function 1
   uadd          Hydrazine::cs_fxp_uadd<FXP64Register>           Function 1
   ssub          Hydrazine::cs_fxp_ssub<FXP64Register>           Function 1
@@ -63,14 +64,23 @@ const ClassInfo FXP64Register::s_info = { "FXP64Register", &JSNonFinalObject::s_
   umod          Hydrazine::cs_fxp_umod<FXP64Register>           Function 1
   smullo        Hydrazine::cs_fxp_smullo<FXP64Register>         Function 1
   umullo        Hydrazine::cs_fxp_umullo<FXP64Register>         Function 1
+  not           Hydrazine::cs_fxp_not<FXP64Register>            Function 0
   and           Hydrazine::cs_fxp_and<FXP64Register>            Function 1
   or            Hydrazine::cs_fxp_or<FXP64Register>             Function 1
   xor           Hydrazine::cs_fxp_xor<FXP64Register>            Function 1
+  nand          Hydrazine::cs_fxp_nand<FXP64Register>           Function 1
+  nor           Hydrazine::cs_fxp_nor<FXP64Register>            Function 1
   andnot        Hydrazine::cs_fxp_andnot<FXP64Register>         Function 1
+  ornot         Hydrazine::cs_fxp_ornot<FXP64Register>          Function 1
+  sal           Hydrazine::cs_fxp_sal<FXP64Register>            Function 1
+  sar           Hydrazine::cs_fxp_sar<FXP64Register>            Function 1
+  sll           Hydrazine::cs_fxp_sll<FXP64Register>            Function 1
+  slr           Hydrazine::cs_fxp_slr<FXP64Register>            Function 1
   rol           Hydrazine::cs_fxp_rol<FXP64Register>            Function 1
   ror           Hydrazine::cs_fxp_ror<FXP64Register>            Function 1
   popcnt        Hydrazine::cs_fxp_popcnt<FXP64Register>         Function 0
-  insert        Hydrazine::cs_fxp_insert<FXP64Register>         Function 1
+  clz           Hydrazine::cs_fxp_clz<FXP64Register>            Function 0
+  ctz           Hydrazine::cs_fxp_ctz<FXP64Register>            Function 0
   extract       Hydrazine::cs_fxp_extract<FXP64Register>        Function 0
 @end
 */
