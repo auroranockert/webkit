@@ -88,64 +88,82 @@ namespace JSC {
         }
 
         template <typename T>
-        static ALWAYS_INLINE typename T::Type loadArgument(ExecState* exec, size_t argument, EncodedJSValue* error) {
+        static ALWAYS_INLINE typename T::Type loadArgumentSigned(ExecState* exec, size_t argument, EncodedJSValue* error) {
             JSValue reg = exec->argument(argument);
 
             if (!reg.inherits(&T::s_info)) {
-                *error = throwVMError(exec, createTypeError(exec, "Argument is not a correctly typed Hydrazine Fixed-Point Register."));
-                return (typename T::Type)(0);
+                return (typename T::Type)(exec->argument(argument).asInt32());
             } else {
                 return asFXPRegister<T>(reg)->m_storage;
             }
         }
 
         template <typename T>
-        static ALWAYS_INLINE typename T::Type loadSignedImmediate(ExecState* exec, size_t argument, EncodedJSValue*) {
-            return (typename T::Type)(exec->argument(argument).asInt32());
+        static ALWAYS_INLINE typename T::Type loadArgumentUnsigned(ExecState* exec, size_t argument, EncodedJSValue* error) {
+            JSValue reg = exec->argument(argument);
+
+            if (!reg.inherits(&T::s_info)) {
+                return (typename T::Type)(exec->argument(argument).asUInt32());
+            } else {
+                return asFXPRegister<T>(reg)->m_storage;
+            }
         }
 
         template <typename T>
-        static ALWAYS_INLINE typename T::Op1 loadOneOperand(ExecState* exec, EncodedJSValue* error) {
+        static ALWAYS_INLINE typename T::Op1 loadOneOperandSigned(ExecState* exec, EncodedJSValue* error) {
             size_t arguments = exec->argumentCount(); typename T::Op1 result;
 
             if (arguments == 0) {
                 result.a = loadReceiver<T>(exec, error);
             } else {
-                result.a = loadArgument<T>(exec, 0, error);
+                result.a = loadArgumentSigned<T>(exec, 0, error);
             }
 
             return result;
         }
 
         template <typename T>
-        static ALWAYS_INLINE typename T::Op2 loadTwoOperand(ExecState* exec, EncodedJSValue* error) {
+        static ALWAYS_INLINE typename T::Op1 loadOneOperandUnsigned(ExecState* exec, EncodedJSValue* error) {
+            size_t arguments = exec->argumentCount(); typename T::Op1 result;
+
+            if (arguments == 0) {
+                result.a = loadReceiver<T>(exec, error);
+            } else {
+                result.a = loadArgumentUnsigned<T>(exec, 0, error);
+            }
+
+            return result;
+        }
+
+        template <typename T>
+        static ALWAYS_INLINE typename T::Op2 loadTwoOperandSigned(ExecState* exec, EncodedJSValue* error) {
             size_t arguments = exec->argumentCount(); typename T::Op2 result;
 
             if (arguments == 0) {
                 *error = throwVMError(exec, JSC::createTypeError(exec, "Not enough arguments, needs at least one."));
             } else if (arguments == 1) {
                 result.a = loadReceiver<T>(exec, error);
-                result.b = loadArgument<T>(exec, 0, error);
+                result.b = loadArgumentSigned<T>(exec, 0, error);
             } else {
-                result.a = loadArgument<T>(exec, 0, error);
-                result.b = loadArgument<T>(exec, 1, error);
+                result.a = loadArgumentSigned<T>(exec, 0, error);
+                result.b = loadArgumentSigned<T>(exec, 1, error);
             }
 
             return result;
         }
 
         template <typename T>
-        static ALWAYS_INLINE typename T::Op2 loadTwoOperandWithSignedImmediate(ExecState* exec, EncodedJSValue* error) {
+        static ALWAYS_INLINE typename T::Op2 loadTwoOperandUnsigned(ExecState* exec, EncodedJSValue* error) {
             size_t arguments = exec->argumentCount(); typename T::Op2 result;
 
             if (arguments == 0) {
-                *error = throwVMError(exec, createTypeError(exec, "Not enough arguments, needs at least one."));
+                *error = throwVMError(exec, JSC::createTypeError(exec, "Not enough arguments, needs at least one."));
             } else if (arguments == 1) {
                 result.a = loadReceiver<T>(exec, error);
-                result.b = loadSignedImmediate<T>(exec, 0, error);
+                result.b = loadArgumentUnsigned<T>(exec, 0, error);
             } else {
-                result.a = loadArgument<T>(exec, 0, error);
-                result.b = loadSignedImmediate<T>(exec, 1, error);
+                result.a = loadArgumentUnsigned<T>(exec, 0, error);
+                result.b = loadArgumentUnsigned<T>(exec, 1, error);
             }
 
             return result;

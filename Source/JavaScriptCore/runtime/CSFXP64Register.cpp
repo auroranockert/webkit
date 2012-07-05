@@ -54,13 +54,21 @@ const ClassInfo FXP64Register::s_info = { "FXP64Register", &JSNonFinalObject::s_
   ld            cs_fxp64_ld                                     Function 2
   st            cs_fxp64_st                                     Function 2
   sadd          Hydrazine::cs_fxp_sadd<FXP64Register>           Function 1
-  saddi         Hydrazine::cs_fxp_saddi<FXP64Register>          Function 1
   uadd          Hydrazine::cs_fxp_uadd<FXP64Register>           Function 1
-  uaddi         Hydrazine::cs_fxp_uaddi<FXP64Register>          Function 1
   ssub          Hydrazine::cs_fxp_ssub<FXP64Register>           Function 1
-  ssubi         Hydrazine::cs_fxp_ssubi<FXP64Register>          Function 1
   usub          Hydrazine::cs_fxp_usub<FXP64Register>           Function 1
-  usubi         Hydrazine::cs_fxp_usubi<FXP64Register>          Function 1
+  sdiv          Hydrazine::cs_fxp_sdiv<FXP64Register>           Function 1
+  udiv          Hydrazine::cs_fxp_udiv<FXP64Register>           Function 1
+  smod          Hydrazine::cs_fxp_smod<FXP64Register>           Function 1
+  umod          Hydrazine::cs_fxp_umod<FXP64Register>           Function 1
+  smullo        Hydrazine::cs_fxp_smullo<FXP64Register>         Function 1
+  umullo        Hydrazine::cs_fxp_umullo<FXP64Register>         Function 1
+  and           Hydrazine::cs_fxp_and<FXP64Register>            Function 1
+  or            Hydrazine::cs_fxp_or<FXP64Register>             Function 1
+  xor           Hydrazine::cs_fxp_xor<FXP64Register>            Function 1
+  andnot        Hydrazine::cs_fxp_andnot<FXP64Register>         Function 1
+  rol           Hydrazine::cs_fxp_rol<FXP64Register>            Function 1
+  ror           Hydrazine::cs_fxp_ror<FXP64Register>            Function 1
   popcnt        Hydrazine::cs_fxp_popcnt<FXP64Register>         Function 0
   insert        Hydrazine::cs_fxp_insert<FXP64Register>         Function 1
   extract       Hydrazine::cs_fxp_extract<FXP64Register>        Function 0

@@ -84,7 +84,22 @@ namespace JSC {
 
         template <typename T> static ALWAYS_INLINE T smullo(T a, T b) { return (T)(a.s * b.s); }
         template <typename T> static ALWAYS_INLINE T umullo(T a, T b) { return (T)(a.u * b.u); }
+
         /* TODO: Multiply High: n x n -> n */
+
+        /* TODO: Bitwise not */
+
+        template <typename T> static ALWAYS_INLINE T iand(T a, T b) { return (T)(a.u & b.u); }
+        template <typename T> static ALWAYS_INLINE T ior(T a, T b)  { return (T)(a.u | b.u); }
+        template <typename T> static ALWAYS_INLINE T ixor(T a, T b) { return (T)(a.u ^ b.u); }
+
+        template <typename T> static ALWAYS_INLINE T iandnot(T a, T b) { return (T)(~a.u & b.u); }
+
+        /* TODO: Arithmetic and Logical Shifts */
+
+        /* TODO: Troll-defined, probably… */
+        template <typename T> static ALWAYS_INLINE T rol(T a, T b) { return (T)((a.u << b.u) | (a.u >> (8 * sizeof(b) - b.u))); }
+        template <typename T> static ALWAYS_INLINE T ror(T a, T b) { return (T)((a.u >> b.u) | (a.u << (8 * sizeof(b) - b.u))); }
 
         /* TODO: Troll-portable, probably… */
         static ALWAYS_INLINE R8  popcnt(R8  a) { R8  r; r.s =  (int8_t)__builtin_popcount(a.u);   return r; }

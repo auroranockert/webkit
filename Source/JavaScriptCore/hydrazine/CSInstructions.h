@@ -28,18 +28,23 @@
 
 #include "CSMath.h"
 
-#define CS_1_OP(T, exec, op_r, op_a) EncodedJSValue error = NULL; \
-typename T::Op1 __ops = Hydrazine::loadOneOperand<T>(exec, &error); \
+#define CS_1_OP_S(T, exec, op_r, op_a) EncodedJSValue error = NULL; \
+typename T::Op1 __ops = Hydrazine::loadOneOperandSigned<T>(exec, &error); \
 if (error) { return error; } \
 typename T::Type op_r, op_a = __ops.a
 
-#define CS_2_OP(T, exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-typename T::Op2 __ops = Hydrazine::loadTwoOperand<T>(exec, &error); \
+#define CS_1_OP_U(T, exec, op_r, op_a) EncodedJSValue error = NULL; \
+typename T::Op1 __ops = Hydrazine::loadOneOperandUnsigned<T>(exec, &error); \
+if (error) { return error; } \
+typename T::Type op_r, op_a = __ops.a
+
+#define CS_2_OP_S(T, exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
+typename T::Op2 __ops = Hydrazine::loadTwoOperandSigned<T>(exec, &error); \
 if (error) { return error; } \
 typename T::Type op_r, op_a = __ops.a, op_b = __ops.b
 
-#define CS_2_OP_IMM(T, exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
-typename T::Op2 __ops = Hydrazine::loadTwoOperandWithSignedImmediate<T>(exec, &error); \
+#define CS_2_OP_U(T, exec, op_r, op_a, op_b) EncodedJSValue error = NULL; \
+typename T::Op2 __ops = Hydrazine::loadTwoOperandUnsigned<T>(exec, &error); \
 if (error) { return error; } \
 typename T::Type op_r, op_a = __ops.a, op_b = __ops.b
 
@@ -52,55 +57,103 @@ namespace Hydrazine {
 template <typename T>
 static EncodedJSValue JSC_HOST_CALL cs_fxp_sadd(ExecState* exec)
 {
-    CS_2_OP(T, exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(T, exec, r);
-}
-
-template <typename T>
-static EncodedJSValue JSC_HOST_CALL cs_fxp_saddi(ExecState* exec)
-{
-    CS_2_OP_IMM(T, exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(T, exec, r);
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::sadd(a, b); CS_ED(T, exec, r);
 }
 
 template <typename T>
 static EncodedJSValue JSC_HOST_CALL cs_fxp_uadd(ExecState* exec)
 {
-    CS_2_OP(T, exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(T, exec, r);
-}
-
-template <typename T>
-static EncodedJSValue JSC_HOST_CALL cs_fxp_uaddi(ExecState* exec)
-{
-    CS_2_OP_IMM(T, exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(T, exec, r);
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::uadd(a, b); CS_ED(T, exec, r);
 }
 
 template <typename T>
 static EncodedJSValue JSC_HOST_CALL cs_fxp_ssub(ExecState* exec)
 {
-    CS_2_OP(T, exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(T, exec, r);
-}
-
-template <typename T>
-static EncodedJSValue JSC_HOST_CALL cs_fxp_ssubi(ExecState* exec)
-{
-    CS_2_OP_IMM(T, exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(T, exec, r);
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::ssub(a, b); CS_ED(T, exec, r);
 }
 
 template <typename T>
 static EncodedJSValue JSC_HOST_CALL cs_fxp_usub(ExecState* exec)
 {
-    CS_2_OP(T, exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(T, exec, r);
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(T, exec, r);
 }
 
 template <typename T>
-static EncodedJSValue JSC_HOST_CALL cs_fxp_usubi(ExecState* exec)
+static EncodedJSValue JSC_HOST_CALL cs_fxp_sdiv(ExecState* exec)
 {
-    CS_2_OP_IMM(T, exec, r, a, b); r = Hydrazine::usub(a, b); CS_ED(T, exec, r);
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::sdiv(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_udiv(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::udiv(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_smod(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::smod(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_umod(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::umod(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_smullo(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::smullo(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_umullo(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::umullo(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_and(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::iand(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_or(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::ior(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_xor(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::ixor(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_andnot(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::iandnot(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_rol(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::rol(a, b); CS_ED(T, exec, r);
+}
+
+template <typename T>
+static EncodedJSValue JSC_HOST_CALL cs_fxp_ror(ExecState* exec)
+{
+    CS_2_OP_S(T, exec, r, a, b); r = Hydrazine::ror(a, b); CS_ED(T, exec, r);
 }
 
 template <typename T>
 static EncodedJSValue JSC_HOST_CALL cs_fxp_popcnt(ExecState* exec)
 {
-    CS_1_OP(T, exec, r, a); r = Hydrazine::popcnt(a); CS_ED(T, exec, r);
+    CS_1_OP_S(T, exec, r, a); r = Hydrazine::popcnt(a); CS_ED(T, exec, r);
 }
 
 template <typename T>
@@ -108,11 +161,11 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp_insert(ExecState* exec)
 {
     EncodedJSValue error = NULL;
 
-    typename T::Type value = Hydrazine::loadSignedImmediate<T>(exec, 0, &error);
+    typename T::Op1 value = Hydrazine::loadOneOperandSigned<T>(exec, &error);
 
     if (error) { return error; }
 
-    JSValue result = Hydrazine::storeReceiver<T>(exec, value, &error);
+    JSValue result = Hydrazine::storeReceiver<T>(exec, value.a, &error);
 
     return error ? error : JSValue::encode(result);
 }
@@ -130,9 +183,8 @@ static EncodedJSValue JSC_HOST_CALL cs_fxp_extract(ExecState* exec)
 }
 }
 
-#undef CS_1_OP
-#undef CS_2_OP
-#undef CS_2_OP_IMM
+#undef CS_1_OP_S
+#undef CS_2_OP_S
 #undef CS_ED
 
 #endif // CSFXPInstructions_h
